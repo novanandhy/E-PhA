@@ -10,11 +10,11 @@ import android.view.ViewGroup;
  * Created by Novan on 01/02/2017.
  */
 
-public class SentFragment extends Fragment {
+public class FriendFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.sent_layout,null);
+        return inflater.inflate(R.layout.friend_layout,null);
     }
 }

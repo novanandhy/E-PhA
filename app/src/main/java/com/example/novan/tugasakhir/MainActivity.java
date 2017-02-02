@@ -57,16 +57,38 @@ public class MainActivity extends AppCompatActivity {
                 mDrawerLayout.closeDrawers();
 
 
-                if (menuItem.getItemId() == R.id.nav_item_sent) {
-                    FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.containerView, new SentFragment()).commit();
-
-                }
-
-                if (menuItem.getItemId() == R.id.nav_item_inbox) {
+                if (menuItem.getItemId() == R.id.nav_item_home) {
                     FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
                     xfragmentTransaction.replace(R.id.containerView, new TabFragment()).commit();
                 }
+
+                if (menuItem.getItemId() == R.id.nav_item_alarm) {
+                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+                    xfragmentTransaction.replace(R.id.containerView, new AlarmFragment()).commit();
+                }
+
+                if (menuItem.getItemId() == R.id.nav_item_contact) {
+                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+                    xfragmentTransaction.replace(R.id.containerView, new ContactFragment()).commit();
+                }
+
+                if (menuItem.getItemId() == R.id.nav_item_history) {
+                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+                    xfragmentTransaction.replace(R.id.containerView, new HistoryFragment()).commit();
+                }
+
+                if (menuItem.getItemId() == R.id.nav_item_friend) {
+                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+                    xfragmentTransaction.replace(R.id.containerView, new FriendFragment()).commit();
+                }
+
+                if (menuItem.getItemId() == R.id.nav_item_profile) {
+                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+                    xfragmentTransaction.replace(R.id.containerView, new ProfileFragment()).commit();
+                }
+
+
+
 
                 return false;
             }
