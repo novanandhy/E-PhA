@@ -10,7 +10,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.example.novan.tugasakhir.home_activity.TabFragment;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -64,27 +66,27 @@ public class MainActivity extends AppCompatActivity {
 
                 if (menuItem.getItemId() == R.id.nav_item_alarm) {
                     FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-                    xfragmentTransaction.replace(R.id.containerView, new AlarmFragment()).commit();
+                    Toast.makeText(MainActivity.this, "Alarm clicked", Toast.LENGTH_SHORT).show();
                 }
 
                 if (menuItem.getItemId() == R.id.nav_item_contact) {
                     FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-                    xfragmentTransaction.replace(R.id.containerView, new ContactFragment()).commit();
+                    Toast.makeText(MainActivity.this, "Contact clicked", Toast.LENGTH_SHORT).show();
                 }
 
                 if (menuItem.getItemId() == R.id.nav_item_history) {
                     FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-                    xfragmentTransaction.replace(R.id.containerView, new HistoryFragment()).commit();
+                    Toast.makeText(MainActivity.this, "History clicked", Toast.LENGTH_SHORT).show();
                 }
 
                 if (menuItem.getItemId() == R.id.nav_item_friend) {
                     FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-                    xfragmentTransaction.replace(R.id.containerView, new FriendFragment()).commit();
+                    Toast.makeText(MainActivity.this, "Friend clicked", Toast.LENGTH_SHORT).show();
                 }
 
                 if (menuItem.getItemId() == R.id.nav_item_profile) {
                     FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-                    xfragmentTransaction.replace(R.id.containerView, new ProfileFragment()).commit();
+                    Toast.makeText(MainActivity.this, "Profile clicked", Toast.LENGTH_SHORT).show();
                 }
 
 

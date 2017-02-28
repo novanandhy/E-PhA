@@ -1,4 +1,4 @@
-package com.example.novan.tugasakhir;
+package com.example.novan.tugasakhir.home_activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +10,9 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.novan.tugasakhir.R;
+
 /**
  * Created by Novan on 01/02/2017.
  */
