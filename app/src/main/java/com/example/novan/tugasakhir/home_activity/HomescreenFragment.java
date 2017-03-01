@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.novan.tugasakhir.R;
+import com.rey.material.widget.Switch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,17 +68,18 @@ public class HomescreenFragment extends Fragment{
                 ViewHolder viewHolder = new ViewHolder();
                 viewHolder.text = (TextView) convertView.findViewById(R.id.textView);
                 viewHolder.text.setText(getItem(position));
+                viewHolder.subtext = (TextView) convertView.findViewById(R.id.textView2);
+                viewHolder.subtext.setText(getItem(position));
                 viewHolder.switch2 = (Switch) convertView.findViewById(R.id.switch2);
-                viewHolder.switch2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                viewHolder.switch2.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
                     @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                        if (isChecked) {
-                            Toast.makeText(getContext(), "Switch "+position+" on", Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(getContext(), "Switch "+position+" off", Toast.LENGTH_SHORT).show();
+                    public void onCheckedChanged(Switch view, boolean checked) {
+                        if(checked){
+                            Toast.makeText(getActivity().getApplicationContext(),position+" is checked", Toast.LENGTH_SHORT);
                         }
                     }
                 });
+
                 convertView.setTag(viewHolder);
             }else {
                 mainViewHolder = (ViewHolder) convertView.getTag();
@@ -91,6 +92,7 @@ public class HomescreenFragment extends Fragment{
 
     public class ViewHolder{
         TextView text;
+        TextView subtext;
         Switch switch2;
     }
 }
