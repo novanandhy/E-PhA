@@ -11,7 +11,7 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="Widget"/>
+    <style name="Widget" />
 
     <style name="Widget.ProgressBar.CircularProgressBar" parent="Widget">
         <item name="android:indeterminateOnly">false</item>
