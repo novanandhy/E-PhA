@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.novan.tugasakhir.contact_activity.ContactFragment;
 import com.example.novan.tugasakhir.home_activity.TabFragment;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (menuItem.getItemId() == R.id.nav_item_contact) {
                     FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-                    Toast.makeText(MainActivity.this, "Contact clicked", Toast.LENGTH_SHORT).show();
+                    xfragmentTransaction.replace(R.id.containerView, new ContactFragment()).commit();
                 }
 
                 if (menuItem.getItemId() == R.id.nav_item_history) {
