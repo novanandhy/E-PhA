@@ -9,7 +9,7 @@
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blue"
+        android:background="@color/primary_color"
         android:id="@+id/toolbar"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:title="Epilepsy Assistance" />
@@ -37,7 +37,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:id="@+id/shitstuff"
-            app:itemTextColor="@color/black"
+            app:itemTextColor="@color/primary_text"
             app:menu="@menu/drawermenu"
             android:layout_marginTop="0dp"
             />

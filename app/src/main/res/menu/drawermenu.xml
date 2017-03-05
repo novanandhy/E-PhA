@@ -7,10 +7,6 @@
         android:id="@+id/nav_item_home"
         android:icon="@drawable/home"/>
 
-    <item android:title="Alarm"
-        android:id="@+id/nav_item_alarm"
-        android:icon="@drawable/alarm"/>
-
     <item android:title="Contact"
         android:id="@+id/nav_item_contact"
         android:icon="@drawable/contact"/>

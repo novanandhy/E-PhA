@@ -24,7 +24,8 @@
                 android:layout_height="wrap_content"
                 android:text="21"
                 android:gravity="center"
-                android:textSize="100sp"/>
+                android:textSize="100sp"
+                android:textColor="@color/primary_text"/>
             <TextView
                 android:id="@+id/medicine1"
                 android:layout_width="match_parent"
@@ -32,7 +33,8 @@
                 android:text="OBAT 1"
                 android:layout_marginBottom="20dp"
                 android:gravity="center"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:textColor="@color/secondary_text"/>
         </LinearLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -47,7 +49,8 @@
                 android:layout_height="wrap_content"
                 android:text="19"
                 android:gravity="center"
-                android:textSize="100sp"/>
+                android:textSize="100sp"
+                android:textColor="@color/primary_text"/>
             <TextView
                 android:id="@+id/medicine2"
                 android:layout_width="match_parent"
@@ -55,7 +58,8 @@
                 android:text="OBAT 2"
                 android:gravity="center"
                 android:layout_marginBottom="20dp"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:textColor="@color/secondary_text"/>
         </LinearLayout>
 
     </TableRow>

@@ -42,10 +42,10 @@ public class HomescreenFragment extends Fragment{
             list.add(itemname[i]);
         }
 
-        view = inflater.inflate(R.layout.homescreen_layout,container,false);
+        view = inflater.inflate(R.layout.fragment_homescreen,container,false);
 
         lvHomePage = (ListView) view.findViewById(R.id.list);
-        lvHomePage.setAdapter(new MyListAdapter(getActivity().getApplicationContext(),R.layout.alarm_list,list));
+        lvHomePage.setAdapter(new MyListAdapter(getActivity().getApplicationContext(),R.layout.content_alarm_list,list));
 
         return view;
     }

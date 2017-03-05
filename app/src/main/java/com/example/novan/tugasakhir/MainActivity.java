@@ -9,6 +9,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -62,11 +64,6 @@ public class MainActivity extends AppCompatActivity {
                 if (menuItem.getItemId() == R.id.nav_item_home) {
                     FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
                     xfragmentTransaction.replace(R.id.containerView, new TabFragment()).commit();
-                }
-
-                if (menuItem.getItemId() == R.id.nav_item_alarm) {
-                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-                    Toast.makeText(MainActivity.this, "Alarm clicked", Toast.LENGTH_SHORT).show();
                 }
 
                 if (menuItem.getItemId() == R.id.nav_item_contact) {
