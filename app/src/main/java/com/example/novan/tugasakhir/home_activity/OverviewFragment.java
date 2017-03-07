@@ -37,7 +37,7 @@ public class OverviewFragment extends Fragment {
 
         context = getActivity().getApplicationContext();
         view = inflater.inflate(R.layout.fragment_overview, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.listView1);
+        recyclerView = (RecyclerView) view.findViewById(R.id.list_medicine);
 
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(context,2);
         recyclerView.setLayoutManager(layoutManager);
@@ -46,7 +46,7 @@ public class OverviewFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
 
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab2);
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.farb_overview);
         fab.attachToRecyclerView(recyclerView, new ScrollDirectionListener() {
             @Override
             public void onScrollDown() {
@@ -125,7 +125,7 @@ public class OverviewFragment extends Fragment {
             public Holder(View itemView) {
                 super(itemView);
                 progressView = (CircleProgressView) itemView.findViewById(R.id.circle_progress_view);
-                medicine_text = (TextView) itemView.findViewById(R.id.textView3);
+                medicine_text = (TextView) itemView.findViewById(R.id.medicine_text);
 
             }
         }

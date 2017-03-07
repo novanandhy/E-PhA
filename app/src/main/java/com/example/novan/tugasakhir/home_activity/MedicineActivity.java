@@ -1,8 +1,10 @@
 package com.example.novan.tugasakhir.home_activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -62,7 +64,7 @@ public class MedicineActivity extends AppCompatActivity {
             circleProgressView.setCircleColor(getResources().getColor(R.color.custom_progress_blue_progress));
         }
 
-        lvHomePage = (ListView) findViewById(R.id.list2);
+        lvHomePage = (ListView) findViewById(R.id.list_alarm_medicine);
         lvHomePage.setAdapter(new MyListAdapter(getApplicationContext(), R.layout.content_alarm_list, list));
     }
 
@@ -80,7 +82,22 @@ public class MedicineActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_remove:
-                Toast.makeText(MedicineActivity.this, "remove clicked", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                alertDialogBuilder.setMessage("Are you sure to remove this data ?");
+                alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(MedicineActivity.this,"yes clicked",Toast.LENGTH_SHORT).show();
+                    }
+                });
+                alertDialogBuilder.setNegativeButton("no", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(MedicineActivity.this,"no clicked",Toast.LENGTH_SHORT).show();
+                    }
+                });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
                 return true;
             case R.id.action_edit:
                 Intent intent = new Intent(this, EditMedineActivity.class);
@@ -104,12 +121,12 @@ public class MedicineActivity extends AppCompatActivity {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(layout, parent, false);
             ViewHolder viewHolder = new ViewHolder();
-            viewHolder.text = (TextView) convertView.findViewById(R.id.textView);
-            viewHolder.subtext = (TextView) convertView.findViewById(R.id.textView2);
-            viewHolder.switch2 = (Switch) convertView.findViewById(R.id.switch2);
-            viewHolder.text.setText(getItem(position));
-            viewHolder.subtext.setText(getItem(position));
-            viewHolder.switch2.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+            viewHolder.alarm_time = (TextView) convertView.findViewById(R.id.alarm_time);
+            viewHolder.medicine_name = (TextView) convertView.findViewById(R.id.alarm_medicine);
+            viewHolder.switch_alarm = (Switch) convertView.findViewById(R.id.switch_alarm);
+            viewHolder.alarm_time.setText(getItem(position));
+            viewHolder.medicine_name.setText(getItem(position));
+            viewHolder.switch_alarm.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(Switch view, boolean checked) {
                     if (checked) {
@@ -122,9 +139,9 @@ public class MedicineActivity extends AppCompatActivity {
         }
 
         public class ViewHolder {
-            TextView text;
-            TextView subtext;
-            Switch switch2;
+            TextView alarm_time;
+            TextView medicine_name;
+            Switch switch_alarm;
         }
     }
 }

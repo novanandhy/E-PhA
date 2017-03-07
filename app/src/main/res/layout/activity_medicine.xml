@@ -22,21 +22,8 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <View
-        android:layout_height="2dip"
-        android:background="@color/devider_color"
-        android:layout_width="340dip"
-        android:layout_marginTop="340dp"
-        android:layout_gravity="top|center"/>
-
-    <ListView
-        android:id="@+id/list2"
-        android:layout_width="340dip"
-        android:layout_height="273dp"
-        android:layout_gravity="bottom|center"/>
-
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@+id/toolbar"
@@ -48,16 +35,40 @@
             android:layout_width="0dp"
             android:layout_weight="0.62"
             android:layout_height="158dp"
-            app:cpv_background_circle_color="#49360a38"
+            app:cpv_background_circle_color="@color/custom_primary_text"
             app:cpv_text_suffix="%"
             app:cpv_text_size="30"
-            app:cpv_text_color="#c36d29c1" />
+            app:cpv_text_color="@color/custom_primary_color" />
     </LinearLayout>
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="340dip"
         android:layout_height="wrap_content"
-        android:layout_marginTop="229dp"
-        android:layout_marginLeft="10dp">
+        android:layout_marginTop="260dp"
+        android:layout_marginLeft="27dp"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginRight="10dp">
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/drugs"
+                />
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/clock"
+                android:layout_marginTop="13dp"/>
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/dropper"
+                android:layout_marginTop="9dp"/>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -65,23 +76,28 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/custom_secondary_text"
                 android:text="Nama Obat"
-                android:textSize="10pt"/>
+                android:textSize="15dp"
+                android:id="@+id/nama_obat"/>
 
             <TextView
                 android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/custom_secondary_text"
                 android:text="Waktu Konsumsi"
-                android:textSize="10pt"
-                android:id="@+id/textView4" />
+                android:textSize="15dp"
+                android:id="@+id/waktu_obat" />
 
             <TextView
                 android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Jumlah Konsumsi"
-                android:textSize="10pt"/>
+                android:textColor="@color/custom_secondary_text"
+                android:text="Dosis"
+                android:textSize="15dp"
+                android:id="@+id/jumlah_obat"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -91,20 +107,23 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/custom_secondary_text"
                 android:text=":"
-                android:textSize="10pt"/>
+                android:textSize="15dp"/>
             <TextView
                 android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/custom_secondary_text"
                 android:text=":"
-                android:textSize="10pt"/>
+                android:textSize="15dp"/>
             <TextView
                 android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/custom_secondary_text"
                 android:text=":"
-                android:textSize="10pt"/>
+                android:textSize="15dp"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -112,28 +131,45 @@
             android:orientation="vertical"
             android:layout_marginLeft="5dp">
             <TextView
+                android:id="@+id/medicine_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/custom_primary_text"
                 android:text="Tes"
-                android:textColor="@color/primary_text"
-                android:textSize="10pt"/>
+                android:textSize="15dp"/>
             <TextView
+                android:id="@+id/medicine_time"
                 android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Tes"
-                android:textColor="@color/primary_text"
-                android:textSize="10pt"/>
+                android:textColor="@color/custom_primary_text"
+                android:textSize="15dp"/>
             <TextView
+                android:id="@+id/medicine_num"
                 android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Tes"
-                android:textColor="@color/primary_text"
-                android:textSize="10pt"/>
+                android:textColor="@color/custom_primary_text"
+                android:textSize="15dp"/>
         </LinearLayout>
 
     </LinearLayout>
+
+    <View
+        android:layout_height="2dip"
+        android:background="@color/devider_color"
+        android:layout_width="340dip"
+        android:layout_marginTop="340dp"
+        android:layout_gravity="top|center"/>
+
+    <ListView
+        android:id="@+id/list_alarm_medicine"
+        android:layout_width="340dip"
+        android:layout_height="273dp"
+        android:layout_gravity="bottom|center"/>
+
 
 
 </android.support.design.widget.CoordinatorLayout>

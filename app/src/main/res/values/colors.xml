@@ -8,12 +8,19 @@
     <color name="secondary_text">#757575</color>
     <color name="devider_color">#BDBDBD</color>
 
-    <color name="custom_progress_orange_progress">#ff8800</color>
+    <color name="custom_dark_primary_color">#2c3e50 </color>
+    <color name="custom_primary_color">#34495e </color>
+    <color name="custom_text">#DADFE1 </color>
+    <color name="custom_primary_text">#6C7A89</color>
+    <color name="custom_secondary_text">#95A5A6</color>
+    <color name="custom_button_first">#EE7836</color>
+    <color name="custom_button_second">#56C4C3</color>
+    <color name="custom_button_third">#05B2D2</color>
+    <color name="custom_background_layout">#1EBBA6</color>
 
-    <color name="custom_progress_blue_progress">#0099cc</color>
-
-    <color name="custom_progress_red_progress">#ffff4444</color>
-
+    <color name="custom_progress_orange_progress">#f39c12</color>
+    <color name="custom_progress_blue_progress">#34495e</color>
+    <color name="custom_progress_red_progress">#c0392b</color>
     <color name="primary_material_light">#ffefefef</color>
 
     <color name="circular_progress_default_progress">#bada55</color>

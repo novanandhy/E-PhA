@@ -7,7 +7,7 @@
     xmlns:float="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     tools:context="com.example.novan.tugasakhir.home_activity.InputMedicineActivity"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -25,70 +25,115 @@
     </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
-        android:layout_width="300dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical"
+        android:orientation="horizontal"
+        android:weightSum="1"
         android:layout_below="@+id/appBarLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="67dp">
-
-        <!-- add some padding -->
-        <com.wrapp.floatlabelededittext.FloatLabeledEditText
-            android:layout_width="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="8dp"
+        android:background="@drawable/round_white_bg">
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            float:fletPadding="0dp">
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical"
+            android:layout_below="@+id/appBarLayout"
+            android:layout_marginLeft="10dp">
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/drugs" />
 
-            <EditText
-                android:id="@+id/text_input_medicine"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Nama Obat" />
-        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/add_objects"
+                android:layout_marginTop="33dp"/>
 
-        <!-- add some padding -->
-        <com.wrapp.floatlabelededittext.FloatLabeledEditText
-            android:layout_width="match_parent"
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/dropper"
+                android:layout_marginTop="30dp"/>
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/clock"
+                android:layout_marginTop="37dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            float:fletPadding="0dp">
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_below="@+id/appBarLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="0.90"
+            android:layout_marginLeft="10dp">
 
-            <EditText
-                android:id="@+id/text_input_number_medicine"
-                android:layout_width="match_parent"
+            <!-- add some padding -->
+            <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                android:layout_width="280dp"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:hint="Jumlah Obat" />
-        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+                float:fletPadding="0dp">
 
-        <!-- add some padding -->
-        <com.wrapp.floatlabelededittext.FloatLabeledEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            float:fletPadding="0dp">
+                <EditText
+                    android:id="@+id/input_medicine"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Nama Obat" />
+            </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
-            <EditText
-                android:id="@+id/text_input_dosage_medicine"
-                android:layout_width="match_parent"
+            <!-- add some padding -->
+            <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                android:layout_width="280dp"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:hint="Dosis Obat" />
-        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+                float:fletPadding="0dp">
 
-        <!-- add some padding -->
-        <com.wrapp.floatlabelededittext.FloatLabeledEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            float:fletPadding="0dp">
+                <EditText
+                    android:id="@+id/input_number_medicine"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:hint="Jumlah Obat" />
+            </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
-            <EditText
-                android:id="@+id/text_input_time_medicine"
-                android:layout_width="match_parent"
+            <!-- add some padding -->
+            <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                android:layout_width="280dp"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:hint="Waktu Konsumsi per Hari" />
-        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+                float:fletPadding="0dp">
+
+                <EditText
+                    android:id="@+id/input_dosage_medicine"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:hint="Dosis Obat" />
+            </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+            <!-- add some padding -->
+            <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                float:fletPadding="0dp">
+
+                <EditText
+                    android:id="@+id/input_time_medicine"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Waktu Konsumsi per Hari"
+                    android:inputType="number" />
+            </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
 
+        </LinearLayout>
     </LinearLayout>
 
     <Button
@@ -96,12 +141,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button"
-        android:fontFamily="sans-serif"
-        android:textColor="@color/cardview_light_background"
+        android:textColor="@color/custom_text"
         style="?android:borderlessButtonStyle"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="@android:color/holo_orange_dark"/>
+        android:background="@color/custom_button_first"/>
 
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package com.example.novan.tugasakhir.contact_activity;
+package com.example.novan.tugasakhir.friend_activity;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -17,19 +17,18 @@ import com.melnykov.fab.FloatingActionButton;
 import com.melnykov.fab.ScrollDirectionListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Novan on 05/03/2017.
  */
 
-public class ContactFragment extends Fragment {
+public class FriendFragment extends Fragment {
     private View view;
     private ListView listView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_contact, container, false);
+        view = inflater.inflate(R.layout.fragment_friend, container, false);
         String[] itemname = new String[]{
                 "Safari",
                 "Camera",
@@ -45,10 +44,10 @@ public class ContactFragment extends Fragment {
             list.add(itemname[i]);
         }
 
-        listView = (ListView) view.findViewById(R.id.list_contact);
-        listView.setAdapter(new MyListAdapter(getActivity().getApplicationContext(),R.layout.content_contact_list,list));
+        listView = (ListView) view.findViewById(R.id.list_friend);
+        listView.setAdapter(new MyListAdapter(getActivity().getApplicationContext(),R.layout.content_friend_list,list));
 
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab_contact);
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab_friend);
         fab.attachToListView(listView, new ScrollDirectionListener() {
             @Override
             public void onScrollDown() {
@@ -71,7 +70,7 @@ public class ContactFragment extends Fragment {
 
     private class MyListAdapter extends ArrayAdapter<String> {
         private int layout;
-        public MyListAdapter(Context context, int resource, List<String> objects) {
+        public MyListAdapter(Context context, int resource, ArrayList<String> objects) {
             super(context, resource, objects);
             layout = resource;
         }
@@ -83,15 +82,13 @@ public class ContactFragment extends Fragment {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
                 convertView = inflater.inflate(layout,parent,false);
                 ViewHolder viewHolder = new ViewHolder();
-                viewHolder.contact_name = (TextView) convertView.findViewById(R.id.contact_name);
-                viewHolder.contact_name.setText(getItem(position));
-                viewHolder.contact_number = (TextView) convertView.findViewById(R.id.contact_number);
-                viewHolder.contact_number.setText(getItem(position));
-                viewHolder.imageView = (ImageView) convertView.findViewById(R.id.image_contact);
+                viewHolder.friendName = (TextView) convertView.findViewById(R.id.friend_name);
+                viewHolder.friendName.setText(getItem(position));
+                viewHolder.friendImage = (ImageView) convertView.findViewById(R.id.image_friend);
                 convertView.setTag(viewHolder);
             }else {
                 mainViewHolder = (ViewHolder) convertView.getTag();
-                mainViewHolder.contact_name.setText(getItem(position));
+                mainViewHolder.friendName.setText(getItem(position));
             }
 
             return convertView;
@@ -99,8 +96,7 @@ public class ContactFragment extends Fragment {
     }
 
     public class ViewHolder{
-        TextView contact_name;
-        TextView contact_number;
-        ImageView imageView;
+        TextView friendName;
+        ImageView friendImage;
     }
 }

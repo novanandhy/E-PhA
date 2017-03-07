@@ -32,10 +32,10 @@ public class InputMedicineActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        input1 = (EditText) findViewById(R.id.text_input_medicine);
-        input2 = (EditText) findViewById(R.id.text_input_number_medicine);
-        input3 = (EditText) findViewById(R.id.text_input_dosage_medicine);
-        input4 = (EditText) findViewById(R.id.text_input_time_medicine);
+        input1 = (EditText) findViewById(R.id.input_medicine);
+        input2 = (EditText) findViewById(R.id.input_number_medicine);
+        input3 = (EditText) findViewById(R.id.input_dosage_medicine);
+        input4 = (EditText) findViewById(R.id.input_time_medicine);
 
         Button button =(Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {

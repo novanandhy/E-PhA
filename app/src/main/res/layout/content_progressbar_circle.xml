@@ -12,16 +12,16 @@
     android:orientation="vertical"
     android:layout_gravity="center|top"
     tools:context="com.example.novan.tugasakhir.home_activity.OverviewFragment">
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView3"
+        android:id="@+id/medicine_text"
         android:gravity="center"
-        android:textColor="@color/primary_text"/>
+        android:textColor="@color/custom_primary_color"
+        android:textSize="19dp"/>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -31,10 +31,11 @@
             android:layout_weight="0.62"
             android:layout_height="158dp"
             android:layout_gravity="center|top"
-            app:cpv_background_circle_color="#49360a38"
+            app:cpv_background_circle_color="@color/custom_primary_text"
             app:cpv_text_suffix="%"
             app:cpv_text_size="30"
-            app:cpv_text_color="#c36d29c1"/>
+            app:cpv_text_color="@color/custom_primary_color"
+            />
     </LinearLayout>
 
 </LinearLayout>

@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "24.0.1"
+    buildToolsVersion '25.0.0'
     defaultConfig {
         applicationId "com.example.novan.tugasakhir"
         minSdkVersion 15
@@ -32,6 +32,7 @@ dependencies {
     compile 'com.github.rey5137:material:1.2.4'
     compile 'com.github.eralpyucel:CircleProgressView:v1.1'
     compile 'com.wrapp.floatlabelededittext:library:0.0.6'
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
 }
 
 repositories {

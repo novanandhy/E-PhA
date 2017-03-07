@@ -1,14 +1,18 @@
 package com.example.novan.tugasakhir.home_activity;
 
+
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.novan.tugasakhir.R;
@@ -24,6 +28,7 @@ import java.util.List;
 public class HomescreenFragment extends Fragment{
     private ListView lvHomePage;
     private View view;
+    private int hour,min;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,9 +49,21 @@ public class HomescreenFragment extends Fragment{
 
         view = inflater.inflate(R.layout.fragment_homescreen,container,false);
 
-        lvHomePage = (ListView) view.findViewById(R.id.list);
+        lvHomePage = (ListView) view.findViewById(R.id.list_alarm);
+        lvHomePage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getActivity().getApplicationContext(),"clicked",Toast.LENGTH_SHORT).show();
+//                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity().getApplicationContext(), new TimePickerDialog.OnTimeSetListener() {
+//                    @Override
+//                    public void onTimeSet(TimePicker timePicker, int i, int i1) {
+//
+//                    }
+//                },hour,min,false);
+//                timePickerDialog.show();
+            }
+        });
         lvHomePage.setAdapter(new MyListAdapter(getActivity().getApplicationContext(),R.layout.content_alarm_list,list));
-
         return view;
     }
 
@@ -64,12 +81,12 @@ public class HomescreenFragment extends Fragment{
                 LayoutInflater inflater = LayoutInflater.from(getContext());
                 convertView = inflater.inflate(layout,parent,false);
                 ViewHolder viewHolder = new ViewHolder();
-                viewHolder.text = (TextView) convertView.findViewById(R.id.textView);
-                viewHolder.text.setText(getItem(position));
-                viewHolder.subtext = (TextView) convertView.findViewById(R.id.textView2);
-                viewHolder.subtext.setText(getItem(position));
-                viewHolder.switch2 = (Switch) convertView.findViewById(R.id.switch2);
-                viewHolder.switch2.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+                viewHolder.alarmTime = (TextView) convertView.findViewById(R.id.alarm_time);
+                viewHolder.alarmTime.setText(getItem(position));
+                viewHolder.alarmMedicine = (TextView) convertView.findViewById(R.id.alarm_medicine);
+                viewHolder.alarmMedicine.setText(getItem(position));
+                viewHolder.alarmSwitch = (Switch) convertView.findViewById(R.id.switch_alarm);
+                viewHolder.alarmSwitch.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(Switch view, boolean checked) {
                         if(checked){
@@ -81,7 +98,7 @@ public class HomescreenFragment extends Fragment{
                 convertView.setTag(viewHolder);
             }else {
                 mainViewHolder = (ViewHolder) convertView.getTag();
-                mainViewHolder.text.setText(getItem(position));
+                mainViewHolder.alarmTime.setText(getItem(position));
             }
 
             return convertView;
@@ -89,9 +106,9 @@ public class HomescreenFragment extends Fragment{
     }
 
     public class ViewHolder{
-        TextView text;
-        TextView subtext;
-        Switch switch2;
+        TextView alarmTime;
+        TextView alarmMedicine;
+        Switch alarmSwitch;
     }
 }
 
