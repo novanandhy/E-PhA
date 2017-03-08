@@ -2,6 +2,7 @@ package com.example.novan.tugasakhir.home_activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -37,14 +38,14 @@ public class OverviewFragment extends Fragment {
 
         context = getActivity().getApplicationContext();
         view = inflater.inflate(R.layout.fragment_overview, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.list_medicine);
 
+        recyclerView = (RecyclerView) view.findViewById(R.id.list_medicine);
+        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.space);
+        recyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(context,2);
         recyclerView.setLayoutManager(layoutManager);
-
         CustomAdapter adapter = new CustomAdapter(context);
         recyclerView.setAdapter(adapter);
-
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.farb_overview);
         fab.attachToRecyclerView(recyclerView, new ScrollDirectionListener() {
@@ -127,6 +128,26 @@ public class OverviewFragment extends Fragment {
                 progressView = (CircleProgressView) itemView.findViewById(R.id.circle_progress_view);
                 medicine_text = (TextView) itemView.findViewById(R.id.medicine_text);
 
+            }
+        }
+    }
+    public class SpacesItemDecoration extends RecyclerView.ItemDecoration{
+        private int space;
+
+        public SpacesItemDecoration(int space){
+            this.space = space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            outRect.left = space;
+            outRect.right = space;
+            outRect.bottom = space;
+
+            if(parent.getChildLayoutPosition(view) == 0){
+                outRect.top = space;
+            }else{
+                outRect.top = space;
             }
         }
     }
