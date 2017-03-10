@@ -37,6 +37,20 @@ public class FriendFragment extends Fragment {
                 "UC Browser",
                 "Android Folder",
                 "VLC Player",
+                "Safari",
+                "Camera",
+                "Global",
+                "FireFox",
+                "UC Browser",
+                "Android Folder",
+                "VLC Player",
+                "Safari",
+                "Camera",
+                "Global",
+                "FireFox",
+                "UC Browser",
+                "Android Folder",
+                "VLC Player",
                 "Cold War"
         };
         final ArrayList<String> list = new ArrayList<String>();

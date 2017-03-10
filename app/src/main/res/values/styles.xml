@@ -6,9 +6,10 @@
         <item name="colorPrimary">@color/custom_primary_color</item>
         <item name="colorPrimaryDark">@color/custom_dark_primary_color</item>
         <item name="android:colorBackground">@color/custom_text</item>
+        <item name="colorAccent">@color/custom_button_first</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 

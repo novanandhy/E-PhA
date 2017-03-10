@@ -37,6 +37,7 @@
             android:layout_gravity="start"
             android:layout_marginTop="0dp"
             app:itemTextColor="@color/custom_text"
+            app:itemIconTint="@color/custom_text"
             android:background="@color/custom_primary_color"
             app:menu="@menu/drawermenu" />
 
