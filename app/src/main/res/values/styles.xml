@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/custom_primary_color</item>
         <item name="colorPrimaryDark">@color/custom_dark_primary_color</item>
-        <item name="android:colorBackground">@color/custom_text</item>
+        <item name="android:colorBackground">@color/custom_background_layout</item>
         <item name="colorAccent">@color/custom_button_first</item>
     </style>
 

@@ -24,23 +24,25 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    //float action button
-    //material switch button
-    //circle progress bar
-    //float input edittext
-    //chart
-    //circle image view
+
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
-    compile 'com.melnykov:floatingactionbutton:1.3.0'
-    compile 'com.github.rey5137:material:1.2.4'
-    compile 'com.github.eralpyucel:CircleProgressView:v1.1'
-    compile 'com.wrapp.floatlabelededittext:library:0.0.6'
-    compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
-    compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.1'
     testCompile 'junit:junit:4.12'
+    //float action button
+    compile 'com.melnykov:floatingactionbutton:1.3.0'
+    //material switch button
+    compile 'com.github.rey5137:material:1.2.4'
+    //circle progress bar
+    compile 'com.github.eralpyucel:CircleProgressView:v1.1'
+    //float input edittext
+    compile 'com.wrapp.floatlabelededittext:library:0.0.6'
+    //chart
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
+    //circle image view
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+
 }
 
 repositories {

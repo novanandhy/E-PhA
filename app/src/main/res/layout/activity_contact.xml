@@ -51,10 +51,8 @@
         tools:showIn="@layout/activity_contact">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:layout_marginTop="30dp"
             android:orientation="vertical">
 
@@ -62,36 +60,51 @@
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:background="@drawable/bg_grey"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dp"
                 android:text="Name"
-                android:textColor="@color/custom_secondary_text"/>
+                android:textColor="@color/custom_text"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/contact_name_preview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="25dp"
                 android:fontFamily="sans-serif"
+                android:paddingLeft="20dp"
                 android:text="Name"
-                android:textSize="18sp"
+                android:textColor="@color/custom_primary_text"
+                android:textSize="20sp"
                 android:textStyle="bold"
-                android:typeface="normal"
-                android:textColor="@color/custom_primary_text"/>
+                android:typeface="normal" />
 
             <TextView
+                android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_marginTop="30dp"
+                android:paddingLeft="20dp"
                 android:text="Number"
-                android:layout_marginTop="50dp"
-                android:textColor="@color/custom_secondary_text"/>
+                android:gravity="center_vertical"
+                android:textColor="@color/custom_text"
+                android:background="@drawable/bg_grey"
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/contact_name_preview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="25dp"
+                android:paddingLeft="20dp"
                 android:fontFamily="sans-serif"
                 android:text="085xxxxxxxxxxx"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 android:typeface="normal"
                 android:textColor="@color/custom_primary_text"/>

@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-font_family_medium"
             android:text="TextView"
-            android:textColor="@color/custom_primary_text"
+            android:textColor="@color/custom_primary_color"
             android:textSize="18sp"
             android:textStyle="bold"
             android:typeface="normal"
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/contact_name"
             android:text="TextView"
-            android:textColor="@color/custom_secondary_text"
+            android:textColor="@color/custom_primary_text"
             android:textSize="14sp" />
 
     </LinearLayout>

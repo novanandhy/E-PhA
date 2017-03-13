@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.novan.tugasakhir.contact_activity.ContactFragment;
 import com.example.novan.tugasakhir.friend_activity.FriendFragment;
 import com.example.novan.tugasakhir.home_activity.TabFragment;
+import com.example.novan.tugasakhir.profile_activity.ProfileFragment;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (menuItem.getItemId() == R.id.nav_item_profile) {
                     FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-                    Toast.makeText(MainActivity.this, "Profile clicked", Toast.LENGTH_SHORT).show();
+                    xfragmentTransaction.replace(R.id.containerView, new ProfileFragment()).commit();
                 }
 
 

@@ -73,6 +73,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.novan.tugasakhir.contact_activity.ContactActivity" />
         </activity>
+        <activity
+            android:name=".friend_activity.SearchFriendActivity"
+            android:label="@string/title_activity_search_friend"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.novan.tugasakhir.MainActivity" />
+        </activity>
+        <activity
+            android:name=".friend_activity.AddFriendActivity"
+            android:label="@string/title_activity_add_friend"
+            android:parentActivityName=".friend_activity.SearchFriendActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.novan.tugasakhir.friend_activity.SearchFriendActivity" />
+        </activity>
     </application>
 
 </manifest>

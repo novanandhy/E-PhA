@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -22,7 +21,6 @@ import com.eralp.circleprogressview.CircleProgressView;
 import com.example.novan.tugasakhir.R;
 import com.rey.material.widget.Switch;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -71,7 +69,7 @@ public class MedicineActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_edit_medicine, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -103,9 +101,17 @@ public class MedicineActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, EditMedineActivity.class);
                 startActivity(intent);
                 return true;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 
     private class MyListAdapter extends ArrayAdapter<String> {

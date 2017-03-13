@@ -140,8 +140,8 @@ public class OverviewFragment extends Fragment {
 
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            outRect.left = space;
-            outRect.right = space;
+            outRect.left = 0;
+            outRect.right = 0;
             outRect.bottom = space;
 
             if(parent.getChildLayoutPosition(view) == 0){

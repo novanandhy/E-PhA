@@ -9,11 +9,7 @@
         android:id="@+id/list_medicine"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:columnWidth="150dp"
-        android:verticalSpacing="24dp"
-        android:horizontalSpacing="10dp"
-        android:stretchMode="spacingWidthUniform">
+        android:gravity="center">
     </android.support.v7.widget.RecyclerView>
 
     <com.melnykov.fab.FloatingActionButton

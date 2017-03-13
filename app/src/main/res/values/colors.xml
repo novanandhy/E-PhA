@@ -8,18 +8,18 @@
     <color name="secondary_text">#757575</color>
     <color name="devider_color">#BDBDBD</color>
 
-    <color name="custom_dark_primary_color">#FF21272E </color>
-    <color name="custom_primary_color">#323a45 </color>
-    <color name="custom_text">#ffffff </color>
-    <color name="custom_primary_text">#6C7A89</color>
-    <color name="custom_secondary_text">#95A5A6</color>
-    <color name="custom_button_first">#f47832</color>
+    <color name="custom_dark_primary_color">#16a085 </color>
+    <color name="custom_primary_color">#1abc9c</color>
+    <color name="custom_text">#ffffff</color>
+    <color name="custom_primary_text">#95a5a6</color>
+    <color name="custom_secondary_text">#D2D7D3</color>
+    <color name="custom_button_first">#e67e22</color>
     <color name="custom_button_second">#17b2d0</color>
     <color name="custom_button_third">#1fbba6</color>
-    <color name="custom_background_layout">#1fbba6</color>
+    <color name="custom_background_layout">#f9f9f9</color>
 
-    <color name="custom_progress_orange_progress">#f47933</color>
-    <color name="custom_progress_blue_progress">#2c3e50</color>
+    <color name="custom_progress_orange_progress">#e67e22</color>
+    <color name="custom_progress_blue_progress">#16a085</color>
     <color name="custom_progress_red_progress">#e74c3c</color>
     <color name="primary_material_light">#ffefefef</color>
 

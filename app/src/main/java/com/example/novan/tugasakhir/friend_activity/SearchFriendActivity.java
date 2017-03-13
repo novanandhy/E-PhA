@@ -3,33 +3,36 @@ package com.example.novan.tugasakhir.friend_activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.novan.tugasakhir.R;
-import com.melnykov.fab.FloatingActionButton;
-import com.melnykov.fab.ScrollDirectionListener;
 
 import java.util.ArrayList;
 
-/**
- * Created by Novan on 05/03/2017.
- */
-
-public class FriendFragment extends Fragment {
-    private View view;
-    private ListView listView;
+public class SearchFriendActivity extends AppCompatActivity {
+    ListView listView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_friend, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search_friend);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         String[] itemname = new String[]{
                 "Safari",
                 "Camera",
@@ -59,29 +62,51 @@ public class FriendFragment extends Fragment {
             list.add(itemname[i]);
         }
 
-        listView = (ListView) view.findViewById(R.id.list_friend);
-        listView.setAdapter(new MyListAdapter(getActivity().getApplicationContext(),R.layout.content_friend_list,list));
-
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab_friend);
-        fab.attachToListView(listView, new ScrollDirectionListener() {
+        listView = (ListView) findViewById(R.id.list_friend_search);
+        listView.setAdapter(new MyListAdapter(SearchFriendActivity.this,R.layout.content_friend_list,list));
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onScrollDown() {
-
-            }
-
-            @Override
-            public void onScrollUp() {
-
-            }
-        });
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity().getApplicationContext(),SearchFriendActivity.class);
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(SearchFriendActivity.this, AddFriendActivity.class);
                 startActivity(intent);
             }
         });
-        return view;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_search, menu);
+        MenuItem menuItem = menu.findItem(R.id.menuSearch);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private class MyListAdapter extends ArrayAdapter<String> {
@@ -115,4 +140,5 @@ public class FriendFragment extends Fragment {
         TextView friendName;
         ImageView friendImage;
     }
+
 }

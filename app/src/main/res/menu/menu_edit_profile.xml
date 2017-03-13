@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".home_activity.MedicineActivity">
+    <item
+        android:id="@+id/action_edit"
+        app:showAsAction="ifRoom"
+        android:title="Settings"
+        android:icon="@drawable/edit" />
+</menu>
