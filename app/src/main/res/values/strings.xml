@@ -101,4 +101,5 @@
     <string name="title_activity_edit_contact">Edit Kontak</string>
     <string name="title_activity_search_friend">Search Kontak</string>
     <string name="title_activity_add_friend">Tambah Kontak</string>
+    <string name="title_activity_edit_profile">Edit Profile</string>
 </resources>

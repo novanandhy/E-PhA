@@ -91,6 +91,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.novan.tugasakhir.friend_activity.SearchFriendActivity" />
         </activity>
+        <activity
+            android:name=".profile_activity.EditProfileActivity"
+            android:label="@string/title_activity_edit_profile"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.novan.tugasakhir.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
