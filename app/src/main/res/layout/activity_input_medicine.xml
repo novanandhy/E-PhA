@@ -136,15 +136,20 @@
     </LinearLayout>
 
     <Button
-        android:text="Submit"
+        android:id="@+id/button"
+        style="?android:borderlessButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button"
-        android:textColor="@color/custom_text"
-        style="?android:borderlessButtonStyle"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="@color/custom_button_first"/>
+        android:background="@color/custom_button_first"
+        android:fontFamily="sans-font_family_medium"
+        android:text="Submit"
+        android:textAllCaps="false"
+        android:textColor="@color/custom_text"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:typeface="normal" />
 
 </RelativeLayout>

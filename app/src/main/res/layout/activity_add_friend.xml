@@ -43,13 +43,18 @@
     </LinearLayout>
 
     <Button
-        android:text="Confirm"
+        android:id="@+id/confirm_friend"
+        style="?android:borderlessButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/confirm_friend"
-        android:textColor="@color/custom_text"
-        style="?android:borderlessButtonStyle"
         android:layout_gravity="bottom"
-        android:background="@color/custom_button_first"/>
+        android:background="@color/custom_button_first"
+        android:fontFamily="sans-font_family_medium"
+        android:text="Confirm"
+        android:textAllCaps="false"
+        android:textColor="@color/custom_text"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:typeface="normal" />
 
 </android.support.design.widget.CoordinatorLayout>

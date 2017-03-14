@@ -73,16 +73,22 @@
         android:layout_gravity="center"
         android:src="@drawable/camera"
         app:fab_colorNormal="@color/custom_button_third"
-        app:fab_type="mini"/>
+        app:fab_type="mini"
+        android:padding="3dp"/>
 
     <Button
-        android:text="Submit"
+        android:id="@+id/submit_profile"
+        style="?android:borderlessButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/submit_profile"
-        android:textColor="@color/custom_text"
-        style="?android:borderlessButtonStyle"
         android:layout_gravity="bottom"
-        android:background="@color/custom_button_first"/>
+        android:background="@color/custom_button_first"
+        android:fontFamily="sans-font_family_medium"
+        android:text="Submit"
+        android:textAllCaps="false"
+        android:textColor="@color/custom_text"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:typeface="normal" />
 
 </android.support.design.widget.CoordinatorLayout>

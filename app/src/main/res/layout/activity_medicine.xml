@@ -73,31 +73,38 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <TextView
+                android:id="@+id/nama_obat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/custom_primary_text"
+                android:fontFamily="sans-font_family_medium"
                 android:text="Nama Obat"
+                android:textColor="@color/custom_primary_text"
                 android:textSize="15dp"
-                android:id="@+id/nama_obat"/>
+                android:typeface="normal" />
 
             <TextView
-                android:layout_marginTop="4dp"
+                android:id="@+id/waktu_obat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/custom_primary_text"
+                android:layout_marginTop="4dp"
+                android:fontFamily="sans-font_family_medium"
                 android:text="Waktu Konsumsi"
+                android:textColor="@color/custom_primary_text"
                 android:textSize="15dp"
-                android:id="@+id/waktu_obat" />
+                android:typeface="normal" />
 
             <TextView
-                android:layout_marginTop="4dp"
+                android:id="@+id/jumlah_obat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/custom_primary_text"
+                android:layout_marginTop="4dp"
+                android:fontFamily="sans-font_family_medium"
                 android:text="Dosis"
+                android:textColor="@color/custom_primary_text"
                 android:textSize="15dp"
-                android:id="@+id/jumlah_obat"/>
+                android:typeface="normal" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"

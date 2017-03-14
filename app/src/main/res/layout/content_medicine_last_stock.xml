@@ -22,19 +22,24 @@
                 android:id="@+id/stockmedicine1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="21"
+                android:fontFamily="sans-font_family_medium"
                 android:gravity="center"
+                android:text="21"
+                android:textColor="@color/custom_primary_color"
                 android:textSize="100sp"
-                android:textColor="@color/custom_primary_color"/>
+                android:typeface="normal" />
+
             <TextView
                 android:id="@+id/medicine1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="OBAT 1"
                 android:layout_marginBottom="20dp"
+                android:fontFamily="sans-font_family_medium"
                 android:gravity="center"
+                android:text="OBAT 1"
+                android:textColor="@color/custom_primary_text"
                 android:textSize="20sp"
-                android:textColor="@color/custom_primary_text"/>
+                android:typeface="normal" />
         </LinearLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -47,20 +52,24 @@
                 android:id="@+id/stockmedicine2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-font_family_medium"
                 android:gravity="center"
                 android:text="19"
                 android:textColor="@color/custom_primary_color"
-                android:textSize="100sp" />
+                android:textSize="100sp"
+                android:typeface="normal" />
 
             <TextView
                 android:id="@+id/medicine2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="OBAT 2"
-                android:gravity="center"
                 android:layout_marginBottom="20dp"
+                android:fontFamily="sans-font_family_medium"
+                android:gravity="center"
+                android:text="OBAT 2"
+                android:textColor="@color/custom_primary_text"
                 android:textSize="20sp"
-                android:textColor="@color/custom_primary_text"/>
+                android:typeface="normal" />
         </LinearLayout>
 
     </TableRow>

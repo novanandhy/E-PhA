@@ -8,14 +8,17 @@
     android:orientation="vertical"
     android:layout_gravity="center|top"
     tools:context="com.example.novan.tugasakhir.home_activity.OverviewFragment">
+
     <TextView
+        android:id="@+id/medicine_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/medicine_text"
+        android:background="@color/custom_text"
+        android:fontFamily="sans-font_family_medium"
         android:gravity="center"
         android:textColor="@color/custom_primary_color"
         android:textSize="19dp"
-        android:background="@color/custom_text"/>
+        android:typeface="normal" />
 
     <LinearLayout
         android:layout_width="match_parent"
