@@ -33,10 +33,13 @@ public class EditMedineActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MedicineActivity.class);
-                startActivity(intent);
+                onBackPressed();
             }
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

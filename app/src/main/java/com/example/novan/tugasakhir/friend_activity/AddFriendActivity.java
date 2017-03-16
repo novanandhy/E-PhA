@@ -31,12 +31,13 @@ public class AddFriendActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AddFriendActivity.this, MainActivity.class);
-                startActivity(intent);
+                onBackPressed();
             }
         });
-
-
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

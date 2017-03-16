@@ -39,11 +39,26 @@ public class InputMedicineActivity extends AppCompatActivity {
 
         Button button =(Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MedicineActivity.class);
-                startActivity(intent);
-            }
-        });
+        @Override
+        public void onClick(View view) {
+            onBackPressed();
+        }
+    });
+}
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
