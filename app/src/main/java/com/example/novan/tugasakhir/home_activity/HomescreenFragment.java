@@ -1,6 +1,7 @@
 package com.example.novan.tugasakhir.home_activity;
 
 
+import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -51,14 +52,9 @@ public class HomescreenFragment extends Fragment{
         lvHomePage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getActivity().getApplicationContext(),"clicked",Toast.LENGTH_SHORT).show();
-//                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity().getApplicationContext(), new TimePickerDialog.OnTimeSetListener() {
-//                    @Override
-//                    public void onTimeSet(TimePicker timePicker, int i, int i1) {
-//
-//                    }
-//                },hour,min,false);
-//                timePickerDialog.show();
+//                Toast.makeText(getActivity().getApplicationContext(),"clicked",Toast.LENGTH_SHORT).show();
+                DialogFragment newFragment = new TimePickerFragment();
+                newFragment.show(getActivity().getFragmentManager(),"TimePicker");
             }
         });
         lvHomePage.setAdapter(new MyListAdapter(getActivity().getApplicationContext(),R.layout.content_alarm_list,list));
