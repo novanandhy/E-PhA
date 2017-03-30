@@ -6,7 +6,11 @@
         <item name="colorPrimary">@color/custom_primary_color</item>
         <item name="colorPrimaryDark">@color/custom_dark_primary_color</item>
         <item name="android:colorBackground">@color/custom_background_layout</item>
-        <item name="colorAccent">@color/custom_button_first</item>
+        <item name="colorAccent">@color/custom_primary_color</item>
+    </style>
+
+    <style name="MyNoActionBarShadowTheme" parent="AppTheme">
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

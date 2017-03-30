@@ -2,6 +2,7 @@ package com.example.novan.tugasakhir.profile_activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -10,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.novan.tugasakhir.R;
-import com.melnykov.fab.FloatingActionButton;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 

@@ -7,19 +7,14 @@
     xmlns:float="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.novan.tugasakhir.contact_activity.EditContactActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </android.support.design.widget.AppBarLayout>
+        android:background="@color/custom_primary_color"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:id="@+id/toolbar"
+        app:titleTextColor="@color/custom_text"
+        />
 
 
     <LinearLayout
@@ -66,15 +61,14 @@
 
     </LinearLayout>
 
-    <com.melnykov.fab.FloatingActionButton
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/image_edit_contact_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:src="@drawable/camera"
-        app:fab_colorNormal="@color/custom_button_third"
-        app:fab_type="mini"
-        android:padding="3dp"/>
+        app:backgroundTint="@color/custom_button_first"
+        app:fab_type="mini" />
 
     <Button
         android:id="@+id/submit_contact"
@@ -83,11 +77,10 @@
         android:layout_gravity="bottom"
         android:background="@color/custom_button_first"
         android:fontFamily="sans-font_family_medium"
-        android:text="Submit"
-        android:textAllCaps="false"
+        android:text="SUBMIT"
+        android:textAllCaps="true"
         android:textColor="@color/custom_text"
         android:textSize="18sp"
-        android:textStyle="bold"
         android:typeface="normal" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -20,7 +20,6 @@
             android:text="Andika eks-Kangen Band"
             android:textColor="@color/custom_text"
             android:textSize="24sp"
-            android:textStyle="bold"
             android:typeface="sans"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
@@ -125,13 +124,13 @@
             android:textSize="36sp"
             android:textStyle="bold" />
 
-        <com.melnykov.fab.FloatingActionButton
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="44dp"
             android:src="@drawable/edit"
-            app:fab_colorNormal="@color/custom_primary_color"
+            app:backgroundTint="@color/custom_button_first"
             app:fab_type="normal"
             android:layout_below="@+id/id_contacts"
             android:layout_centerHorizontal="true" />

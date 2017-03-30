@@ -1,5 +1,6 @@
 package com.example.novan.tugasakhir;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,16 +11,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.novan.tugasakhir.contact_activity.ContactFragment;
 import com.example.novan.tugasakhir.friend_activity.FriendFragment;
-import com.example.novan.tugasakhir.history_activity.HistoryFragment;
+import com.example.novan.tugasakhir.history_activity.HistoryActivity;
 import com.example.novan.tugasakhir.home_activity.TabFragment;
 import com.example.novan.tugasakhir.profile_activity.ProfileFragment;
+import com.example.novan.tugasakhir.tutorial_activity.TutorialActivity;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -78,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (menuItem.getItemId() == R.id.nav_item_history) {
-                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-                    xfragmentTransaction.replace(R.id.containerView, new HistoryFragment()).commit();
+                    Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
+                    startActivity(intent);
                 }
 
                 if (menuItem.getItemId() == R.id.nav_item_friend) {
@@ -90,6 +90,10 @@ public class MainActivity extends AppCompatActivity {
                 if (menuItem.getItemId() == R.id.nav_item_profile) {
                     FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
                     xfragmentTransaction.replace(R.id.containerView, new ProfileFragment()).commit();
+                }
+                if (menuItem.getItemId() == R.id.nav_item_logout) {
+                    Intent intent = new Intent(getApplicationContext(), TutorialActivity.class);
+                    startActivity(intent);
                 }
 
 

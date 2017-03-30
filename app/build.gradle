@@ -32,7 +32,7 @@ dependencies {
     //chart
     //circle image view
     //graphview
-    
+
 
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'

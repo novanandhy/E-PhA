@@ -16,7 +16,7 @@
         android:layout_marginTop="10dp"
         android:fontFamily="sans-font_family_medium"
         android:text="TextView"
-        android:textColor="@color/custom_primary_color"
+        android:textColor="@color/custom_primary_text"
         android:textSize="24sp"
         android:typeface="normal"
         tools:fontFamily="monospace" />

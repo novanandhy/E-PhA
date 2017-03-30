@@ -27,7 +27,6 @@ import java.util.List;
 public class HomescreenFragment extends Fragment{
     private ListView lvHomePage;
     private View view;
-    private int hour,min;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,7 +51,6 @@ public class HomescreenFragment extends Fragment{
         lvHomePage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Toast.makeText(getActivity().getApplicationContext(),"clicked",Toast.LENGTH_SHORT).show();
                 DialogFragment newFragment = new TimePickerFragment();
                 newFragment.show(getActivity().getFragmentManager(),"TimePicker");
             }
@@ -70,30 +68,26 @@ public class HomescreenFragment extends Fragment{
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            ViewHolder mainViewHolder = null;
-            if(convertView == null){
-                LayoutInflater inflater = LayoutInflater.from(getContext());
-                convertView = inflater.inflate(layout,parent,false);
-                ViewHolder viewHolder = new ViewHolder();
-                viewHolder.alarmTime = (TextView) convertView.findViewById(R.id.alarm_time);
-                viewHolder.alarmTime.setText(getItem(position));
-                viewHolder.alarmMedicine = (TextView) convertView.findViewById(R.id.alarm_medicine);
-                viewHolder.alarmMedicine.setText(getItem(position));
-                viewHolder.alarmSwitch = (Switch) convertView.findViewById(R.id.switch_alarm);
-                viewHolder.alarmSwitch.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(Switch view, boolean checked) {
-                        if(checked){
-                            Toast.makeText(getActivity().getApplicationContext(),position+" is checked", Toast.LENGTH_SHORT);
-                        }
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            convertView = inflater.inflate(layout,parent,false);
+            final ViewHolder viewHolder = new ViewHolder();
+            viewHolder.alarmTime = (TextView) convertView.findViewById(R.id.alarm_time);
+            viewHolder.alarmTime.setText(getItem(position));
+            viewHolder.alarmMedicine = (TextView) convertView.findViewById(R.id.alarm_medicine);
+            viewHolder.alarmMedicine.setText(getItem(position));
+            viewHolder.alarmSwitch = (Switch) convertView.findViewById(R.id.switch_alarm);
+            viewHolder.alarmSwitch.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(Switch view, boolean checked) {
+                    if(checked){
+                        viewHolder.alarmTime.setTextColor(getResources().getColor(R.color.custom_primary_color));
+                    }else{
+                        viewHolder.alarmTime.setTextColor(getResources().getColor(R.color.custom_primary_text));
                     }
-                });
+                }
+            });
 
-                convertView.setTag(viewHolder);
-            }else {
-                mainViewHolder = (ViewHolder) convertView.getTag();
-                mainViewHolder.alarmTime.setText(getItem(position));
-            }
+            convertView.setTag(viewHolder);
 
             return convertView;
         }

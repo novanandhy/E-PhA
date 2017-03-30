@@ -5,12 +5,12 @@
     <item
         android:id="@+id/action_edit"
         app:showAsAction="ifRoom"
-        android:title="Settings"
+        android:title="Edit"
         android:icon="@drawable/edit" />
     <item
         android:id="@+id/action_remove"
         app:showAsAction="ifRoom"
-        android:title="Settings"
+        android:title="Remove"
         android:icon="@drawable/remove" />
 
 

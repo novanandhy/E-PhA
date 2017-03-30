@@ -7,20 +7,14 @@
     android:fitsSystemWindows="true"
     tools:context="com.example.novan.tugasakhir.home_activity.MedicineActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-
-    </android.support.design.widget.AppBarLayout>
+        android:background="@color/custom_primary_color"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:id="@+id/toolbar"
+        app:titleTextColor="@color/custom_text"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -58,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="250dp"
-        android:paddingLeft="27dp">
+        android:paddingLeft="35dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -94,7 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-font_family_medium"
-                android:text="Nama Obat"
+                android:text="Name"
                 android:textColor="@color/custom_primary_text"
                 android:textSize="15dp"
                 android:typeface="normal" />
@@ -105,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:fontFamily="sans-font_family_medium"
-                android:text="Waktu Konsumsi"
+                android:text="Time"
                 android:textColor="@color/custom_primary_text"
                 android:textSize="15dp"
                 android:typeface="normal" />
@@ -116,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:fontFamily="sans-font_family_medium"
-                android:text="Dosis"
+                android:text="Dosage"
                 android:textColor="@color/custom_primary_text"
                 android:textSize="15dp"
                 android:typeface="normal" />

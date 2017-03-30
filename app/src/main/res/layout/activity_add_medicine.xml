@@ -9,20 +9,14 @@
     tools:context="com.example.novan.tugasakhir.home_activity.InputMedicineActivity"
     android:orientation="horizontal">
 
-    <android.support.design.widget.AppBarLayout
+    <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/custom_primary_color"
         android:theme="@style/AppTheme.AppBarOverlay"
-        android:id="@+id/appBarLayout">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </android.support.design.widget.AppBarLayout>
+        android:id="@+id/toolbar"
+        app:titleTextColor="@color/custom_text"
+        />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -32,7 +26,7 @@
         android:layout_below="@+id/appBarLayout"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="150dp"
         android:layout_marginLeft="8dp">
         <LinearLayout
             android:layout_width="wrap_content"

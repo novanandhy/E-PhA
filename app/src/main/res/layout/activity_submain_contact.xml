@@ -48,7 +48,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="com.example.novan.tugasakhir.contact_activity.ContactActivity"
-        tools:showIn="@layout/activity_contact">
+        tools:showIn="@layout/activity_submain_contact">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -120,6 +120,6 @@
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/edit"
-        app:fab_colorNormal="@color/custom_button_first"/>
+        app:backgroundTint="@color/custom_button_first"/>
 
 </android.support.design.widget.CoordinatorLayout>

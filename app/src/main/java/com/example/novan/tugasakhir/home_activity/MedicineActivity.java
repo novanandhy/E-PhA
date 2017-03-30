@@ -1,5 +1,6 @@
 package com.example.novan.tugasakhir.home_activity;
 
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,7 +34,7 @@ public class MedicineActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_medicine);
+        setContentView(R.layout.activity_submain_medicine);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -63,6 +65,13 @@ public class MedicineActivity extends AppCompatActivity {
         }
 
         lvHomePage = (ListView) findViewById(R.id.list_alarm_medicine);
+        lvHomePage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                DialogFragment newFragment = new TimePickerFragment();
+                newFragment.show(getFragmentManager(),"TimePicker");
+            }
+        });
         lvHomePage.setAdapter(new MyListAdapter(getApplicationContext(), R.layout.content_alarm_list, list));
     }
 
@@ -126,7 +135,7 @@ public class MedicineActivity extends AppCompatActivity {
         public View getView(final int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(layout, parent, false);
-            ViewHolder viewHolder = new ViewHolder();
+            final ViewHolder viewHolder = new ViewHolder();
             viewHolder.alarm_time = (TextView) convertView.findViewById(R.id.alarm_time);
             viewHolder.medicine_name = (TextView) convertView.findViewById(R.id.alarm_medicine);
             viewHolder.switch_alarm = (Switch) convertView.findViewById(R.id.switch_alarm);
@@ -135,8 +144,10 @@ public class MedicineActivity extends AppCompatActivity {
             viewHolder.switch_alarm.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(Switch view, boolean checked) {
-                    if (checked) {
-                        Toast.makeText(getContext(), position + " is checked", Toast.LENGTH_SHORT);
+                    if(checked){
+                        viewHolder.alarm_time.setTextColor(getResources().getColor(R.color.custom_primary_color));
+                    }else{
+                        viewHolder.alarm_time.setTextColor(getResources().getColor(R.color.custom_primary_text));
                     }
                 }
             });

@@ -1,13 +1,11 @@
 package com.example.novan.tugasakhir.history_activity;
 
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.MenuItem;
 
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.util.MyValueFormatter;
@@ -21,19 +19,13 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
-/**
- * Created by Novan on 13/03/2017.
- */
-
-public class HistoryFragment extends Fragment {
-    private View view;
+public class HistoryActivity extends AppCompatActivity {
     private PieChart pieChart;
     private LineChart lineChart;
     public static final int[] COLORS = {
@@ -41,20 +33,42 @@ public class HistoryFragment extends Fragment {
     };
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_submain_history);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setElevation(0);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        view = inflater.inflate(R.layout.fragment_history, container, false);
 
-        pieChart = (PieChart) view.findViewById(R.id.pieChart);
-        lineChart = (LineChart) view.findViewById(R.id.lineGraph);
+        pieChart = (PieChart) findViewById(R.id.pieChart);
+        lineChart = (LineChart) findViewById(R.id.lineGraph);
 
         //create Line Chart
         createLineChart();
 
         //create Pie Chart
         createPieChart();
+    }
 
-        return view;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 
     private void createLineChart(){
@@ -79,6 +93,8 @@ public class HistoryFragment extends Fragment {
         //create layout graph
         lineChart.getAxisRight().setEnabled(false);
         lineChart.getAxisLeft().setDrawGridLines(false);
+        lineChart.getAxisLeft().setSpaceTop(50f);
+        lineChart.getAxisLeft().setSpaceBottom(50f);
         lineChart.getXAxis().setDrawGridLines(false);
         lineChart.getAxisLeft().setDrawLabels(false);
         lineChart.getAxisRight().setDrawLabels(true);
@@ -148,7 +164,7 @@ public class HistoryFragment extends Fragment {
         pieChart.setHoleColor(Color.WHITE);
         pieChart.setTransparentCircleColor(Color.WHITE);
         pieChart.setTransparentCircleAlpha(110);
-        pieChart.setHoleRadius(58f);
+        pieChart.setHoleRadius(70f);
         pieChart.setTransparentCircleRadius(61f);
         pieChart.setDrawCenterText(true);
         pieChart.setRotationAngle(0);

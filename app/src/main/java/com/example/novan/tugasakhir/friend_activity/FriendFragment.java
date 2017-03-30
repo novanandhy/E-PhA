@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.novan.tugasakhir.R;
+import com.example.novan.tugasakhir.history_activity.HistoryActivity;
 import com.melnykov.fab.FloatingActionButton;
 import com.melnykov.fab.ScrollDirectionListener;
 
@@ -60,6 +62,13 @@ public class FriendFragment extends Fragment {
         }
 
         listView = (ListView) view.findViewById(R.id.list_friend);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity().getApplicationContext(), HistoryActivity.class);
+                startActivity(intent);
+            }
+        });
         listView.setAdapter(new MyListAdapter(getActivity().getApplicationContext(),R.layout.content_friend_list,list));
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab_friend);

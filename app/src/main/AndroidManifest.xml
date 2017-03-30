@@ -100,6 +100,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.novan.tugasakhir.MainActivity" />
         </activity>
+        <activity
+            android:name=".tutorial_activity.TutorialActivity"
+            android:label="@string/title_activity_tutorial"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.novan.tugasakhir.MainActivity" />
+        </activity>
+        <activity
+            android:name=".history_activity.HistoryActivity"
+            android:label="@string/title_activity_history"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.novan.tugasakhir.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
