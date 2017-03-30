@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.novan.tugasakhir.contact_activity.ContactFragment;
 import com.example.novan.tugasakhir.friend_activity.FriendFragment;
 import com.example.novan.tugasakhir.history_activity.HistoryActivity;
+import com.example.novan.tugasakhir.history_activity.HistoryFragment;
 import com.example.novan.tugasakhir.home_activity.TabFragment;
 import com.example.novan.tugasakhir.profile_activity.ProfileFragment;
 import com.example.novan.tugasakhir.tutorial_activity.TutorialActivity;
@@ -61,6 +62,14 @@ public class MainActivity extends AppCompatActivity {
          * Setup click events on the Navigation View Items.
          */
 
+        boolean profile = getIntent().hasExtra("profile");
+        boolean friend = getIntent().hasExtra("friend");
+        if(profile){
+            OpenProfileFragment();
+        }else if(friend){
+            OpenFriendFragment();
+        }
+
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -68,28 +77,23 @@ public class MainActivity extends AppCompatActivity {
 
 
                 if (menuItem.getItemId() == R.id.nav_item_home) {
-                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-                    xfragmentTransaction.replace(R.id.containerView, new TabFragment()).commit();
+                   OpenHomeFragment();
                 }
 
                 if (menuItem.getItemId() == R.id.nav_item_contact) {
-                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-                    xfragmentTransaction.replace(R.id.containerView, new ContactFragment()).commit();
+                   OpenContactFragment();
                 }
 
                 if (menuItem.getItemId() == R.id.nav_item_history) {
-                    Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
-                    startActivity(intent);
+                   OpenHistoryFragment();
                 }
 
                 if (menuItem.getItemId() == R.id.nav_item_friend) {
-                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-                    xfragmentTransaction.replace(R.id.containerView, new FriendFragment()).commit();
+                   OpenFriendFragment();
                 }
 
                 if (menuItem.getItemId() == R.id.nav_item_profile) {
-                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-                    xfragmentTransaction.replace(R.id.containerView, new ProfileFragment()).commit();
+                    OpenProfileFragment();
                 }
                 if (menuItem.getItemId() == R.id.nav_item_logout) {
                     Intent intent = new Intent(getApplicationContext(), TutorialActivity.class);
@@ -120,6 +124,29 @@ public class MainActivity extends AppCompatActivity {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
+
+    public void OpenHomeFragment(){
+        FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+        xfragmentTransaction.replace(R.id.containerView, new TabFragment()).commit();
+    }
+    public void OpenContactFragment(){
+        FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+        xfragmentTransaction.replace(R.id.containerView, new ContactFragment()).commit();
+    }
+    public void OpenHistoryFragment(){
+        FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+        xfragmentTransaction.replace(R.id.containerView, new HistoryFragment()).commit();
+    }
+    public void OpenFriendFragment(){
+        FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+        xfragmentTransaction.replace(R.id.containerView, new FriendFragment()).commit();
+    }
+    public void OpenProfileFragment(){
+        FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+        xfragmentTransaction.replace(R.id.containerView, new ProfileFragment()).commit();
+    }
+
+
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.

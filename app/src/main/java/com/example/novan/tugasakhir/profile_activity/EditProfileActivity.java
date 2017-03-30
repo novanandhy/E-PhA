@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.novan.tugasakhir.MainActivity;
 import com.example.novan.tugasakhir.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -54,7 +55,9 @@ public class EditProfileActivity extends AppCompatActivity {
         button_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+                Intent intent = new Intent(EditProfileActivity.this, MainActivity.class);
+                intent.putExtra("profile", true);
+                startActivity(intent);
             }
         });
     }

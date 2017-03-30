@@ -38,6 +38,7 @@ public class DataHelper extends SQLiteOpenHelper {
     private static final String COLUMN_NAME_MEDICINE = "name_medicine";
     private static final String COLUMN_DOSAGE_MEDICINE = "dosage_medicine";
     private static final String COLUMN_REMAINS_MEDICINE = "remain_medicine";
+    private static final String COLUMN_COUNT_MEDICINE = "count_medicine";
 
     //Table Schedule Data
     private static final String COLUMN_ID_SCHEDULE = "id_schedule";
@@ -69,7 +70,7 @@ public class DataHelper extends SQLiteOpenHelper {
 
     //Create Table
     private static final String DB_USER = "create table "+TABLE_USER+" ("+COLUMN_ID_USER+" integer primary key, "+COLUMN_NAME_USER+" text, "+COLUMN_USERNAME_USER+" text, "+COLUMN_PASSWORD_USER+" text, "+COLUMN_REMAINS_MEDICINE+" integer)";
-    private static final String DB_MEDICINE = "create table "+TABLE_MEDICINE+" ("+COLUMN_ID_MEDICINE+" integer primary key AUTOINCREMENT, "+COLUMN_NAME_MEDICINE+" text, "+COLUMN_AMOUNT_MEDICINE+" integer, "+COLUMN_DOSAGE_MEDICINE+" integer)";
+    private static final String DB_MEDICINE = "create table "+TABLE_MEDICINE+" ("+COLUMN_ID_MEDICINE+" integer primary key AUTOINCREMENT, "+COLUMN_NAME_MEDICINE+" text, "+COLUMN_AMOUNT_MEDICINE+" integer, "+COLUMN_DOSAGE_MEDICINE+" integer, "+COLUMN_COUNT_MEDICINE+" integer)";
     private static final String DB_SCHEDULE = "create table "+TABLE_SCHEDULE+" ("+COLUMN_ID_SCHEDULE+" integer primary key AUTOINCREMENT, "+COLUMN_IDmedicine_SCHEDULE+" integer, "+COLUMN_TIME_SCHEDULE+" text)";
     private static final String DB_HISTORY = "create table "+TABLE_HISTORY+" ("+COLUMN_ID_HISTORY+" integer primary key AUTOINCREMENT, "+COLUMN_IDmedicine_HISTORY+" integer, "+COLUMN_IDuser_HISTORY+" integer, "+COLUMN_STATUS_HISTORY+" text, "+COLUMN_TIME_HISTORY+" text)";
     private static final String DB_CONTACT = "create table "+TABLE_CONTACTS+" ("+COLUMN_ID_CONTACT+" integer primary key AUTOINCREMENT, "+COLUMN_NUMBER_CONTACT+" integer, "+COLUMN_NAME_CONTACT+" text)";
