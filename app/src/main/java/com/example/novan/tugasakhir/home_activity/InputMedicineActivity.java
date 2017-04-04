@@ -1,6 +1,7 @@
 package com.example.novan.tugasakhir.home_activity;
 
 import android.content.Intent;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.novan.tugasakhir.MainActivity;
 import com.example.novan.tugasakhir.R;
@@ -38,13 +40,14 @@ public class InputMedicineActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-//            SQLiteDatabase db = dataHelper.getWritableDatabase();
-//            db.execSQL("insert into db_medic(name_medicine,amount_medicine,dosage_medicine,remain_medicine,count_medicine) value('"+
-//                    input1.getText().toString()+"','"+
-//                    input2.getText().toString()+"','"+
-//                    input3.getText().toString()+"','"+
-//                    input2.getText().toString()+"','"+
-//                    input4.getText().toString()+"','"+ "')");
+            SQLiteDatabase db = dataHelper.getWritableDatabase();
+            try{
+                db.execSQL("insert into db_medic(name_medicine,amount_medicine,dosage_medicine,remain_medicine,count_medicine) value('"+ input1.getText().toString()+"','"+ input2.getText().toString()+"','"+ input3.getText().toString()+"','"+ input2.getText().toString()+"','"+ input4.getText().toString()+"','"+ "')");
+            }catch (SQLException e){
+                Toast.makeText(InputMedicineActivity.this, "data not inserted", Toast.LENGTH_LONG).show();
+            }
+            Intent intent = new Intent(InputMedicineActivity.this, MainActivity.class);
+            startActivity(intent);
         }});
     }
 

@@ -32,7 +32,6 @@ public class AddFriendActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(AddFriendActivity.this, MainActivity.class);
-                intent.putExtra("friend", true);
                 startActivity(intent);
             }
         });

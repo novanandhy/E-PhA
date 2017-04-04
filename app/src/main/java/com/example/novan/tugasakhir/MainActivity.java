@@ -62,19 +62,10 @@ public class MainActivity extends AppCompatActivity {
          * Setup click events on the Navigation View Items.
          */
 
-        boolean profile = getIntent().hasExtra("profile");
-        boolean friend = getIntent().hasExtra("friend");
-        if(profile){
-            OpenProfileFragment();
-        }else if(friend){
-            OpenFriendFragment();
-        }
-
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 mDrawerLayout.closeDrawers();
-
 
                 if (menuItem.getItemId() == R.id.nav_item_home) {
                    OpenHomeFragment();
@@ -99,9 +90,6 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), TutorialActivity.class);
                     startActivity(intent);
                 }
-
-
-
 
                 return false;
             }

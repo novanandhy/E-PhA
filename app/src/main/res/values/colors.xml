@@ -19,7 +19,7 @@
     <color name="custom_background_layout">#f9f9f9</color>
 
     <color name="custom_progress_orange_progress">#e67e22</color>
-    <color name="custom_progress_blue_progress">#16a085</color>
+    <color name="custom_progress_green_progress">#16a085</color>
     <color name="custom_progress_red_progress">#e74c3c</color>
     <color name="primary_material_light">#ffefefef</color>
 

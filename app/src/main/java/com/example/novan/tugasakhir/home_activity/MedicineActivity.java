@@ -61,7 +61,7 @@ public class MedicineActivity extends AppCompatActivity {
         if (randomval <= 20) {
             circleProgressView.setCircleColor(getResources().getColor(R.color.custom_progress_red_progress));
         } else {
-            circleProgressView.setCircleColor(getResources().getColor(R.color.custom_progress_blue_progress));
+            circleProgressView.setCircleColor(getResources().getColor(R.color.custom_progress_green_progress));
         }
 
         lvHomePage = (ListView) findViewById(R.id.list_alarm_medicine);
