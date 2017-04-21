@@ -9,18 +9,24 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.eralp.circleprogressview.CircleProgressView;
 import com.example.novan.tugasakhir.R;
+import com.example.novan.tugasakhir.models.Medicine;
 import com.example.novan.tugasakhir.util.DataHelper;
 import com.melnykov.fab.FloatingActionButton;
 import com.melnykov.fab.ScrollDirectionListener;
 
+import java.util.ArrayList;
 import java.util.Random;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by Novan on 01/02/2017.
@@ -30,10 +36,9 @@ public class OverviewFragment extends Fragment {
     View view;
     private RecyclerView recyclerView;
     private Context context;
-    private Cursor cursor;
     DataHelper dataHelper;
-    private int count = 0;
-
+    ArrayList<Medicine> medicines;
+    private CustomAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -42,16 +47,16 @@ public class OverviewFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_overview, container, false);
 
         dataHelper = new DataHelper(getActivity().getApplicationContext());
-        SQLiteDatabase db = dataHelper.getReadableDatabase();
-        cursor = db.rawQuery("SELECT * FROM db_medic",null);
 
+        medicines = dataHelper.getAllMedicine();
         recyclerView = (RecyclerView) view.findViewById(R.id.list_medicine);
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.space);
         recyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(context,2);
         recyclerView.setLayoutManager(layoutManager);
-        CustomAdapter adapter = new CustomAdapter(context);
+        adapter = new CustomAdapter(context,medicines);
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.farb_overview);
         fab.attachToRecyclerView(recyclerView, new ScrollDirectionListener() {
@@ -69,20 +74,34 @@ public class OverviewFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent inten = new Intent(getActivity().getApplicationContext(), InputMedicineActivity.class);
-                startActivity(inten);
+                startActivityForResult(inten,10);
             }
         });
 
         return view;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("Epha","Masuk onActivity Result");
+        if(requestCode==10 && resultCode == RESULT_OK && data!=null){
+            Log.d("Epha","Masuk result berhasil");
+            Medicine medicine = data.getParcelableExtra("medicine");
+            medicines.add(medicine);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     private class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.Holder>{
 
         private Context context;
         public Holder holder;
+        private ArrayList<Medicine> medicines;
 
-        public CustomAdapter(Context context){
+        public CustomAdapter(Context context, ArrayList<Medicine> medicines){
             this.context = context;
+            this.medicines = medicines;
         }
 
         @Override
@@ -92,20 +111,18 @@ public class OverviewFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(Holder holder, int position) {
+        public void onBindViewHolder(Holder holder, final int position) {
             this.holder = holder;
             float percentage ;
             int amount ;
             int remain ;
             String medicine_name ;
 
-            cursor.moveToFirst();
-            cursor.moveToPosition(count);
-            amount = cursor.getInt(2);
-            remain = cursor.getInt(4);
-            percentage = remain/amount;
+            amount = medicines.get(position).getAmount();
+            remain = medicines.get(position).getRemain();
+            percentage = (remain*100)/amount;
 
-            holder.progressView.setProgressWithAnimation(percentage, 3000);
+            holder.progressView.setProgressWithAnimation(percentage, 2000);
             if(percentage<=10){
                 holder.progressView.setCircleColor(getResources().getColor(R.color.custom_progress_red_progress));
             }else if (percentage>10 && percentage<20){
@@ -118,21 +135,20 @@ public class OverviewFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getActivity().getApplicationContext(), MedicineActivity.class);
-                    startActivity(intent);
+                    intent.putExtra("medicine",medicines.get(position));
+                    startActivityForResult(intent,10);
                 }
             });
 
-            medicine_name = cursor.getString(1).toString();
+            medicine_name = medicines.get(position).getMedicine_name();
             holder.medicine_text.setText(medicine_name);
-
-            count++;
 
         }
 
         @Override
         public int getItemCount() {
 
-            return cursor.getCount();
+            return medicines.size();
         }
 
         public class Holder extends RecyclerView.ViewHolder{

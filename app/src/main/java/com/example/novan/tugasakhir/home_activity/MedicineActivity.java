@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,7 +22,11 @@ import android.widget.Toast;
 
 import com.eralp.circleprogressview.CircleProgressView;
 import com.example.novan.tugasakhir.R;
+import com.example.novan.tugasakhir.models.Medicine;
+import com.example.novan.tugasakhir.util.DataHelper;
 import com.rey.material.widget.Switch;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +35,11 @@ import java.util.Random;
 public class MedicineActivity extends AppCompatActivity {
     private ListView lvHomePage;
     private CircleProgressView circleProgressView;
+    private Medicine medicine;
+    int amount, remain;
+    float percentage;
+    private DataHelper dataHelper;
+    String TAG = "TAGapp";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +49,9 @@ public class MedicineActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        dataHelper = new DataHelper(this);
+        medicine = getIntent().getParcelableExtra("medicine");
+        final ArrayList<String> list = new ArrayList<String>();
         String[] itemname = new String[]{
                 "Safari",
                 "Camera",
@@ -49,20 +62,36 @@ public class MedicineActivity extends AppCompatActivity {
                 "VLC Player",
                 "Cold War"
         };
-        final ArrayList<String> list = new ArrayList<String>();
         for (int i = 0; i < itemname.length; ++i) {
             list.add(itemname[i]);
         }
 
-        Random random = new Random();
-        float randomval = 100 * random.nextFloat();
+        //create percentage of stock
+        amount = medicine.getAmount();
+        remain = medicine.getRemain();
+        percentage = (remain*100)/amount;
+
         circleProgressView = (CircleProgressView) findViewById(R.id.circle_progress_view_medicine);
-        circleProgressView.setProgressWithAnimation(randomval, 2000);
-        if (randomval <= 20) {
+        circleProgressView.setProgressWithAnimation(percentage, 2000);
+        if (percentage <= 10) {
             circleProgressView.setCircleColor(getResources().getColor(R.color.custom_progress_red_progress));
-        } else {
+        } else if(percentage > 10 && percentage < 20){
+            circleProgressView.setCircleColor(getResources().getColor(R.color.custom_progress_orange_progress));
+        }else{
             circleProgressView.setCircleColor(getResources().getColor(R.color.custom_progress_green_progress));
         }
+
+        String name_medicine = medicine.getMedicine_name();
+        int dosage_medicine = medicine.getDosage();
+        int time_medicine = medicine.getCount();
+
+        //set text of form
+        TextView name = (TextView) findViewById(R.id.medicine_name);
+        TextView dosage = (TextView) findViewById(R.id.medicine_dosage);
+        TextView time = (TextView) findViewById(R.id.medicine_time);
+        name.setText(name_medicine);
+        dosage.setText(""+dosage_medicine);
+        time.setText(""+time_medicine);
 
         lvHomePage = (ListView) findViewById(R.id.list_alarm_medicine);
         lvHomePage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -94,7 +123,8 @@ public class MedicineActivity extends AppCompatActivity {
                 alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(MedicineActivity.this,"yes clicked",Toast.LENGTH_SHORT).show();
+                        dataHelper.delete_medicine(medicine.getId());
+                        finish();
                     }
                 });
                 alertDialogBuilder.setNegativeButton("no", new DialogInterface.OnClickListener() {

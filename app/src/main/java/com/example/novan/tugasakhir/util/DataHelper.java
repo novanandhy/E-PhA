@@ -1,9 +1,15 @@
 package com.example.novan.tugasakhir.util;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.example.novan.tugasakhir.models.Medicine;
+
+import java.util.ArrayList;
 
 /**
  * Created by Novan on 29/03/2017.
@@ -33,12 +39,12 @@ public class DataHelper extends SQLiteOpenHelper {
     private static final String COLUMN_PASSWORD_USER = "password_user";
 
     //Table Medicine Data
-    private static final String COLUMN_ID_MEDICINE = "id_medicine";
-    private static final String COLUMN_AMOUNT_MEDICINE = "amount_medicine";
-    private static final String COLUMN_NAME_MEDICINE = "name_medicine";
-    private static final String COLUMN_DOSAGE_MEDICINE = "dosage_medicine";
-    private static final String COLUMN_REMAINS_MEDICINE = "remain_medicine";
-    private static final String COLUMN_COUNT_MEDICINE = "count_medicine";
+    public static final String COLUMN_ID_MEDICINE = "id_medicine";
+    public static final String COLUMN_AMOUNT_MEDICINE = "amount_medicine";
+    public static final String COLUMN_NAME_MEDICINE = "name_medicine";
+    public static final String COLUMN_DOSAGE_MEDICINE = "dosage_medicine";
+    public static final String COLUMN_REMAINS_MEDICINE = "remain_medicine";
+    public static final String COLUMN_COUNT_MEDICINE = "count_medicine";
 
     //Table Schedule Data
     private static final String COLUMN_ID_SCHEDULE = "id_schedule";
@@ -69,31 +75,64 @@ public class DataHelper extends SQLiteOpenHelper {
     private static final String COLUMN_NAME_EPILEPTICS = "name_epileptic";
 
     //Create Table
-    private static final String DB_USER = "create table "+TABLE_USER+" ("+COLUMN_ID_USER+" integer primary key, "+COLUMN_NAME_USER+" text, "+COLUMN_USERNAME_USER+" text, "+COLUMN_PASSWORD_USER+" text, "+COLUMN_REMAINS_MEDICINE+" integer)";
-    private static final String DB_MEDICINE = "create table "+TABLE_MEDICINE+" ("+COLUMN_ID_MEDICINE+" integer primary key AUTOINCREMENT, "+COLUMN_NAME_MEDICINE+" text, "+COLUMN_AMOUNT_MEDICINE+" integer, "+COLUMN_DOSAGE_MEDICINE+" integer, "+COLUMN_COUNT_MEDICINE+" integer)";
-    private static final String DB_SCHEDULE = "create table "+TABLE_SCHEDULE+" ("+COLUMN_ID_SCHEDULE+" integer primary key AUTOINCREMENT, "+COLUMN_IDmedicine_SCHEDULE+" integer, "+COLUMN_TIME_SCHEDULE+" text)";
-    private static final String DB_HISTORY = "create table "+TABLE_HISTORY+" ("+COLUMN_ID_HISTORY+" integer primary key AUTOINCREMENT, "+COLUMN_IDmedicine_HISTORY+" integer, "+COLUMN_IDuser_HISTORY+" integer, "+COLUMN_STATUS_HISTORY+" text, "+COLUMN_TIME_HISTORY+" text)";
-    private static final String DB_CONTACT = "create table "+TABLE_CONTACTS+" ("+COLUMN_ID_CONTACT+" integer primary key AUTOINCREMENT, "+COLUMN_NUMBER_CONTACT+" integer, "+COLUMN_NAME_CONTACT+" text)";
-    private static final String DB_RELAPSE = "create table "+TABLE_RELAPSE+" ("+COLUMN_ID_RELAPSE+" integer primary key AUTOINCREMENT, "+COLUMN_IDuser_RELAPSE+" integer, "+COLUMN_LOCATION_RELAPSE+" text, "+COLUMN_TIME_RELAPSE+" text)";
-    private static final String DB_EPIEPTIC = "create table "+TABLE_EPILEPTICS+" ("+COLUMN_ID_EPILEPTICS+" integer primary key AUTOINCREMENT, "+COLUMN_IDuser_EPILEPTICS+" integer, "+COLUMN_NAME_EPILEPTICS+" text)";
+    private static final String DB_MEDICINE = "create table db_medic (id_medicine integer primary key AUTOINCREMENT, name_medicine text, amount_medicine integer , dosage_medicine integer, count_medicine integer, remain_medicine integer );";
+    private SQLiteDatabase db;
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
-//        String sql = "create table biodata(no integer primary key, nama text null, tgl text null, jk text null, alamat text null);";
-//        Log.d("Data", "onCreate: " + sql);
-//        Log.i("Data",DB_USER);
-//        Log.i("Data",DB_MEDICINE);
-//        Log.i("Data",DB_SCHEDULE);
-//        Log.i("Data",DB_HISTORY);
-//        Log.i("Data",DB_CONTACT);
-//        Log.i("Data",DB_RELAPSE);
-//        Log.i("Data",DB_EPIEPTIC);
         db.execSQL(DB_MEDICINE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXIST db_medic");
     }
+
+    public Medicine save_medicine(String name, int amount, int dosage, int remain, int count){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Medicine medicine = new Medicine(name,amount,remain,dosage,count);
+
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_NAME_MEDICINE,name);
+        cv.put(COLUMN_AMOUNT_MEDICINE,amount);
+        cv.put(COLUMN_DOSAGE_MEDICINE,dosage);
+        cv.put(COLUMN_COUNT_MEDICINE,count);
+        cv.put(COLUMN_REMAINS_MEDICINE,remain);
+        db.insert(TABLE_MEDICINE,null,cv);
+        db.close();
+
+        return medicine;
+    }
+
+    public void delete_medicine(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_MEDICINE,"id_medicine="+id, null);
+        db.close();
+    }
+
+    public ArrayList<Medicine> getAllMedicine(){
+        ArrayList<Medicine> medicines = new ArrayList<>();
+        String sql = "SELECT * FROM "+ TABLE_MEDICINE +" ORDER BY "+COLUMN_ID_MEDICINE;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+
+        Cursor cursor = db.rawQuery(sql,null);
+        cursor.moveToFirst();
+        Log.d("Epha","size cursor: "+cursor.getCount());
+        if(cursor.getCount() > 0 ) {
+            do {
+                medicines.add(new Medicine(cursor));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        db.close();
+        return medicines;
+    }
+
 }
+
+
+
