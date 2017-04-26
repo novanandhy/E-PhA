@@ -67,10 +67,11 @@ public class ContactFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getActivity().getApplicationContext(), ContactActivity.class);
-                intent.putExtra("contact",contacts.get(i));
+                intent.putExtra("contact", contacts.get(i));
                 intent.putExtra("name",contacts.get(i).getName());
                 intent.putExtra("number",contacts.get(i).getNumber());
                 intent.putExtra("id",contacts.get(i).getId());
+                Log.d(TAG,"id selected= "+contacts.get(i).getId());
                 startActivityForResult(intent,10);
             }
         });
@@ -107,7 +108,7 @@ public class ContactFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_PICK_CONTACTS && resultCode == RESULT_OK){
+        if (resultCode == RESULT_OK){
             contactPicked(data);
             PopulateAdapter();
         }
@@ -158,6 +159,7 @@ public class ContactFragment extends Fragment {
                 viewHolder.contact_number = (TextView) convertView.findViewById(R.id.contact_number);
                 viewHolder.contact_number.setText(contacts.get(position).getNumber());
                 viewHolder.imageView = (ImageView) convertView.findViewById(R.id.image_contact);
+                Log.d(TAG,"id= "+contacts.get(position).getId());
                 convertView.setTag(viewHolder);
             }else {
                 mainViewHolder = (ViewHolder) convertView.getTag();

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.novan.tugasakhir.models.Contact;
 import com.example.novan.tugasakhir.models.Medicine;
@@ -145,7 +146,7 @@ public class DataHelper extends SQLiteOpenHelper {
 
         Cursor cursor = db.rawQuery(sql,null);
         cursor.moveToFirst();
-        Log.d(TAG,"size cursor: "+cursor.getCount());
+        Log.d(TAG,"size cursor medicine: "+cursor.getCount());
         if(cursor.getCount() > 0 ) {
             do {
                 medicines.add(new Medicine(cursor));
@@ -166,7 +167,7 @@ public class DataHelper extends SQLiteOpenHelper {
 
         Cursor cursor = db.rawQuery(sql,null);
         cursor.moveToFirst();
-        Log.d(TAG,"size cursor: "+cursor.getCount());
+        Log.d(TAG,"size cursor contact: "+cursor.getCount());
         if(cursor.getCount() > 0 ) {
             do {
                 contacts.add(new Contact(cursor));
@@ -210,7 +211,13 @@ public class DataHelper extends SQLiteOpenHelper {
 
     public void delete_contact(int id){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_CONTACTS,"id_contact="+id, null);
+        try{
+            db.delete(TABLE_CONTACTS,"id_contact="+id, null);
+            Log.d(TAG,"deleted");
+        }catch (Exception e){
+            Log.d(TAG,"not deleted");
+        }
+
         db.close();
     }
 

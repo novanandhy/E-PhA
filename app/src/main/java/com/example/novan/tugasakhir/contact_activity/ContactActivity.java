@@ -37,23 +37,20 @@ public class ContactActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         dataHelper = new DataHelper(this);
-        
-
-        Log.d(TAG,"id= "+getIntent().getExtras().getString("id"));
 
         name = (TextView) findViewById(R.id.contact_name_preview);
         name.setText(getIntent().getExtras().getString("name"));
         number = (TextView) findViewById(R.id.contact_number_preview);
         number.setText(getIntent().getExtras().getString("number"));
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_contact_activity);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ContactActivity.this, EditContactActivity.class);
-                startActivity(intent);
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_contact_activity);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(ContactActivity.this, EditContactActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         mFragmentManager = getSupportFragmentManager();
 
@@ -66,13 +63,14 @@ public class ContactActivity extends AppCompatActivity {
                 alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Log.d(TAG,"id ="+getIntent().getExtras().getString("id"));
+                        dataHelper.delete_contact((Integer) getIntent().getSerializableExtra("id"));
+                        setResult(RESULT_OK);
+                        finish();
                     }
                 });
                 alertDialogBuilder.setNegativeButton("no", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(ContactActivity.this,"no clicked",Toast.LENGTH_SHORT).show();
                     }
                 });
                 AlertDialog alertDialog = alertDialogBuilder.create();

@@ -18,20 +18,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.eralp.circleprogressview.CircleProgressView;
-import com.example.novan.tugasakhir.MainActivity;
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.models.Medicine;
 import com.example.novan.tugasakhir.util.DataHelper;
 import com.rey.material.widget.Switch;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class MedicineActivity extends AppCompatActivity {
     private ListView lvHomePage;
