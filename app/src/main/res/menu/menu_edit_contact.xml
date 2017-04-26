@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".contact_activity.ContactActivity">
+    <item
+        android:id="@+id/action_remove_contact"
+        app:showAsAction="ifRoom"
+        android:title="Remove"
+        android:icon="@drawable/remove" />
+
+
+</menu>

@@ -33,7 +33,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="30dp"
             android:layout_marginTop="30dp"
-            android:src="@drawable/andika" />
+            android:src="@drawable/user" />
 
     </RelativeLayout>
 

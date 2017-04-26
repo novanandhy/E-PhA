@@ -30,7 +30,7 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_gravity="center"
-            android:src="@drawable/andika" />
+            android:src="@drawable/user" />
 
         <!-- add some padding -->
         <com.wrapp.floatlabelededittext.FloatLabeledEditText

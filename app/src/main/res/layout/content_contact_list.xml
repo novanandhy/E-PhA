@@ -11,11 +11,10 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignBottom="@+id/contact_number"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="25dp"
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
-        android:src="@drawable/andika" />
+        android:src="@drawable/user" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -46,5 +45,8 @@
             android:textSize="14sp" />
 
     </LinearLayout>
+
+
+
 
 </LinearLayout>

@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.novan.tugasakhir.models.Contact;
 import com.example.novan.tugasakhir.models.Medicine;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 public class DataHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "DBase_EphA";
     private static final int DATABASE_VERSION = 1;
+    private static final String TAG = "TAGapp";
     public DataHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         // TODO Auto-generated constructor stub
@@ -59,9 +61,9 @@ public class DataHelper extends SQLiteOpenHelper {
     private static final String COLUMN_STATUS_HISTORY = "status_history";
 
     //Table Contact Data
-    private static final String COLUMN_ID_CONTACT = "id_contact";
-    private static final String COLUMN_NUMBER_CONTACT = "number_contact";
-    private static final String COLUMN_NAME_CONTACT = "name_contact";
+    public static final String COLUMN_ID_CONTACT = "id_contact";
+    public static final String COLUMN_NUMBER_CONTACT = "number_contact";
+    public static final String COLUMN_NAME_CONTACT = "name_contact";
 
     //Table Relapse Data
     private static final String COLUMN_ID_RELAPSE = "id_relapse";
@@ -76,19 +78,24 @@ public class DataHelper extends SQLiteOpenHelper {
 
     //Create Table
     private static final String DB_MEDICINE = "create table db_medic (id_medicine integer primary key AUTOINCREMENT, name_medicine text, amount_medicine integer , dosage_medicine integer, count_medicine integer, remain_medicine integer );";
+    private static final String DB_CONTACT = "create table db_contact (id_contact integer primary key AUTOINCREMENT, name_contact text, number_contact text);";
     private SQLiteDatabase db;
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
         db.execSQL(DB_MEDICINE);
+        db.execSQL(DB_CONTACT);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXIST db_medic");
+        db.execSQL("DROP TABLE IF EXIST db_contact");
     }
 
+
+    //CRUD Medicine
     public Medicine save_medicine(String name, int amount, int dosage, int remain, int count){
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -102,6 +109,24 @@ public class DataHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_REMAINS_MEDICINE,remain);
         db.insert(TABLE_MEDICINE,null,cv);
         db.close();
+
+        return medicine;
+    }
+    public Medicine update_medicine(int id, String name, int amount, int dosage, int remain, int count){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Medicine medicine = new Medicine(name,amount,remain,dosage,count);
+
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_NAME_MEDICINE,name);
+        cv.put(COLUMN_AMOUNT_MEDICINE,amount);
+        cv.put(COLUMN_DOSAGE_MEDICINE,dosage);
+        cv.put(COLUMN_COUNT_MEDICINE,count);
+        cv.put(COLUMN_REMAINS_MEDICINE,remain);
+        db.update(TABLE_MEDICINE,cv,"id_medicine="+id,null);
+        db.close();
+
+        Log.d(TAG,"saved");
 
         return medicine;
     }
@@ -120,7 +145,7 @@ public class DataHelper extends SQLiteOpenHelper {
 
         Cursor cursor = db.rawQuery(sql,null);
         cursor.moveToFirst();
-        Log.d("Epha","size cursor: "+cursor.getCount());
+        Log.d(TAG,"size cursor: "+cursor.getCount());
         if(cursor.getCount() > 0 ) {
             do {
                 medicines.add(new Medicine(cursor));
@@ -130,6 +155,63 @@ public class DataHelper extends SQLiteOpenHelper {
 
         db.close();
         return medicines;
+    }
+
+    //CRUD Contact
+    public ArrayList<Contact> getAllContacts(){
+        ArrayList<Contact> contacts = new ArrayList<>();
+        String sql = "SELECT * FROM "+ TABLE_CONTACTS +" ORDER BY "+COLUMN_ID_CONTACT;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+
+        Cursor cursor = db.rawQuery(sql,null);
+        cursor.moveToFirst();
+        Log.d(TAG,"size cursor: "+cursor.getCount());
+        if(cursor.getCount() > 0 ) {
+            do {
+                contacts.add(new Contact(cursor));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        db.close();
+        return contacts;
+    }
+
+    public Contact save_contact(String name, String number){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Contact contact = new Contact(name,number);
+
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_NAME_CONTACT,name);
+        cv.put(COLUMN_NUMBER_CONTACT,number);
+        db.insert(TABLE_CONTACTS,null,cv);
+        db.close();
+
+        return contact;
+    }
+
+    public Contact update_contact(int id, String name, String number){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Contact contact = new Contact(name,number);
+
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_NAME_CONTACT,name);
+        cv.put(COLUMN_NUMBER_CONTACT,number);
+        db.update(TABLE_CONTACTS,cv,"id_contact="+id,null);
+        db.close();
+
+        Log.d(TAG,"saved");
+
+        return contact;
+    }
+
+    public void delete_contact(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_CONTACTS,"id_contact="+id, null);
+        db.close();
     }
 
 }

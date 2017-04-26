@@ -25,7 +25,7 @@
             android:id="@+id/image_add_firend"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:src="@drawable/andika" />
+            android:src="@drawable/user" />
 
         <TextView
             android:layout_width="wrap_content"

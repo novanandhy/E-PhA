@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eralp.circleprogressview.CircleProgressView;
+import com.example.novan.tugasakhir.MainActivity;
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.models.Medicine;
 import com.example.novan.tugasakhir.util.DataHelper;
@@ -36,10 +37,15 @@ public class MedicineActivity extends AppCompatActivity {
     private ListView lvHomePage;
     private CircleProgressView circleProgressView;
     private Medicine medicine;
+    private int id;
+    private TextView name, dosage, time;
+    private String name_medicine;
+    private int dosage_medicine, time_medicine;
     int amount, remain;
     float percentage;
     private DataHelper dataHelper;
     String TAG = "TAGapp";
+    public static MedicineActivity ma;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +57,8 @@ public class MedicineActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         dataHelper = new DataHelper(this);
         medicine = getIntent().getParcelableExtra("medicine");
+        id = getIntent().getIntExtra("id", 0);
+        Log.d(TAG, "id int Medicine= "+id );
         final ArrayList<String> list = new ArrayList<String>();
         String[] itemname = new String[]{
                 "Safari",
@@ -81,17 +89,17 @@ public class MedicineActivity extends AppCompatActivity {
             circleProgressView.setCircleColor(getResources().getColor(R.color.custom_progress_green_progress));
         }
 
-        String name_medicine = medicine.getMedicine_name();
-        int dosage_medicine = medicine.getDosage();
-        int time_medicine = medicine.getCount();
+        name_medicine = medicine.getMedicine_name();
+        dosage_medicine = medicine.getDosage();
+        time_medicine = medicine.getCount();
 
         //set text of form
-        TextView name = (TextView) findViewById(R.id.medicine_name);
-        TextView dosage = (TextView) findViewById(R.id.medicine_dosage);
-        TextView time = (TextView) findViewById(R.id.medicine_time);
-        name.setText(name_medicine);
-        dosage.setText(""+dosage_medicine);
-        time.setText(""+time_medicine);
+        name = (TextView) findViewById(R.id.medicine_name);
+        dosage = (TextView) findViewById(R.id.medicine_dosage);
+        time = (TextView) findViewById(R.id.medicine_time);
+
+        ma = this;
+        SetText(name_medicine,dosage_medicine,time_medicine);
 
         lvHomePage = (ListView) findViewById(R.id.list_alarm_medicine);
         lvHomePage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -102,6 +110,12 @@ public class MedicineActivity extends AppCompatActivity {
             }
         });
         lvHomePage.setAdapter(new MyListAdapter(getApplicationContext(), R.layout.content_alarm_list, list));
+    }
+
+    public void SetText(String name_param, int dosage_param, int time_param) {
+        name.setText(name_param);
+        dosage.setText(""+dosage_param);
+        time.setText(""+time_param);
     }
 
     @Override
@@ -124,13 +138,13 @@ public class MedicineActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dataHelper.delete_medicine(medicine.getId());
+                        setResult(RESULT_OK);
                         finish();
                     }
                 });
                 alertDialogBuilder.setNegativeButton("no", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(MedicineActivity.this,"no clicked",Toast.LENGTH_SHORT).show();
                     }
                 });
                 AlertDialog alertDialog = alertDialogBuilder.create();
@@ -138,7 +152,10 @@ public class MedicineActivity extends AppCompatActivity {
                 return true;
             case R.id.action_edit:
                 Intent intent = new Intent(this, EditMedineActivity.class);
-                startActivity(intent);
+                Log.d(TAG,""+medicine.getId());
+                intent.putExtra("medicine", medicine);
+                intent.putExtra("id", id);
+                startActivityForResult(intent,30);
                 return true;
             case android.R.id.home:
                 onBackPressed();
@@ -148,8 +165,25 @@ public class MedicineActivity extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK && data!=null) {
+            if (resultCode == 10) {
+                finish();
+                startActivity(getIntent());
+            }
+            else if(requestCode == 30){
+                Medicine med = data.getParcelableExtra("medicine");
+                SetText(med.getMedicine_name(),med.getDosage(),med.getCount());
+            }
+        }
+    }
+
     @Override
     public void onBackPressed() {
+        setResult(RESULT_OK);
         finish();
     }
 

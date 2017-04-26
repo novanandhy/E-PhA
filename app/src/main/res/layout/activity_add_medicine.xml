@@ -80,7 +80,8 @@
                     android:id="@+id/input_medicine"
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"
-                    android:hint="Nama Obat" />
+                    android:hint="Medicine Name"
+                    android:maxLines="1"/>
             </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
             <!-- add some padding -->
@@ -94,7 +95,7 @@
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:hint="Jumlah Obat" />
+                    android:hint="Medicine's Amount" />
             </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
             <!-- add some padding -->
@@ -108,7 +109,7 @@
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:hint="Dosis Obat" />
+                    android:hint="Medicine's Dosage" />
             </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
             <!-- add some padding -->
@@ -121,7 +122,7 @@
                     android:id="@+id/input_time_medicine"
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"
-                    android:hint="Waktu Konsumsi per Hari"
+                    android:hint="Medicine's Time per Day"
                     android:inputType="number" />
             </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 

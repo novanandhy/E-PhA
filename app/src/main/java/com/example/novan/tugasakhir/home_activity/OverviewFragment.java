@@ -39,6 +39,7 @@ public class OverviewFragment extends Fragment {
     DataHelper dataHelper;
     ArrayList<Medicine> medicines;
     private CustomAdapter adapter;
+    private String TAG = "TAGapp";
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -47,16 +48,16 @@ public class OverviewFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_overview, container, false);
 
         dataHelper = new DataHelper(getActivity().getApplicationContext());
+        medicines = new ArrayList<>();
 
-        medicines = dataHelper.getAllMedicine();
         recyclerView = (RecyclerView) view.findViewById(R.id.list_medicine);
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.space);
         recyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(context,2);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new CustomAdapter(context,medicines);
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+
+
+        PopulateAdapter();
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.farb_overview);
         fab.attachToRecyclerView(recyclerView, new ScrollDirectionListener() {
@@ -81,15 +82,20 @@ public class OverviewFragment extends Fragment {
         return view;
     }
 
+    private void PopulateAdapter() {
+        medicines.clear();
+        medicines = dataHelper.getAllMedicine();
+        Log.d("hoy","size : "+medicines.size());
+        adapter = new CustomAdapter(context,medicines);
+        recyclerView.setAdapter(adapter);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("Epha","Masuk onActivity Result");
-        if(requestCode==10 && resultCode == RESULT_OK && data!=null){
-            Log.d("Epha","Masuk result berhasil");
-            Medicine medicine = data.getParcelableExtra("medicine");
-            medicines.add(medicine);
-            adapter.notifyDataSetChanged();
+        if(resultCode == RESULT_OK){
+            PopulateAdapter();
         }
     }
 
@@ -135,7 +141,9 @@ public class OverviewFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getActivity().getApplicationContext(), MedicineActivity.class);
+                    Log.d(TAG, "id= "+medicines.get(position).getId());
                     intent.putExtra("medicine",medicines.get(position));
+                    intent.putExtra("id",medicines.get(position).getId());
                     startActivityForResult(intent,10);
                 }
             });
