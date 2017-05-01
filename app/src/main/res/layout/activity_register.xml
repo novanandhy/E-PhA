@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/custom_primary_color"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/bg_white_very_rounded"
+        android:gravity="center"
+        android:hint="Name"
+        android:maxLines="1"
+        android:textColor="@color/custom_primary_color" />
+    <Spinner
+        android:id="@+id/spinnerPrevillage"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_white_very_rounded">
+
+    </Spinner>
+
+    <EditText
+        android:id="@+id/username_signup"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_white_very_rounded"
+        android:gravity="center"
+        android:hint="Username"
+        android:maxLines="1"
+        android:textColor="@color/custom_primary_color" />
+
+    <EditText
+        android:id="@+id/password_signup"
+        android:background="@drawable/bg_white_very_rounded"
+        android:layout_gravity="center"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:maxLines="1"
+        android:textColor="@color/custom_primary_color" />
+
+    <EditText
+        android:id="@+id/repassword_signup"
+        android:background="@drawable/bg_white_very_rounded"
+        android:layout_gravity="center"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:hint="Re-Password"
+        android:inputType="textPassword"
+        android:maxLines="1"
+        android:textColor="@color/custom_primary_color" />
+
+    <Button
+        android:id="@+id/btn_signup2"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bg_white_rectangle_round"
+        android:text="Sign up"
+        android:textAllCaps="false"
+        android:textColor="@color/custom_primary_color"
+        android:textSize="17dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="Or"
+        android:textAllCaps="false"
+        android:textColor="@color/custom_text"
+        android:textStyle="bold"
+        android:textSize="20dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btn_facebook_signup"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/bg_fb_circle"
+            android:src="@drawable/facebook_logo" />
+
+        <ImageButton
+            android:id="@+id/btn_google_signup"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/bg_google_circle"
+            android:src="@drawable/google_logo" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

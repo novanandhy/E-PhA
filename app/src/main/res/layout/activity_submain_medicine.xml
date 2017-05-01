@@ -15,25 +15,127 @@
         android:id="@+id/toolbar"
         app:titleTextColor="@color/custom_text"
         />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/toolbar"
-        android:layout_marginTop="70dp">
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/medicine_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tes"
+            android:textColor="@color/custom_primary_color"
+            android:layout_marginTop="60dp"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textAllCaps="false"/>
 
-        <com.eralp.circleprogressview.CircleProgressView
-            android:layout_marginLeft="100dp"
-            android:id="@+id/circle_progress_view_medicine"
-            android:layout_width="0dp"
-            android:layout_weight="0.62"
-            android:layout_height="158dp"
-            app:cpv_background_circle_color="@color/custom_primary_text"
-            app:cpv_text_suffix="%"
-            app:cpv_text_size="30"
-            app:cpv_text_color="@color/custom_primary_color" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/medicine_name"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <com.eralp.circleprogressview.CircleProgressView
+                android:id="@+id/circle_progress_view_medicine"
+                android:layout_width="0dp"
+                android:layout_height="158dp"
+                android:layout_weight="0.62"
+                app:cpv_background_circle_color="@color/custom_primary_text"
+                app:cpv_text_color="@color/custom_primary_color"
+                app:cpv_text_size="30"
+                app:cpv_text_suffix="%" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/drugs"
+                        android:layout_gravity="center_vertical"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-font_family_medium"
+                        android:text="Time"
+                        android:textColor="@color/custom_primary_text"
+                        android:textSize="15dp"
+                        android:typeface="normal"
+                        android:layout_marginLeft="5dp"/>
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/medicine_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_gravity="center"
+                    android:text="Tes"
+                    android:textColor="@color/custom_primary_text"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_marginLeft="60dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/dropper" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-font_family_medium"
+                        android:text="Dosage"
+                        android:textColor="@color/custom_primary_text"
+                        android:textSize="15dp"
+                        android:typeface="normal"
+                        android:layout_marginLeft="5dp"/>
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/medicine_dosage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Tes"
+                    android:layout_gravity="center"
+                    android:textColor="@color/custom_primary_text"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
     </LinearLayout>
+
 
     <View
         android:layout_height="2dip"
@@ -46,143 +148,7 @@
         android:id="@+id/list_alarm_medicine"
         android:layout_width="340dip"
         android:layout_height="273dp"
-        android:layout_gravity="bottom|center"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="250dp"
-        android:paddingLeft="35dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginRight="10dp"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:src="@drawable/drugs" />
-
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_marginTop="13dp"
-                android:src="@drawable/clock" />
-
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_marginTop="9dp"
-                android:src="@drawable/dropper" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/nama_obat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-font_family_medium"
-                android:text="Name"
-                android:textColor="@color/custom_primary_text"
-                android:textSize="15dp"
-                android:typeface="normal" />
-
-            <TextView
-                android:id="@+id/waktu_obat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:fontFamily="sans-font_family_medium"
-                android:text="Time"
-                android:textColor="@color/custom_primary_text"
-                android:textSize="15dp"
-                android:typeface="normal" />
-
-            <TextView
-                android:id="@+id/jumlah_obat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:fontFamily="sans-font_family_medium"
-                android:text="Dosage"
-                android:textColor="@color/custom_primary_text"
-                android:textSize="15dp"
-                android:typeface="normal" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=":"
-                android:textColor="@color/custom_secondary_text"
-                android:textSize="15dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text=":"
-                android:textColor="@color/custom_secondary_text"
-                android:textSize="15dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text=":"
-                android:textColor="@color/custom_secondary_text"
-                android:textSize="15dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/medicine_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Tes"
-                android:textColor="@color/custom_primary_text"
-                android:textSize="15dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/medicine_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Tes"
-                android:textColor="@color/custom_primary_text"
-                android:textSize="15dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/medicine_dosage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Tes"
-                android:textColor="@color/custom_primary_text"
-                android:textSize="15dp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-    </LinearLayout>
+        android:layout_gravity="bottom|center" />
 
 
 </android.support.design.widget.CoordinatorLayout>

@@ -180,6 +180,7 @@ public class DataHelper extends SQLiteOpenHelper {
     }
 
     public Contact save_contact(String name, String number){
+
         SQLiteDatabase db = this.getWritableDatabase();
 
         Contact contact = new Contact(name,number);
@@ -189,22 +190,6 @@ public class DataHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_NUMBER_CONTACT,number);
         db.insert(TABLE_CONTACTS,null,cv);
         db.close();
-
-        return contact;
-    }
-
-    public Contact update_contact(int id, String name, String number){
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        Contact contact = new Contact(name,number);
-
-        ContentValues cv = new ContentValues();
-        cv.put(COLUMN_NAME_CONTACT,name);
-        cv.put(COLUMN_NUMBER_CONTACT,number);
-        db.update(TABLE_CONTACTS,cv,"id_contact="+id,null);
-        db.close();
-
-        Log.d(TAG,"saved");
 
         return contact;
     }

@@ -17,19 +17,26 @@
         android:id="@+id/toolbar"
         app:titleTextColor="@color/custom_text"
         />
-
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/lineGraph"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="3"
-        android:background="@color/custom_primary_color"/>
+        android:orientation="vertical">
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/pieChart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/lineGraph"
-        android:layout_weight="3"/>
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lineGraph"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@color/custom_primary_color"
+            android:layout_below="@+id/text_statistik"
+            />
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/lineGraph"
+            android:layout_weight="3"/>
+    </LinearLayout>
 
 </LinearLayout>

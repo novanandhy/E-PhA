@@ -16,4 +16,8 @@
     <string name="title_activity_tutorial">TutorialActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_history">HistoryActivity</string>
+    <string-array name="previllage">
+        <item>Epileptic</item>
+        <item>User</item>
+    </string-array>
 </resources>

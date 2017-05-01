@@ -19,6 +19,8 @@ import com.example.novan.tugasakhir.friend_activity.FriendFragment;
 import com.example.novan.tugasakhir.history_activity.HistoryActivity;
 import com.example.novan.tugasakhir.history_activity.HistoryFragment;
 import com.example.novan.tugasakhir.home_activity.TabFragment;
+import com.example.novan.tugasakhir.login_activity.LoginregisterActivity;
+import com.example.novan.tugasakhir.login_activity.RegisterActivity;
 import com.example.novan.tugasakhir.profile_activity.ProfileFragment;
 import com.example.novan.tugasakhir.tutorial_activity.TutorialActivity;
 import com.google.android.gms.appindexing.Action;
@@ -87,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
                     OpenProfileFragment();
                 }
                 if (menuItem.getItemId() == R.id.nav_item_logout) {
-                    Intent intent = new Intent(getApplicationContext(), TutorialActivity.class);
-                    startActivity(intent);
+                    Intent intent = new Intent(getApplicationContext(), LoginregisterActivity.class);
+                    startActivityForResult(intent,10);
                 }
 
                 return false;
