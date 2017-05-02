@@ -42,27 +42,15 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/age"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="80dp"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="48dp"
-            android:text="Age"
-            android:textColor="@color/custom_primary_text"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <TextView
             android:id="@+id/contacts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/id_age"
-            android:layout_marginLeft="55dp"
-            android:layout_marginStart="55dp"
-            android:layout_toEndOf="@+id/age"
-            android:layout_toRightOf="@+id/age"
+            android:layout_above="@+id/id_contacts"
+            android:layout_marginBottom="17dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginStart="18dp"
+            android:layout_toEndOf="@+id/fab_profile"
+            android:layout_toRightOf="@+id/fab_profile"
             android:text="contacts"
             android:textColor="@color/custom_primary_text" />
 
@@ -70,40 +58,25 @@
             android:id="@+id/friendlist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="friendlist"
+            android:textColor="@color/custom_primary_text"
             android:layout_alignBaseline="@+id/contacts"
             android:layout_alignBottom="@+id/contacts"
-            android:layout_marginLeft="40dp"
-            android:layout_marginStart="40dp"
-            android:layout_toEndOf="@+id/contacts"
-            android:layout_toRightOf="@+id/contacts"
-            android:text="friendlist"
-            android:textColor="@color/custom_primary_text" />
-
-        <TextView
-            android:id="@+id/id_age"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/age"
-            android:layout_marginEnd="46dp"
-            android:layout_marginRight="46dp"
-            android:layout_marginTop="8dp"
-            android:layout_toLeftOf="@+id/id_contacts"
-            android:layout_toStartOf="@+id/id_contacts"
-            android:text="19"
-            android:textColor="@color/custom_primary_color"
-            android:textSize="36sp"
-            android:textStyle="bold" />
+            android:layout_toLeftOf="@+id/fab_profile"
+            android:layout_toStartOf="@+id/fab_profile"
+            android:layout_marginRight="28dp"
+            android:layout_marginEnd="28dp" />
 
         <TextView
             android:id="@+id/id_contacts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/id_age"
-            android:layout_alignBottom="@+id/id_age"
-            android:layout_alignLeft="@+id/contacts"
-            android:layout_alignStart="@+id/contacts"
-            android:layout_marginLeft="7dp"
-            android:layout_marginStart="7dp"
+            android:layout_alignBaseline="@+id/id_friendlist"
+            android:layout_alignBottom="@+id/id_friendlist"
+            android:layout_alignEnd="@+id/contacts"
+            android:layout_alignRight="@+id/contacts"
+            android:layout_marginEnd="7dp"
+            android:layout_marginRight="7dp"
             android:text="10"
             android:textColor="@color/custom_primary_color"
             android:textSize="36sp"
@@ -113,27 +86,27 @@
             android:id="@+id/id_friendlist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/id_age"
-            android:layout_alignBottom="@+id/id_age"
-            android:layout_alignEnd="@+id/friendlist"
-            android:layout_alignRight="@+id/friendlist"
-            android:layout_marginEnd="7dp"
-            android:layout_marginRight="7dp"
+            android:layout_marginBottom="42dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginRight="36dp"
             android:text="11"
             android:textColor="@color/custom_primary_color"
             android:textSize="36sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_above="@+id/fab_profile"
+            android:layout_toLeftOf="@+id/fab_profile"
+            android:layout_toStartOf="@+id/fab_profile" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="44dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="70dp"
             android:src="@drawable/edit"
             app:backgroundTint="@color/custom_button_first"
-            app:fab_type="normal"
-            android:layout_below="@+id/id_contacts"
-            android:layout_centerHorizontal="true" />
+            app:fab_type="normal" />
     </RelativeLayout>
 
 
