@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.example.novan.tugasakhir.MainActivity;
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.util.AppConfig;
 import com.example.novan.tugasakhir.util.AppController;
@@ -139,8 +140,9 @@ public class LoginActivity extends AppCompatActivity {
                         // Inserting row in users table
                         db.addUser(uid, name, previllage, username, created_at);
 
-                        //show if success
-                        Toast.makeText(LoginActivity.this, "Successful log in as "+ name, Toast.LENGTH_SHORT).show();
+                        //move to intent if successful
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
                         finish();
                     } else {
                         // Error in login. Get the error message

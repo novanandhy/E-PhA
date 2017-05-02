@@ -1,5 +1,6 @@
 package com.example.novan.tugasakhir;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -23,6 +25,8 @@ import com.example.novan.tugasakhir.login_activity.LoginregisterActivity;
 import com.example.novan.tugasakhir.login_activity.RegisterActivity;
 import com.example.novan.tugasakhir.profile_activity.ProfileFragment;
 import com.example.novan.tugasakhir.tutorial_activity.TutorialActivity;
+import com.example.novan.tugasakhir.util.SQLiteHandlerUser;
+import com.example.novan.tugasakhir.util.SessionManager;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -39,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+
+    private SQLiteHandlerUser db;
+    private SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,8 +96,7 @@ public class MainActivity extends AppCompatActivity {
                     OpenProfileFragment();
                 }
                 if (menuItem.getItemId() == R.id.nav_item_logout) {
-                    Intent intent = new Intent(getApplicationContext(), LoginregisterActivity.class);
-                    startActivityForResult(intent,10);
+                    ShowLogoutConfirmation();
                 }
 
                 return false;
@@ -113,6 +119,34 @@ public class MainActivity extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    private void ShowLogoutConfirmation() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+        alertDialogBuilder.setMessage("Are you sure to Log Out ?");
+        alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // SqLite database handler
+                db = new SQLiteHandlerUser(getApplicationContext());
+
+                // session manager
+                session = new SessionManager(getApplicationContext());
+                session.setLogin(false);
+                db.deleteUsers();
+
+                Intent intent = new Intent(MainActivity.this, LoginregisterActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        alertDialogBuilder.setNegativeButton("no", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     public void OpenHomeFragment(){
