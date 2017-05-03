@@ -24,7 +24,7 @@ public class LoginregisterActivity extends AppCompatActivity {
 
         if (sessionManager.isLoggedIn()) {
             Intent intent = new Intent(LoginregisterActivity.this, MainActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, 10);
             finish();
         }
 

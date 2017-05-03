@@ -26,6 +26,7 @@ import com.example.novan.tugasakhir.MainActivity;
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.util.AppConfig;
 import com.example.novan.tugasakhir.util.AppController;
+import com.example.novan.tugasakhir.util.DataHelper;
 import com.example.novan.tugasakhir.util.SQLiteHandlerUser;
 import com.example.novan.tugasakhir.util.SessionManager;
 
@@ -37,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     String username_string, password_string;
     ProgressDialog progressDialog;
     SessionManager sessionManager;
-    SQLiteHandlerUser db;
+    DataHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
 
         //SQLite Handler
-        db = new SQLiteHandlerUser(getApplicationContext());
+        db = new DataHelper(getApplicationContext());
 
         //session manager handle
         sessionManager = new SessionManager(getApplicationContext());
@@ -141,7 +142,7 @@ public class LoginActivity extends AppCompatActivity {
                         db.addUser(uid, name, previllage, username, created_at);
 
                         //move to intent if successful
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, LoginregisterActivity.class);
                         startActivity(intent);
                         finish();
                     } else {

@@ -25,6 +25,7 @@ import com.example.novan.tugasakhir.login_activity.LoginregisterActivity;
 import com.example.novan.tugasakhir.login_activity.RegisterActivity;
 import com.example.novan.tugasakhir.profile_activity.ProfileFragment;
 import com.example.novan.tugasakhir.tutorial_activity.TutorialActivity;
+import com.example.novan.tugasakhir.util.DataHelper;
 import com.example.novan.tugasakhir.util.SQLiteHandlerUser;
 import com.example.novan.tugasakhir.util.SessionManager;
 import com.google.android.gms.appindexing.Action;
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private GoogleApiClient client;
 
-    private SQLiteHandlerUser db;
+    private DataHelper dataHelper;
     private SessionManager session;
 
     @Override
@@ -123,17 +124,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void ShowLogoutConfirmation() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-        alertDialogBuilder.setMessage("Are you sure to Log Out ?");
+        alertDialogBuilder.setMessage("Logging Out causes loosing of all data. Are you sure to log out ?");
         alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                // SqLite database handler
-                db = new SQLiteHandlerUser(getApplicationContext());
+
+                //SQLite database handler second
+                dataHelper = new DataHelper(getApplicationContext());
 
                 // session manager
                 session = new SessionManager(getApplicationContext());
                 session.setLogin(false);
-                db.deleteUsers();
+                dataHelper.deleteUsers();
+                dataHelper.clear_medicine();
+                dataHelper.clear_contact();
 
                 Intent intent = new Intent(MainActivity.this, LoginregisterActivity.class);
                 startActivity(intent);
@@ -211,8 +215,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
+            finish();
         }
 
         this.doubleBackToExitPressedOnce = true;

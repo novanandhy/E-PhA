@@ -20,6 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.util.AppConfig;
 import com.example.novan.tugasakhir.util.AppController;
+import com.example.novan.tugasakhir.util.DataHelper;
 import com.example.novan.tugasakhir.util.SQLiteHandlerUser;
 import com.example.novan.tugasakhir.util.SessionManager;
 
@@ -37,7 +38,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
     Spinner spinner;
     ProgressDialog progressDialog;
     SessionManager sessionManager;
-    SQLiteHandlerUser db;
+    DataHelper db;
     String name_string, username_string, password_string, repassword_string,
             previllage_string;
 
@@ -60,7 +61,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         sessionManager = new SessionManager(getApplicationContext());
 
         //SQLite database handler
-        db = new SQLiteHandlerUser(getApplicationContext());
+        db = new DataHelper(getApplicationContext());
 
         //check if user already logged in
         if(sessionManager.isLoggedIn()){

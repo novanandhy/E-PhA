@@ -12,6 +12,7 @@ import com.example.novan.tugasakhir.models.Contact;
 import com.example.novan.tugasakhir.models.Medicine;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Novan on 29/03/2017.
@@ -27,7 +28,7 @@ public class DataHelper extends SQLiteOpenHelper {
     }
 
     //Table Name
-    private static  final String TABLE_USER = "db_user";
+    private static  final String TABLE_USER = "user";
     private static  final String TABLE_MEDICINE = "db_medic";
     private static  final String TABLE_SCHEDULE = "db_schedule";
     private static  final String TABLE_HISTORY = "db_history";
@@ -36,10 +37,12 @@ public class DataHelper extends SQLiteOpenHelper {
     private static  final String TABLE_CONTACTS = "db_contact";
 
     //Table User Data
-    private static final String COLUMN_ID_USER = "id_user";
-    private static final String COLUMN_NAME_USER = "name_user";
-    private static final String COLUMN_USERNAME_USER = "username_user";
-    private static final String COLUMN_PASSWORD_USER = "password_user";
+    private static final String KEY_ID = "id";
+    private static final String KEY_NAME = "name";
+    private static final String KEY_PREVILLAGE = "previllage";
+    private static final String KEY_USERNAME = "username";
+    private static final String KEY_UID = "uid";
+    private static final String KEY_CREATED_AT = "created_at";
 
     //Table Medicine Data
     public static final String COLUMN_ID_MEDICINE = "id_medicine";
@@ -80,6 +83,9 @@ public class DataHelper extends SQLiteOpenHelper {
     //Create Table
     private static final String DB_MEDICINE = "create table db_medic (id_medicine integer primary key AUTOINCREMENT, name_medicine text, amount_medicine integer , dosage_medicine integer, count_medicine integer, remain_medicine integer );";
     private static final String DB_CONTACT = "create table db_contact (id_contact integer primary key AUTOINCREMENT, name_contact text, number_contact text);";
+    String CREATE_LOGIN_TABLE = "CREATE TABLE " + TABLE_USER + "("
+            + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_PREVILLAGE + " TEXT,"
+            + KEY_USERNAME + " TEXT UNIQUE," + KEY_UID + " TEXT," + KEY_CREATED_AT + " TEXT" + ")";
     private SQLiteDatabase db;
 
     @Override
@@ -87,12 +93,14 @@ public class DataHelper extends SQLiteOpenHelper {
         // TODO Auto-generated method stub
         db.execSQL(DB_MEDICINE);
         db.execSQL(DB_CONTACT);
+        db.execSQL(CREATE_LOGIN_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXIST db_medic");
         db.execSQL("DROP TABLE IF EXIST db_contact");
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
     }
 
 
@@ -158,6 +166,15 @@ public class DataHelper extends SQLiteOpenHelper {
         return medicines;
     }
 
+    public void clear_medicine() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Delete All Rows
+        db.delete(TABLE_MEDICINE, null, null);
+        db.close();
+
+        Log.d(TAG, "Deleted all medicine info from sqlite");
+    }
+
     //CRUD Contact
     public ArrayList<Contact> getAllContacts(){
         ArrayList<Contact> contacts = new ArrayList<>();
@@ -204,6 +221,74 @@ public class DataHelper extends SQLiteOpenHelper {
         }
 
         db.close();
+    }
+
+    public void clear_contact() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Delete All Rows
+        db.delete(TABLE_CONTACTS, null, null);
+        db.close();
+
+        Log.d(TAG, "Deleted all contacts info from sqlite");
+    }
+
+    //CRUD User
+    /**
+     * Storing user details in database
+     * */
+    public void addUser(String uid, String name, String previllage, String username, String created_at) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, name); // Name
+        values.put(KEY_PREVILLAGE, previllage); // previllage
+        values.put(KEY_USERNAME, username); // username
+        values.put(KEY_UID, uid); // uid
+        values.put(KEY_CREATED_AT, created_at); // Created At
+
+        // Inserting Row
+        long id = db.insert(TABLE_USER, null, values);
+        db.close(); // Closing database connection
+
+        Log.d(TAG, "New user inserted into sqlite: " + id);
+    }
+
+    /**
+     * Getting user data from database
+     * */
+    public HashMap<String, String> getUserDetails() {
+        HashMap<String, String> user = new HashMap<String, String>();
+        String selectQuery = "SELECT  * FROM " + TABLE_USER;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        // Move to first row
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0) {
+            user.put("name", cursor.getString(1));
+            user.put("previllage", cursor.getString(2));
+            user.put("username", cursor.getString(3));
+            user.put("uid", cursor.getString(4));
+            user.put("created_at", cursor.getString(5));
+        }
+        cursor.close();
+        db.close();
+        // return user
+        Log.d(TAG, "Fetching user from Sqlite: " + user.toString());
+
+        return user;
+    }
+
+    /**
+     * Re crate database Delete all tables and create them again
+     * */
+    public void deleteUsers() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Delete All Rows
+        db.delete(TABLE_USER, null, null);
+        db.close();
+
+        Log.d(TAG, "Deleted all user info from sqlite");
     }
 
 }
