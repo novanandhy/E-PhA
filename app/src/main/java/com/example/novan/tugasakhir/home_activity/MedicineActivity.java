@@ -16,17 +16,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.eralp.circleprogressview.CircleProgressView;
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.models.Medicine;
+import com.example.novan.tugasakhir.models.Schedule;
 import com.example.novan.tugasakhir.util.DataHelper;
-import com.rey.material.widget.Switch;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MedicineActivity extends AppCompatActivity {
     private ListView lvHomePage;
@@ -34,13 +35,14 @@ public class MedicineActivity extends AppCompatActivity {
     private Medicine medicine;
     private int id;
     private TextView name, dosage, time;
-    private String name_medicine;
+    private String name_medicine, id_medicine_name;
     private int dosage_medicine, time_medicine;
     int amount, remain;
     float percentage;
     private DataHelper dataHelper;
     String TAG = "TAGapp";
     public static MedicineActivity ma;
+    ArrayList<Schedule> schedules;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,24 +52,29 @@ public class MedicineActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         dataHelper = new DataHelper(this);
         medicine = getIntent().getParcelableExtra("medicine");
         id = getIntent().getIntExtra("id", 0);
-        Log.d(TAG, "id int Medicine= "+id );
-        final ArrayList<String> list = new ArrayList<String>();
-        String[] itemname = new String[]{
-                "Safari",
-                "Camera",
-                "Global",
-                "FireFox",
-                "UC Browser",
-                "Android Folder",
-                "VLC Player",
-                "Cold War"
-        };
-        for (int i = 0; i < itemname.length; ++i) {
-            list.add(itemname[i]);
-        }
+        id_medicine_name = getIntent().getStringExtra("name");
+
+//        final ArrayList<String> list = new ArrayList<String>();
+//        String[] itemname = new String[]{
+//                "Safari",
+//                "Camera",
+//                "Global",
+//                "FireFox",
+//                "UC Browser",
+//                "Android Folder",
+//                "VLC Player",
+//                "Cold War"
+//        };
+//        for (int i = 0; i < itemname.length; ++i) {
+//            list.add(itemname[i]);
+//        }
+
+        schedules = new ArrayList<>();
+        schedules = dataHelper.getAllSchedule(id_medicine_name);
 
         //create percentage of stock
         amount = medicine.getAmount();
@@ -104,7 +111,7 @@ public class MedicineActivity extends AppCompatActivity {
                 newFragment.show(getFragmentManager(),"TimePicker");
             }
         });
-        lvHomePage.setAdapter(new MyListAdapter(getApplicationContext(), R.layout.content_alarm_list, list));
+        lvHomePage.setAdapter(new MyListAdapter(getApplicationContext(), R.layout.content_alarm_list, schedules));
     }
 
     public void SetText(String name_param, int dosage_param, int time_param) {
@@ -147,7 +154,6 @@ public class MedicineActivity extends AppCompatActivity {
                 return true;
             case R.id.action_edit:
                 Intent intent = new Intent(this, EditMedineActivity.class);
-                Log.d(TAG,""+medicine.getId());
                 intent.putExtra("medicine", medicine);
                 intent.putExtra("id", id);
                 startActivityForResult(intent,30);
@@ -182,10 +188,10 @@ public class MedicineActivity extends AppCompatActivity {
         finish();
     }
 
-    private class MyListAdapter extends ArrayAdapter<String> {
+    private class MyListAdapter extends ArrayAdapter<Schedule> {
         private int layout;
 
-        public MyListAdapter(Context context, int resource, List<String> objects) {
+        public MyListAdapter(Context context, int resource, ArrayList<Schedule> objects) {
             super(context, resource, objects);
             layout = resource;
         }
@@ -194,16 +200,30 @@ public class MedicineActivity extends AppCompatActivity {
         public View getView(final int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(layout, parent, false);
+            String time = null;
+
+            int minute = schedules.get(position).getMinute();
+            int hour = schedules.get(position).getHour();
+            int status = schedules.get(position).getStatus();
+
+            time = checkIfTime(minute, hour);
+
             final ViewHolder viewHolder = new ViewHolder();
+
             viewHolder.alarm_time = (TextView) convertView.findViewById(R.id.alarm_time);
             viewHolder.medicine_name = (TextView) convertView.findViewById(R.id.alarm_medicine);
             viewHolder.switch_alarm = (Switch) convertView.findViewById(R.id.switch_alarm);
-            viewHolder.alarm_time.setText(getItem(position));
-            viewHolder.medicine_name.setText(getItem(position));
-            viewHolder.switch_alarm.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+            viewHolder.alarm_time.setText(time);
+            viewHolder.medicine_name.setText(schedules.get(position).getMedicine_name());
+            if(status != 0){
+                viewHolder.switch_alarm.setChecked(true);
+            }else{
+                viewHolder.switch_alarm.setChecked(false);
+            }
+            viewHolder.switch_alarm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(Switch view, boolean checked) {
-                    if(checked){
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked){
                         viewHolder.alarm_time.setTextColor(getResources().getColor(R.color.custom_primary_color));
                     }else{
                         viewHolder.alarm_time.setTextColor(getResources().getColor(R.color.custom_primary_text));
@@ -218,6 +238,26 @@ public class MedicineActivity extends AppCompatActivity {
             TextView alarm_time;
             TextView medicine_name;
             Switch switch_alarm;
+        }
+    }
+
+    private String checkIfTime(int minute, int hour) {
+        String time = null;
+        if((minute < 10) && (hour >= 10)){
+            time = ""+hour+":0"+minute;
+            return time;
+        }
+        else if ((hour < 10) && (minute >= 10)){
+            time = "0"+hour+":"+minute;
+            return time;
+        }
+        else if ((hour < 10) && (minute < 10)){
+            time = "0"+hour+":0"+minute;
+            return time;
+        }
+        else{
+            time = ""+hour+":"+minute;
+            return time;
         }
     }
 }

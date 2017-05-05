@@ -2,19 +2,15 @@ package com.example.novan.tugasakhir.home_activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.eralp.circleprogressview.CircleProgressView;
 import com.example.novan.tugasakhir.R;
@@ -24,7 +20,6 @@ import com.melnykov.fab.FloatingActionButton;
 import com.melnykov.fab.ScrollDirectionListener;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -85,7 +80,6 @@ public class OverviewFragment extends Fragment {
     private void PopulateAdapter() {
         medicines.clear();
         medicines = dataHelper.getAllMedicine();
-        Log.d("hoy","size : "+medicines.size());
         adapter = new CustomAdapter(context,medicines);
         recyclerView.setAdapter(adapter);
     }
@@ -93,7 +87,6 @@ public class OverviewFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("Epha","Masuk onActivity Result");
         if(resultCode == RESULT_OK){
             PopulateAdapter();
         }
@@ -141,9 +134,9 @@ public class OverviewFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getActivity().getApplicationContext(), MedicineActivity.class);
-                    Log.d(TAG, "id= "+medicines.get(position).getId());
                     intent.putExtra("medicine",medicines.get(position));
                     intent.putExtra("id",medicines.get(position).getId());
+                    intent.putExtra("name",medicines.get(position).getMedicine_name());
                     startActivityForResult(intent,10);
                 }
             });

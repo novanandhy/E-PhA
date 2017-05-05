@@ -1,6 +1,7 @@
 package com.example.novan.tugasakhir.login_activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -21,7 +22,6 @@ import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.util.AppConfig;
 import com.example.novan.tugasakhir.util.AppController;
 import com.example.novan.tugasakhir.util.DataHelper;
-import com.example.novan.tugasakhir.util.SQLiteHandlerUser;
 import com.example.novan.tugasakhir.util.SessionManager;
 
 import org.json.JSONException;
@@ -64,8 +64,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         db = new DataHelper(getApplicationContext());
 
         //check if user already logged in
-        if(sessionManager.isLoggedIn()){
-            Log.d(TAG,"user already Logged in");
+        if(sessionManager.isLoggedIn()){;
             finish();
         }
 
@@ -86,7 +85,6 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                 username_string = username.getText().toString().trim();
                 password_string = password.getText().toString().trim();
                 repassword_string = repassword.getText().toString().trim();
-                Log.d(TAG,name_string+" "+previllage_string+" "+username_string+" "+password_string+" "+repassword_string);
                 if(!password_string.equals(repassword_string)){
                     Toast.makeText(RegisterActivity.this, "Password does not match", Toast.LENGTH_SHORT).show();
                 }else if(!name_string.isEmpty() && !username_string.isEmpty()
@@ -145,11 +143,6 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                         String username = user.getString("username");
                         String created_at = user
                                 .getString("created_at");
-
-                        Log.d("TesTes","uid ="+ uid);
-                        Log.d("TesTes","name ="+ name);
-                        Log.d("TesTes","previllage ="+ previllage);
-                        Log.d("TesTes","created at ="+ created_at);
 
                         // Inserting row in users table
                         db.addUser(uid, name, previllage, username, created_at);
@@ -218,5 +211,12 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(RegisterActivity.this, LoginregisterActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

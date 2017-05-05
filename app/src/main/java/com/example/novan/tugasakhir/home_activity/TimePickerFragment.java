@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -28,8 +29,8 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
     }
 
     @Override
-    public void onTimeSet(TimePicker timePicker, int i, int i1) {
-
+    public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+        Toast.makeText(getActivity().getApplicationContext(), "Hour = "+hour+" Minute = "+minute, Toast.LENGTH_SHORT).show();
     }
 
 }

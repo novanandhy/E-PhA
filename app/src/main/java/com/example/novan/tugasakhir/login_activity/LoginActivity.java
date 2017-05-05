@@ -27,7 +27,6 @@ import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.util.AppConfig;
 import com.example.novan.tugasakhir.util.AppController;
 import com.example.novan.tugasakhir.util.DataHelper;
-import com.example.novan.tugasakhir.util.SQLiteHandlerUser;
 import com.example.novan.tugasakhir.util.SessionManager;
 
 public class LoginActivity extends AppCompatActivity {
@@ -133,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         JSONObject user = jObj.getJSONObject("user");
                         String name = user.getString("name");
-                        String previllage = null;
+                        String previllage = user.getString("previllage");;
                         String username = user.getString("username");
                         String created_at = user
                                 .getString("created_at");
@@ -142,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
                         db.addUser(uid, name, previllage, username, created_at);
 
                         //move to intent if successful
-                        Intent intent = new Intent(LoginActivity.this, LoginregisterActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
                     } else {
@@ -193,5 +192,12 @@ public class LoginActivity extends AppCompatActivity {
     private void hideDialog() {
         if (progressDialog.isShowing())
             progressDialog.dismiss();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(LoginActivity.this, LoginregisterActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

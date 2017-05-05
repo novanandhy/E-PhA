@@ -13,25 +13,24 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.novan.tugasakhir.contact_activity.ContactFragment;
 import com.example.novan.tugasakhir.friend_activity.FriendFragment;
-import com.example.novan.tugasakhir.history_activity.HistoryActivity;
 import com.example.novan.tugasakhir.history_activity.HistoryFragment;
 import com.example.novan.tugasakhir.home_activity.TabFragment;
 import com.example.novan.tugasakhir.login_activity.LoginregisterActivity;
-import com.example.novan.tugasakhir.login_activity.RegisterActivity;
 import com.example.novan.tugasakhir.profile_activity.ProfileFragment;
-import com.example.novan.tugasakhir.tutorial_activity.TutorialActivity;
 import com.example.novan.tugasakhir.util.DataHelper;
-import com.example.novan.tugasakhir.util.SQLiteHandlerUser;
 import com.example.novan.tugasakhir.util.SessionManager;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
+
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
     DrawerLayout mDrawerLayout;
@@ -52,6 +51,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //SQLite database handler second
+        dataHelper = new DataHelper(getApplicationContext());
+
+        // session manager
+        session = new SessionManager(getApplicationContext());
+
+        // Fetching user details from sqlite
+        HashMap<String, String> user = dataHelper.getUserDetails();
+        String string = user.get("previllage");
+
+        Log.d("TAG", string);
 
         /**
          *Setup the DrawerLayout and NavigationView
@@ -129,11 +140,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                //SQLite database handler second
-                dataHelper = new DataHelper(getApplicationContext());
-
-                // session manager
-                session = new SessionManager(getApplicationContext());
                 session.setLogin(false);
                 dataHelper.deleteUsers();
                 dataHelper.clear_medicine();

@@ -1,29 +1,22 @@
 package com.example.novan.tugasakhir.contact_activity;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.novan.tugasakhir.R;
-import com.example.novan.tugasakhir.models.Contact;
 import com.example.novan.tugasakhir.util.DataHelper;
 
 public class ContactActivity extends AppCompatActivity {
     FragmentManager mFragmentManager;
-    int homeFragmentIdentifier;
     private DataHelper dataHelper;
-    private Contact contact;
     private TextView name, number;
     private String TAG="TAGapp";
 
@@ -42,15 +35,6 @@ public class ContactActivity extends AppCompatActivity {
         name.setText(getIntent().getExtras().getString("name"));
         number = (TextView) findViewById(R.id.contact_number_preview);
         number.setText(getIntent().getExtras().getString("number"));
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_contact_activity);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(ContactActivity.this, EditContactActivity.class);
-//                startActivity(intent);
-//            }
-//        });
 
         mFragmentManager = getSupportFragmentManager();
 

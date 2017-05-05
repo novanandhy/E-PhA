@@ -1,19 +1,14 @@
 package com.example.novan.tugasakhir.contact_activity;
 
-import android.app.Activity;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,18 +17,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.models.Contact;
-import com.example.novan.tugasakhir.models.Medicine;
 import com.example.novan.tugasakhir.util.DataHelper;
 import com.melnykov.fab.FloatingActionButton;
 import com.melnykov.fab.ScrollDirectionListener;
 
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -61,7 +52,7 @@ public class ContactFragment extends Fragment {
         listView = (ListView) view.findViewById(R.id.list_contact);
 
 
-        PopulateAdapter();
+        PopulateAdapter();//call array adapter
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -71,7 +62,6 @@ public class ContactFragment extends Fragment {
                 intent.putExtra("name",contacts.get(i).getName());
                 intent.putExtra("number",contacts.get(i).getNumber());
                 intent.putExtra("id",contacts.get(i).getId());
-                Log.d(TAG,"id selected= "+contacts.get(i).getId());
                 startActivityForResult(intent,10);
             }
         });
@@ -109,8 +99,8 @@ public class ContactFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK){
-            contactPicked(data);
-            PopulateAdapter();
+            contactPicked(data);//save contact to sqlite
+            PopulateAdapter();//call array adapter
         }
     }
 
@@ -130,13 +120,41 @@ public class ContactFragment extends Fragment {
             int  nameIndex =cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
             phoneNo = cursor.getString(phoneIndex);
             name = cursor.getString(nameIndex);
+           
             // Set the value to the textviews
-            dataHelper.save_contact(name,phoneNo);
-           Log.d(TAG,"Name= "+name);
-           Log.d(TAG,"Phone= "+phoneNo);
+            if(isContactExists(phoneNo) == false){
+                dataHelper.save_contact(name,phoneNo);
+            }else{
+                alertCreator("Contact is already exists");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean isContactExists(String phoneNo) {
+        int count = 0;
+        for (int i = 0 ; i < contacts.size() ; i++){
+            if (contacts.get(i).getNumber().equalsIgnoreCase(phoneNo)){
+                count++;
+            }
+        }if(count>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    private void alertCreator(String msg){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity().getApplicationContext());
+        alertDialogBuilder.setMessage(msg);
+        alertDialogBuilder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
 
@@ -159,7 +177,6 @@ public class ContactFragment extends Fragment {
                 viewHolder.contact_number = (TextView) convertView.findViewById(R.id.contact_number);
                 viewHolder.contact_number.setText(contacts.get(position).getNumber());
                 viewHolder.imageView = (ImageView) convertView.findViewById(R.id.image_contact);
-                Log.d(TAG,"id= "+contacts.get(position).getId());
                 convertView.setTag(viewHolder);
             }else {
                 mainViewHolder = (ViewHolder) convertView.getTag();

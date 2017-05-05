@@ -8,27 +8,27 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/custom_primary_color"
-        >
+        android:background="@color/custom_primary_color">
 
         <TextView
-            android:id="@+id/name_rofile"
+            android:id="@+id/name_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="34dp"
             android:fontFamily="sans-serif"
             android:text="Andika eks-Kangen Band"
+            android:textAllCaps="true"
             android:textColor="@color/custom_text"
             android:textSize="24sp"
-            android:typeface="sans"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+            android:typeface="sans" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_profile"
             android:layout_width="170dp"
             android:layout_height="170dp"
-            android:layout_below="@+id/name_rofile"
+            android:layout_below="@+id/name_profile"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:layout_marginBottom="30dp"
@@ -37,77 +37,79 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/contacts"
-            android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/id_contacts"
-            android:layout_marginBottom="17dp"
-            android:layout_marginLeft="18dp"
-            android:layout_marginStart="18dp"
-            android:layout_toEndOf="@+id/fab_profile"
-            android:layout_toRightOf="@+id/fab_profile"
-            android:text="contacts"
-            android:textColor="@color/custom_primary_text" />
+            android:orientation="horizontal"
+            android:layout_marginTop="50dp">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/contacts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Contacts"
+                    android:gravity="center"
+                    android:textColor="@color/custom_primary_text"/>
+                <TextView
+                    android:id="@+id/id_contacts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="10"
+                    android:textColor="@color/custom_primary_color"
+                    android:textSize="40dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/friendlist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Contacts"
+                    android:gravity="center"
+                    android:textColor="@color/custom_primary_text"/>
+                <TextView
+                    android:id="@+id/id_friendlist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="10"
+                    android:textColor="@color/custom_primary_color"
+                    android:textSize="40dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/friendlist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="friendlist"
-            android:textColor="@color/custom_primary_text"
-            android:layout_alignBaseline="@+id/contacts"
-            android:layout_alignBottom="@+id/contacts"
-            android:layout_toLeftOf="@+id/fab_profile"
-            android:layout_toStartOf="@+id/fab_profile"
-            android:layout_marginRight="28dp"
-            android:layout_marginEnd="28dp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/id_contacts"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/id_friendlist"
-            android:layout_alignBottom="@+id/id_friendlist"
-            android:layout_alignEnd="@+id/contacts"
-            android:layout_alignRight="@+id/contacts"
-            android:layout_marginEnd="7dp"
-            android:layout_marginRight="7dp"
-            android:text="10"
-            android:textColor="@color/custom_primary_color"
-            android:textSize="36sp"
-            android:textStyle="bold" />
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="21dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/edit"
+                app:backgroundTint="@color/custom_button_first"
+                app:fab_type="normal"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/id_friendlist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="42dp"
-            android:layout_marginEnd="36dp"
-            android:layout_marginRight="36dp"
-            android:text="11"
-            android:textColor="@color/custom_primary_color"
-            android:textSize="36sp"
-            android:textStyle="bold"
-            android:layout_above="@+id/fab_profile"
-            android:layout_toLeftOf="@+id/fab_profile"
-            android:layout_toStartOf="@+id/fab_profile" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="70dp"
-            android:src="@drawable/edit"
-            app:backgroundTint="@color/custom_button_first"
-            app:fab_type="normal" />
-    </RelativeLayout>
+    </LinearLayout>
 
 
 </LinearLayout>

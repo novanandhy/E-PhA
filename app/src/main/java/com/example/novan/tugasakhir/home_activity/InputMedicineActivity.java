@@ -1,23 +1,23 @@
 package com.example.novan.tugasakhir.home_activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.example.novan.tugasakhir.MainActivity;
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.models.Medicine;
 import com.example.novan.tugasakhir.util.DataHelper;
+
+import java.util.ArrayList;
 
 public class InputMedicineActivity extends AppCompatActivity {
     EditText input1, input2, input3, input4;
@@ -25,6 +25,7 @@ public class InputMedicineActivity extends AppCompatActivity {
     int amount, dosage, time;
     public String layout;
     DataHelper dataHelper;
+    ArrayList<Medicine> medicines;
     String TAG = "TAGapp";
 
     @Override
@@ -37,6 +38,9 @@ public class InputMedicineActivity extends AppCompatActivity {
 
         //create connection with database
         dataHelper = new DataHelper(this);
+
+        //get all medicines
+        medicines = dataHelper.getAllMedicine();
 
         //declaration of form
         input1 = (EditText) findViewById(R.id.input_medicine);
@@ -51,9 +55,12 @@ public class InputMedicineActivity extends AppCompatActivity {
         public void onClick(View view) {
 
             //show toast if form not filled
-            if (TextUtils.isEmpty(input1.getText()) || TextUtils.isEmpty(input2.getText()) || TextUtils.isEmpty(input3.getText()) || TextUtils.isEmpty(input4.getText())){
-                Toast.makeText(InputMedicineActivity.this,"fill all form", Toast.LENGTH_SHORT).show();
-            } else {
+            if (TextUtils.isEmpty(input1.getText()) || TextUtils.isEmpty(input2.getText()) ||
+                    TextUtils.isEmpty(input3.getText()) || TextUtils.isEmpty(input4.getText())){
+                alertCreator("please fil all form");
+            }else if (Integer.parseInt(input2.getText().toString()) < Integer.parseInt(input3.getText().toString())){
+                alertCreator("Dosage should be less than amount");
+            }else {
                 name = input1.getText().toString();
                 amount = Integer.parseInt(input2.getText().toString());
                 dosage = Integer.parseInt(input3.getText().toString());
@@ -61,19 +68,49 @@ public class InputMedicineActivity extends AppCompatActivity {
 
                 //insert into database
                 try{
-                    Medicine medicine = dataHelper.save_medicine(name,amount,dosage,amount,time);
-                    Intent intent = new Intent();
-                    intent.putExtra("medicine",medicine);
-                    intent.putExtra("h",10);
-                    setResult(RESULT_OK,intent);
-                    finish();
+                    if(isNameExist(name)==false){
+                        Medicine medicine = dataHelper.save_medicine(name,amount,dosage,amount,time);
+                        Intent intent = new Intent();
+                        intent.putExtra("medicine",medicine);
+                        intent.putExtra("h",10);
+                        setResult(RESULT_OK,intent);
+                        finish();
+                    }else{
+                        alertCreator("this user is already exists");
+                    }
+
                 }catch (SQLException e){
                     e.printStackTrace();
-                    Toast.makeText(InputMedicineActivity.this, "data not inserted", Toast.LENGTH_LONG).show();
+                    alertCreator("sorry, data not inserted");
                     return;
                 }
             }
         }});
+    }
+
+    private boolean isNameExist(String name) {
+        int count = 0;
+        for (int i = 0 ; i < medicines.size() ; i++){
+            if (medicines.get(i).getMedicine_name().equalsIgnoreCase(name)){
+                count++;
+            }
+        }if(count>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    private void alertCreator(String msg){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage(msg);
+        alertDialogBuilder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     @Override

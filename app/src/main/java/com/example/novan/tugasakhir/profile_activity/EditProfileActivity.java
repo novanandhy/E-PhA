@@ -33,7 +33,6 @@ public class EditProfileActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         name = (EditText) findViewById(R.id.edit_name_profile);
-        age = (EditText) findViewById(R.id.edit_age_profile);
         photo = (CircleImageView) findViewById(R.id.image_edit_profile);
         button_photo = (FloatingActionButton) findViewById(R.id.image_edit_profile_button);
         button_submit = (Button) findViewById(R.id.submit_profile);
@@ -55,8 +54,7 @@ public class EditProfileActivity extends AppCompatActivity {
         button_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(EditProfileActivity.this, MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
     }

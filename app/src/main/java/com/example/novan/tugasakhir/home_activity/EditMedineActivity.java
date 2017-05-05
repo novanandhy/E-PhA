@@ -3,22 +3,17 @@ package com.example.novan.tugasakhir.home_activity;
 import android.content.Intent;
 import android.database.SQLException;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.novan.tugasakhir.MainActivity;
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.models.Medicine;
-import com.example.novan.tugasakhir.profile_activity.EditProfileActivity;
 import com.example.novan.tugasakhir.util.DataHelper;
 
 public class EditMedineActivity extends AppCompatActivity {
@@ -36,6 +31,7 @@ public class EditMedineActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         medicine = getIntent().getParcelableExtra("medicine");
         id = getIntent().getIntExtra("id",0);
         dataHelper = new DataHelper(this);
@@ -62,12 +58,6 @@ public class EditMedineActivity extends AppCompatActivity {
                     amount = Integer.parseInt(input2.getText().toString());
                     dosage = Integer.parseInt(input3.getText().toString());
                     time = Integer.parseInt(input4.getText().toString());
-
-                    Log.d(TAG,"id int edit= "+id);
-                    Log.d(TAG,"name int edit= "+name);
-                    Log.d(TAG,"amount int edit= "+amount);
-                    Log.d(TAG,"dosage int edit= "+dosage);
-                    Log.d(TAG,"time int edit= "+time);
 
                     //insert into database
                     try{
