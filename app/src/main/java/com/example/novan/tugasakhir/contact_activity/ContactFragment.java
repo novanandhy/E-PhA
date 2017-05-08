@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,9 +121,12 @@ public class ContactFragment extends Fragment {
             int  nameIndex =cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
             phoneNo = cursor.getString(phoneIndex);
             name = cursor.getString(nameIndex);
+
+            boolean check = isContactExists(phoneNo);
+            Log.d(TAG,""+check);
            
             // Set the value to the textviews
-            if(isContactExists(phoneNo) == false){
+            if(check == false){
                 dataHelper.save_contact(name,phoneNo);
             }else{
                 alertCreator("Contact is already exists");
@@ -146,7 +150,7 @@ public class ContactFragment extends Fragment {
     }
 
     private void alertCreator(String msg){
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity().getApplicationContext());
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setMessage(msg);
         alertDialogBuilder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
             @Override

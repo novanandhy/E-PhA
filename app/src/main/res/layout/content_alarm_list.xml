@@ -31,7 +31,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <Switch
+    <com.rey.material.widget.Switch
         android:id="@+id/switch_alarm"
         style="@style/Material.Widget.Switch"
         android:layout_width="wrap_content"
@@ -40,7 +40,6 @@
         android:checked="false"
         android:layout_marginRight="15dp"
         android:layout_marginEnd="15dp"
-        android:layout_alignBaseline="@+id/alarm_time"
         android:layout_alignBottom="@+id/alarm_time"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />

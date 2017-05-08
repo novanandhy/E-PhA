@@ -19,136 +19,138 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <TextView
-            android:id="@+id/medicine_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tes"
-            android:textColor="@color/custom_primary_color"
-            android:layout_marginTop="60dp"
-            android:textSize="25dp"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            android:textAllCaps="false"/>
-
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/medicine_name"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <com.eralp.circleprogressview.CircleProgressView
-                android:id="@+id/circle_progress_view_medicine"
-                android:layout_width="0dp"
-                android:layout_height="158dp"
-                android:layout_weight="0.62"
-                app:cpv_background_circle_color="@color/custom_primary_text"
-                app:cpv_text_color="@color/custom_primary_color"
-                app:cpv_text_size="30"
-                app:cpv_text_suffix="%" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-            <LinearLayout
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/medicine_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center">
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:src="@drawable/drugs"
-                        android:layout_gravity="center_vertical"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-font_family_medium"
-                        android:text="Time"
-                        android:textColor="@color/custom_primary_text"
-                        android:textSize="15dp"
-                        android:typeface="normal"
-                        android:layout_marginLeft="5dp"/>
-                </LinearLayout>
-                <TextView
-                    android:id="@+id/medicine_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_gravity="center"
-                    android:text="Tes"
-                    android:textColor="@color/custom_primary_text"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:text="Tes"
+                android:textColor="@color/custom_primary_color"
+                android:layout_marginTop="60dp"
+                android:textSize="25dp"
+                android:textStyle="bold"
                 android:layout_gravity="center"
-                android:layout_marginLeft="60dp">
+                android:textAllCaps="false"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/medicine_name"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <com.eralp.circleprogressview.CircleProgressView
+                    android:id="@+id/circle_progress_view_medicine"
+                    android:layout_width="0dp"
+                    android:layout_height="158dp"
+                    android:layout_weight="0.62"
+                    app:cpv_background_circle_color="@color/custom_primary_text"
+                    app:cpv_text_color="@color/custom_primary_color"
+                    app:cpv_text_size="30"
+                    app:cpv_text_suffix="%" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:layout_gravity="center">
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/dropper" />
-                    <TextView
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-font_family_medium"
-                        android:text="Dosage"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center">
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:src="@drawable/drugs"
+                            android:layout_gravity="center_vertical"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-font_family_medium"
+                            android:text="Time"
+                            android:textColor="@color/custom_primary_text"
+                            android:textSize="15dp"
+                            android:typeface="normal"
+                            android:layout_marginLeft="5dp"/>
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/medicine_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_gravity="center"
+                        android:text="Tes"
                         android:textColor="@color/custom_primary_text"
-                        android:textSize="15dp"
-                        android:typeface="normal"
-                        android:layout_marginLeft="5dp"/>
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
                 </LinearLayout>
-                <TextView
-                    android:id="@+id/medicine_dosage"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Tes"
+                    android:orientation="vertical"
                     android:layout_gravity="center"
-                    android:textColor="@color/custom_primary_text"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
+                    android:layout_marginLeft="60dp">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center">
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/dropper" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-font_family_medium"
+                            android:text="Dosage"
+                            android:textColor="@color/custom_primary_text"
+                            android:textSize="15dp"
+                            android:typeface="normal"
+                            android:layout_marginLeft="5dp"/>
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/medicine_dosage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Tes"
+                        android:layout_gravity="center"
+                        android:textColor="@color/custom_primary_text"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
 
+
+                </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
 
+        <View
+            android:layout_marginTop="20dp"
+            android:layout_height="2dip"
+            android:background="@color/devider_color"
+            android:layout_width="340dip"
+            android:layout_gravity="top|center"/>
+
+        <ListView
+            android:id="@+id/list_alarm_medicine"
+            android:layout_width="340dip"
+            android:layout_height="273dp"
+            android:layout_gravity="bottom|center" />
     </LinearLayout>
-
-
-    <View
-        android:layout_height="2dip"
-        android:background="@color/devider_color"
-        android:layout_width="340dip"
-        android:layout_marginTop="340dp"
-        android:layout_gravity="top|center"/>
-
-    <ListView
-        android:id="@+id/list_alarm_medicine"
-        android:layout_width="340dip"
-        android:layout_height="273dp"
-        android:layout_gravity="bottom|center" />
-
-
 </android.support.design.widget.CoordinatorLayout>

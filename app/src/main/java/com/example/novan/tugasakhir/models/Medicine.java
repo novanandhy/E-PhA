@@ -18,6 +18,7 @@ public class Medicine implements Parcelable {
     private int dosage;
     private int count;
     private int id;
+    private String uid;
 
     public Medicine(String medicine_name, int amount, int remain, int dosage, int count) {
         this.medicine_name = medicine_name;
@@ -29,6 +30,7 @@ public class Medicine implements Parcelable {
 
     public Medicine(Cursor cursor){
         this.id = cursor.getInt(cursor.getColumnIndex(DataHelper.COLUMN_ID_MEDICINE));
+        this.uid = cursor.getString(cursor.getColumnIndex(DataHelper.COLUMN_UID_MEDICINE));
         this.medicine_name = cursor.getString(cursor.getColumnIndex(DataHelper.COLUMN_NAME_MEDICINE));
         this.amount = cursor.getInt(cursor.getColumnIndex(DataHelper.COLUMN_AMOUNT_MEDICINE));
         this.remain = cursor.getInt(cursor.getColumnIndex(DataHelper.COLUMN_REMAINS_MEDICINE));
@@ -43,6 +45,7 @@ public class Medicine implements Parcelable {
         dosage = in.readInt();
         count = in.readInt();
         id = in.readInt();
+        uid = in.readString();
     }
 
     public static final Creator<Medicine> CREATOR = new Creator<Medicine>() {
@@ -59,6 +62,10 @@ public class Medicine implements Parcelable {
 
     public void setMedicine_name(String medicine_name) {
         this.medicine_name = medicine_name;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public void setAmount(int amount) {
@@ -100,6 +107,9 @@ public class Medicine implements Parcelable {
     public int getId() {
         return id;
     }
+    public String getUid() {
+        return uid;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -118,5 +128,6 @@ public class Medicine implements Parcelable {
         dest.writeInt(dosage);
         dest.writeInt(count);
         dest.writeInt(id);
+        dest.writeString(uid);
     }
 }

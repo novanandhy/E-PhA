@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -18,10 +19,11 @@ import com.example.novan.tugasakhir.models.Medicine;
 import com.example.novan.tugasakhir.util.DataHelper;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class InputMedicineActivity extends AppCompatActivity {
     EditText input1, input2, input3, input4;
-    String name;
+    String name, uid;
     int amount, dosage, time;
     public String layout;
     DataHelper dataHelper;
@@ -65,11 +67,13 @@ public class InputMedicineActivity extends AppCompatActivity {
                 amount = Integer.parseInt(input2.getText().toString());
                 dosage = Integer.parseInt(input3.getText().toString());
                 time = Integer.parseInt(input4.getText().toString());
+                uid = random();
+                Log.d(TAG,"uid = "+uid);
 
                 //insert into database
                 try{
                     if(isNameExist(name)==false){
-                        Medicine medicine = dataHelper.save_medicine(name,amount,dosage,amount,time);
+                        Medicine medicine = dataHelper.save_medicine(uid, name,amount,dosage,amount,time);
                         Intent intent = new Intent();
                         intent.putExtra("medicine",medicine);
                         intent.putExtra("h",10);
@@ -111,6 +115,18 @@ public class InputMedicineActivity extends AppCompatActivity {
         });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    public static String random() {
+        char[] chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < 6; i++) {
+            char c = chars[random.nextInt(chars.length)];
+            sb.append(c);
+        }
+        String output = sb.toString();
+        return output;
     }
 
     @Override

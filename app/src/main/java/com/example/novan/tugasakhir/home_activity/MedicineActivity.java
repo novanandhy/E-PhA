@@ -16,33 +16,34 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.eralp.circleprogressview.CircleProgressView;
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.models.Medicine;
 import com.example.novan.tugasakhir.models.Schedule;
 import com.example.novan.tugasakhir.util.DataHelper;
+import com.example.novan.tugasakhir.util.TimePickerInterface;
+import com.rey.material.widget.Switch;
 
 import java.util.ArrayList;
 
-public class MedicineActivity extends AppCompatActivity {
+public class MedicineActivity extends AppCompatActivity implements TimePickerInterface{
     private ListView lvHomePage;
     private CircleProgressView circleProgressView;
     private Medicine medicine;
     private int id;
     private TextView name, dosage, time;
-    private String name_medicine, id_medicine_name;
+    private String name_medicine, uid_name_medicine;
     private int dosage_medicine, time_medicine;
     int amount, remain;
     float percentage;
     private DataHelper dataHelper;
     String TAG = "TAGapp";
-    public static MedicineActivity ma;
     ArrayList<Schedule> schedules;
+    MyListAdapter myListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,27 +55,12 @@ public class MedicineActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         dataHelper = new DataHelper(this);
+        schedules = new ArrayList<>();
+
+        //get value from intent
         medicine = getIntent().getParcelableExtra("medicine");
         id = getIntent().getIntExtra("id", 0);
-        id_medicine_name = getIntent().getStringExtra("name");
-
-//        final ArrayList<String> list = new ArrayList<String>();
-//        String[] itemname = new String[]{
-//                "Safari",
-//                "Camera",
-//                "Global",
-//                "FireFox",
-//                "UC Browser",
-//                "Android Folder",
-//                "VLC Player",
-//                "Cold War"
-//        };
-//        for (int i = 0; i < itemname.length; ++i) {
-//            list.add(itemname[i]);
-//        }
-
-        schedules = new ArrayList<>();
-        schedules = dataHelper.getAllSchedule(id_medicine_name);
+        uid_name_medicine = getIntent().getStringExtra("uid");
 
         //create percentage of stock
         amount = medicine.getAmount();
@@ -91,6 +77,7 @@ public class MedicineActivity extends AppCompatActivity {
             circleProgressView.setCircleColor(getResources().getColor(R.color.custom_progress_green_progress));
         }
 
+        //get value of form
         name_medicine = medicine.getMedicine_name();
         dosage_medicine = medicine.getDosage();
         time_medicine = medicine.getCount();
@@ -99,19 +86,33 @@ public class MedicineActivity extends AppCompatActivity {
         name = (TextView) findViewById(R.id.medicine_name);
         dosage = (TextView) findViewById(R.id.medicine_dosage);
         time = (TextView) findViewById(R.id.medicine_time);
-
-        ma = this;
         SetText(name_medicine,dosage_medicine,time_medicine);
+
+        //call list view of alarm
+        callListviewAlarm();
+    }
+
+    public void callListviewAlarm() {
+
+        schedules = dataHelper.getAllSchedule(uid_name_medicine);
 
         lvHomePage = (ListView) findViewById(R.id.list_alarm_medicine);
         lvHomePage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("id",schedules.get(i).getId());
+                bundle.putString("name", schedules.get(i).getMedicine_name());
+                bundle.getInt("status", schedules.get(i).getStatus());
+
                 DialogFragment newFragment = new TimePickerFragment();
+                newFragment.setArguments(bundle);
                 newFragment.show(getFragmentManager(),"TimePicker");
+
             }
         });
-        lvHomePage.setAdapter(new MyListAdapter(getApplicationContext(), R.layout.content_alarm_list, schedules));
+        myListAdapter = new MyListAdapter(getApplicationContext(), R.layout.content_alarm_list, schedules);
+        lvHomePage.setAdapter(myListAdapter);
     }
 
     public void SetText(String name_param, int dosage_param, int time_param) {
@@ -140,6 +141,7 @@ public class MedicineActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dataHelper.delete_medicine(medicine.getId());
+                        dataHelper.delete_schedule(medicine.getUid());
                         setResult(RESULT_OK);
                         finish();
                     }
@@ -166,7 +168,6 @@ public class MedicineActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -188,7 +189,14 @@ public class MedicineActivity extends AppCompatActivity {
         finish();
     }
 
-    private class MyListAdapter extends ArrayAdapter<Schedule> {
+    @Override
+    public void OnTimeUpdate() {
+        schedules = dataHelper.getAllSchedule(uid_name_medicine);
+        myListAdapter.notifyDataSetChanged();
+        Log.d(TAG,"time updated");
+    }
+
+    public class MyListAdapter extends ArrayAdapter<Schedule> {
         private int layout;
 
         public MyListAdapter(Context context, int resource, ArrayList<Schedule> objects) {
@@ -202,34 +210,37 @@ public class MedicineActivity extends AppCompatActivity {
             convertView = inflater.inflate(layout, parent, false);
             String time = null;
 
-            int minute = schedules.get(position).getMinute();
-            int hour = schedules.get(position).getHour();
+            final int id = schedules.get(position).getId();
+            final String name = schedules.get(position).getMedicine_name();
+            final int minute = schedules.get(position).getMinute();
+            final int hour = schedules.get(position).getHour();
             int status = schedules.get(position).getStatus();
-
             time = checkIfTime(minute, hour);
 
             final ViewHolder viewHolder = new ViewHolder();
-
             viewHolder.alarm_time = (TextView) convertView.findViewById(R.id.alarm_time);
             viewHolder.medicine_name = (TextView) convertView.findViewById(R.id.alarm_medicine);
             viewHolder.switch_alarm = (Switch) convertView.findViewById(R.id.switch_alarm);
             viewHolder.alarm_time.setText(time);
-            viewHolder.medicine_name.setText(schedules.get(position).getMedicine_name());
+            viewHolder.medicine_name.setText(name);
             if(status != 0){
                 viewHolder.switch_alarm.setChecked(true);
             }else{
                 viewHolder.switch_alarm.setChecked(false);
             }
-            viewHolder.switch_alarm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            viewHolder.switch_alarm.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(isChecked){
+                public void onCheckedChanged(Switch view, boolean checked) {
+                    if(checked){
                         viewHolder.alarm_time.setTextColor(getResources().getColor(R.color.custom_primary_color));
+                        dataHelper.update_schedule(id,hour,minute,1);
+                        Toast.makeText(MedicineActivity.this, "Alarm active", Toast.LENGTH_SHORT).show();
                     }else{
                         viewHolder.alarm_time.setTextColor(getResources().getColor(R.color.custom_primary_text));
+                        dataHelper.update_schedule(id,hour,minute,0);
                     }
                 }
-            });
+            } );
             convertView.setTag(viewHolder);
             return convertView;
         }

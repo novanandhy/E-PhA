@@ -122,6 +122,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.novan.tugasakhir.MainActivity" />
         </activity>
+        <receiver android:name=".util.AlarmReceiver"/>
     </application>
 
 </manifest>

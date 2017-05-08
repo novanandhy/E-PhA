@@ -20,7 +20,7 @@ public class EditMedineActivity extends AppCompatActivity {
     EditText input1,input2,input3,input4;
     private Medicine medicine;
     String name;
-    int amount, dosage, time, id;
+    int amount, dosage, time, id, remain;
     DataHelper dataHelper;
     String TAG = "TAGapp";
 
@@ -58,11 +58,13 @@ public class EditMedineActivity extends AppCompatActivity {
                     amount = Integer.parseInt(input2.getText().toString());
                     dosage = Integer.parseInt(input3.getText().toString());
                     time = Integer.parseInt(input4.getText().toString());
+                    remain = medicine.getRemain();
 
                     //insert into database
                     try{
                         //try Log
-                        Medicine newMedicine = dataHelper.update_medicine(id,name,amount,dosage,amount,time);
+                        Medicine newMedicine = dataHelper.update_medicine(id,name,amount,dosage,remain,time); //update data medicine
+                        dataHelper.update_schedule_name(medicine.getUid(), name); //update data schedule
                         Intent intent = new Intent();
                         intent.putExtra("medicine",newMedicine);
                         setResult(RESULT_OK,intent);

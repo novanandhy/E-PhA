@@ -77,7 +77,7 @@
                     android:id="@+id/friendlist"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Contacts"
+                    android:text="Friendlist"
                     android:gravity="center"
                     android:textColor="@color/custom_primary_text"/>
                 <TextView

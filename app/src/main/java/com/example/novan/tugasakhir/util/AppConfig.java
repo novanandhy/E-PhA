@@ -5,7 +5,7 @@ package com.example.novan.tugasakhir.util;
  */
 
 public class AppConfig {
-    static String IP_HOME = "192.168.1.12";
+    static String IP_HOME = "192.168.1.11";
     static String IP_PRIVATE = "192.168.137.1";
 
     // Server user login url

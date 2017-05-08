@@ -47,6 +47,7 @@ public class DataHelper extends SQLiteOpenHelper {
 
     //Table Medicine Data
     public static final String COLUMN_ID_MEDICINE = "id_medicine";
+    public static final String COLUMN_UID_MEDICINE = "uid_medicine";
     public static final String COLUMN_AMOUNT_MEDICINE = "amount_medicine";
     public static final String COLUMN_NAME_MEDICINE = "name_medicine";
     public static final String COLUMN_DOSAGE_MEDICINE = "dosage_medicine";
@@ -55,6 +56,7 @@ public class DataHelper extends SQLiteOpenHelper {
 
     //Table Schedule Data
     public static final String COLUMN_ID_SCHEDULE = "id_schedule";
+    public static final String COLUMN_UIDMedicine_SCHEDULE = "uid_schedule";
     public static final String COLUMN_NameMadicine_SCHEDULE = "medicine_schedule";
     public static final String COLUMN_HOUR_SCHEDULE = "hour_schedule";
     public static final String COLUMN_MINUTE_SCHEDULE = "minute_schedule";
@@ -84,9 +86,9 @@ public class DataHelper extends SQLiteOpenHelper {
     private static final String COLUMN_NAME_EPILEPTICS = "name_epileptic";
 
     //Create Table
-    private static final String DB_MEDICINE = "create table db_medic (id_medicine integer primary key AUTOINCREMENT, name_medicine text, amount_medicine integer , dosage_medicine integer, count_medicine integer, remain_medicine integer );";
+    private static final String DB_MEDICINE = "create table db_medic (id_medicine integer primary key AUTOINCREMENT, uid_medicine text, name_medicine text, amount_medicine integer , dosage_medicine integer, count_medicine integer, remain_medicine integer );";
     private static final String DB_CONTACT = "create table db_contact (id_contact integer primary key AUTOINCREMENT, name_contact text, number_contact text);";
-    private static final String DB_SCHEDULE = "create table db_schedule (id_schedule integer primary key AUTOINCREMENT, medicine_schedule text, hour_schedule integer, minute_schedule integer, status_schedule integer);";
+    private static final String DB_SCHEDULE = "create table db_schedule (id_schedule integer primary key AUTOINCREMENT, uid_schedule text, medicine_schedule text, hour_schedule integer, minute_schedule integer, status_schedule integer);";
     String CREATE_LOGIN_TABLE = "CREATE TABLE " + TABLE_USER + "("
             + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_PREVILLAGE + " TEXT,"
             + KEY_USERNAME + " TEXT UNIQUE," + KEY_UID + " TEXT," + KEY_CREATED_AT + " TEXT" + ")";
@@ -111,18 +113,19 @@ public class DataHelper extends SQLiteOpenHelper {
 
 
     //CRUD Medicine
-    public Medicine save_medicine(String name, int amount, int dosage, int remain, int count){
+    public Medicine save_medicine(String uid, String name, int amount, int dosage, int remain, int count){
         SQLiteDatabase db = this.getWritableDatabase();
 
         Medicine medicine = new Medicine(name,amount,remain,dosage,count);
 
         ContentValues cv = new ContentValues();
+        cv.put(COLUMN_UID_MEDICINE,uid);
         cv.put(COLUMN_NAME_MEDICINE,name);
         cv.put(COLUMN_AMOUNT_MEDICINE,amount);
         cv.put(COLUMN_DOSAGE_MEDICINE,dosage);
         cv.put(COLUMN_COUNT_MEDICINE,count);
         cv.put(COLUMN_REMAINS_MEDICINE,remain);
-        addSchedule(name,count);
+        addSchedule(uid,name,count);
         db.insert(TABLE_MEDICINE,null,cv);
         db.close();
 
@@ -143,7 +146,7 @@ public class DataHelper extends SQLiteOpenHelper {
         db.update(TABLE_MEDICINE,cv,"id_medicine="+id,null);
         db.close();
 
-        Log.d(TAG,"saved");
+        Log.d(TAG,"Success update medicine");
 
         return medicine;
     }
@@ -184,7 +187,7 @@ public class DataHelper extends SQLiteOpenHelper {
     }
 
     //CRUS SCHEDULE
-    private void addSchedule(String name, int count) {
+    public void addSchedule(String uid, String name, int count) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         int hour = 0;
@@ -192,6 +195,7 @@ public class DataHelper extends SQLiteOpenHelper {
         int status = 0;
 
         ContentValues cv = new ContentValues();
+        cv.put(COLUMN_UIDMedicine_SCHEDULE,uid);
         cv.put(COLUMN_NameMadicine_SCHEDULE, name);
         cv.put(COLUMN_HOUR_SCHEDULE, hour);
         cv.put(COLUMN_MINUTE_SCHEDULE, minute);
@@ -206,9 +210,9 @@ public class DataHelper extends SQLiteOpenHelper {
         }
     }
 
-    public ArrayList<Schedule> getAllSchedule(String name_medicine){
+    public ArrayList<Schedule> getAllSchedule(String uid){
         ArrayList<Schedule> schedule = new ArrayList<>();
-        String sql = "SELECT * FROM "+ TABLE_SCHEDULE +" WHERE "+COLUMN_NameMadicine_SCHEDULE+" = '"+name_medicine+"' ORDER BY "+COLUMN_ID_SCHEDULE;
+        String sql = "SELECT * FROM "+ TABLE_SCHEDULE +" WHERE "+COLUMN_UIDMedicine_SCHEDULE+" = '"+uid+"' ORDER BY "+COLUMN_ID_SCHEDULE;
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(sql,null);
@@ -225,38 +229,45 @@ public class DataHelper extends SQLiteOpenHelper {
         return schedule;
     }
 
-    public Schedule update_schedule(int id, String name, int hour, int minute, int status){
+    public void update_schedule(int id, int hour, int minute, int status){
         SQLiteDatabase db = this.getWritableDatabase();
 
-
-        Schedule schedule = new Schedule(name, hour, minute, status);
-
         ContentValues cv = new ContentValues();
-        cv.put(COLUMN_NameMadicine_SCHEDULE,name);
         cv.put(COLUMN_HOUR_SCHEDULE,hour);
         cv.put(COLUMN_MINUTE_SCHEDULE,minute);
         cv.put(COLUMN_STATUS_SCHEDULE,status);
-        db.update(TABLE_SCHEDULE,cv,"id_schedule="+id,null);
-        db.close();
 
-        return schedule;
+        db.update(TABLE_SCHEDULE,cv,"id_schedule="+id,null);
+        Log.d(TAG,"fetching from schedule = "+cv.toString());
+        db.close();
     }
 
-    public Schedule update_status_schedule(int id, String name, int hour, int minute, int status){
+    public void update_schedule_name(String uid, String newName){
         SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "UPDATE "+TABLE_SCHEDULE+" SET ("+COLUMN_NameMadicine_SCHEDULE+") = ('"+newName+"') WHERE "+COLUMN_UIDMedicine_SCHEDULE+" IN (SELECT "+COLUMN_UIDMedicine_SCHEDULE+" FROM "+TABLE_SCHEDULE+" WHERE "+ COLUMN_UIDMedicine_SCHEDULE+" = "+uid+")";
+        Log.d(TAG, "Sql = "+sql);
+//        ContentValues cv = new ContentValues();
+//        cv.put(COLUMN_NameMadicine_SCHEDULE,newName);
+        try{
+//            db.update(TABLE_SCHEDULE,cv,"uid_schedule="+uid, null);
+            db.execSQL(sql);
+        }catch (Exception e){
+            Log.d(TAG, "Failed update schedule");
+        }
 
-
-        Schedule schedule = new Schedule(name, hour, minute, status);
-
-        ContentValues cv = new ContentValues();
-        cv.put(COLUMN_NameMadicine_SCHEDULE,name);
-        cv.put(COLUMN_HOUR_SCHEDULE,hour);
-        cv.put(COLUMN_MINUTE_SCHEDULE,minute);
-        cv.put(COLUMN_STATUS_SCHEDULE,status);
-        db.update(TABLE_SCHEDULE,cv,"id_schedule="+id,null);
         db.close();
+    }
 
-        return schedule;
+    public void delete_schedule(String uid){
+        SQLiteDatabase db = this.getWritableDatabase();
+        try{
+            String sql = "DELETE FROM "+TABLE_SCHEDULE+" WHERE "+COLUMN_UIDMedicine_SCHEDULE+" = '"+uid+"'";
+            db.execSQL(sql);
+        }catch (Exception e){
+            Log.d(TAG,"schedule not deleted");
+        }
+
+        db.close();
     }
     //CRUD Contact
     public ArrayList<Contact> getAllContacts(){

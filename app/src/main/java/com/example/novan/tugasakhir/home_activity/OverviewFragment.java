@@ -136,7 +136,7 @@ public class OverviewFragment extends Fragment {
                     Intent intent = new Intent(getActivity().getApplicationContext(), MedicineActivity.class);
                     intent.putExtra("medicine",medicines.get(position));
                     intent.putExtra("id",medicines.get(position).getId());
-                    intent.putExtra("name",medicines.get(position).getMedicine_name());
+                    intent.putExtra("uid",medicines.get(position).getUid());
                     startActivityForResult(intent,10);
                 }
             });
