@@ -64,7 +64,6 @@ public class EditMedineActivity extends AppCompatActivity {
                     try{
                         //try Log
                         Medicine newMedicine = dataHelper.update_medicine(id,name,amount,dosage,remain,time); //update data medicine
-                        dataHelper.update_schedule_name(medicine.getUid(), name); //update data schedule
                         Intent intent = new Intent();
                         intent.putExtra("medicine",newMedicine);
                         setResult(RESULT_OK,intent);

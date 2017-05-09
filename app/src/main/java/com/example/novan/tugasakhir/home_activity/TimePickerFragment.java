@@ -14,6 +14,7 @@ import android.widget.TimePicker;
 
 import com.example.novan.tugasakhir.util.AlarmReceiver;
 import com.example.novan.tugasakhir.util.DataHelper;
+import com.example.novan.tugasakhir.util.SetStatusAlarm;
 import com.example.novan.tugasakhir.util.TimePickerInterface;
 
 import java.util.Calendar;
@@ -22,7 +23,7 @@ import java.util.Calendar;
  * Created by Novan on 16/03/2017.
  */
 
-public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener{
+public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener, SetStatusAlarm{
     private String TAG = "TAGapp";
     DataHelper dataHelper;
     int id, status;
@@ -30,6 +31,9 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
     TimePickerInterface timePickerInterface;
     Calendar calendar = Calendar.getInstance();
     long time;
+    Context context;
+
+
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
@@ -54,35 +58,34 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+        setAlarm(getActivity(),name, hour, minute, id);
+        status = 1;
+        dataHelper.update_schedule(id,hour,minute,status);
+        timePickerInterface.OnTimeUpdate();
+    }
+
+    public void setAlarm(Context context, String name, int hour, int minute, int requestCode) {
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        intent.putExtra("name", name);
+        intent.putExtra("requestCode", requestCode);
+
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
 
         time = calendar.getTimeInMillis();
         Log.d(TAG,"milis = "+time);
 
-        setAlarm(name, time, id);
+        PendingIntent pendingintent = PendingIntent.getBroadcast(context, requestCode, intent,0);
 
-        status = 1;
-        dataHelper.update_schedule(id,hour,minute,status);
-        timePickerInterface.OnTimeUpdate();
-    }
-
-    private void setAlarm(String name, long time, int requestCode) {
-        Intent intent = new Intent(getActivity().getApplicationContext(), AlarmReceiver.class);
-        intent.putExtra("name", name);
-        intent.putExtra("requestCode", requestCode);
-
-        PendingIntent pendingintent = PendingIntent.getBroadcast(getActivity().getApplicationContext(), requestCode, intent,0);
-
-        AlarmManager alarmManager  = (AlarmManager) getActivity().getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarmManager  = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, time, pendingintent);
     }
 
-    private void cancelAlarm() {
-        Intent intent = new Intent(getActivity().getApplicationContext(), AlarmReceiver.class);
-        PendingIntent pendingintent = PendingIntent.getBroadcast(getActivity().getApplicationContext(), 1, intent,0);
+    public void cancelAlarm(Context context, int requestCode) {
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        PendingIntent pendingintent = PendingIntent.getBroadcast(context, requestCode, intent,0);
 
-        AlarmManager alarmManager  = (AlarmManager) getActivity().getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarmManager  = (AlarmManager)context .getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(pendingintent);
     }
 

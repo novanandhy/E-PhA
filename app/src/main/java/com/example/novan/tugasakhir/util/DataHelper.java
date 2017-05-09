@@ -57,7 +57,6 @@ public class DataHelper extends SQLiteOpenHelper {
     //Table Schedule Data
     public static final String COLUMN_ID_SCHEDULE = "id_schedule";
     public static final String COLUMN_UIDMedicine_SCHEDULE = "uid_schedule";
-    public static final String COLUMN_NameMadicine_SCHEDULE = "medicine_schedule";
     public static final String COLUMN_HOUR_SCHEDULE = "hour_schedule";
     public static final String COLUMN_MINUTE_SCHEDULE = "minute_schedule";
     public static final String COLUMN_STATUS_SCHEDULE = "status_schedule";
@@ -88,7 +87,7 @@ public class DataHelper extends SQLiteOpenHelper {
     //Create Table
     private static final String DB_MEDICINE = "create table db_medic (id_medicine integer primary key AUTOINCREMENT, uid_medicine text, name_medicine text, amount_medicine integer , dosage_medicine integer, count_medicine integer, remain_medicine integer );";
     private static final String DB_CONTACT = "create table db_contact (id_contact integer primary key AUTOINCREMENT, name_contact text, number_contact text);";
-    private static final String DB_SCHEDULE = "create table db_schedule (id_schedule integer primary key AUTOINCREMENT, uid_schedule text, medicine_schedule text, hour_schedule integer, minute_schedule integer, status_schedule integer);";
+    private static final String DB_SCHEDULE = "create table db_schedule (id_schedule integer primary key AUTOINCREMENT, uid_schedule text, hour_schedule integer, minute_schedule integer, status_schedule integer);";
     String CREATE_LOGIN_TABLE = "CREATE TABLE " + TABLE_USER + "("
             + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_PREVILLAGE + " TEXT,"
             + KEY_USERNAME + " TEXT UNIQUE," + KEY_UID + " TEXT," + KEY_CREATED_AT + " TEXT" + ")";
@@ -125,7 +124,7 @@ public class DataHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_DOSAGE_MEDICINE,dosage);
         cv.put(COLUMN_COUNT_MEDICINE,count);
         cv.put(COLUMN_REMAINS_MEDICINE,remain);
-        addSchedule(uid,name,count);
+        addSchedule(uid,count);
         db.insert(TABLE_MEDICINE,null,cv);
         db.close();
 
@@ -187,7 +186,7 @@ public class DataHelper extends SQLiteOpenHelper {
     }
 
     //CRUS SCHEDULE
-    public void addSchedule(String uid, String name, int count) {
+    public void addSchedule(String uid, int count) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         int hour = 0;
@@ -196,7 +195,6 @@ public class DataHelper extends SQLiteOpenHelper {
 
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_UIDMedicine_SCHEDULE,uid);
-        cv.put(COLUMN_NameMadicine_SCHEDULE, name);
         cv.put(COLUMN_HOUR_SCHEDULE, hour);
         cv.put(COLUMN_MINUTE_SCHEDULE, minute);
         cv.put(COLUMN_STATUS_SCHEDULE, status);
@@ -239,22 +237,6 @@ public class DataHelper extends SQLiteOpenHelper {
 
         db.update(TABLE_SCHEDULE,cv,"id_schedule="+id,null);
         Log.d(TAG,"fetching from schedule = "+cv.toString());
-        db.close();
-    }
-
-    public void update_schedule_name(String uid, String newName){
-        SQLiteDatabase db = this.getWritableDatabase();
-        String sql = "UPDATE "+TABLE_SCHEDULE+" SET ("+COLUMN_NameMadicine_SCHEDULE+") = ('"+newName+"') WHERE "+COLUMN_UIDMedicine_SCHEDULE+" IN (SELECT "+COLUMN_UIDMedicine_SCHEDULE+" FROM "+TABLE_SCHEDULE+" WHERE "+ COLUMN_UIDMedicine_SCHEDULE+" = "+uid+")";
-        Log.d(TAG, "Sql = "+sql);
-//        ContentValues cv = new ContentValues();
-//        cv.put(COLUMN_NameMadicine_SCHEDULE,newName);
-        try{
-//            db.update(TABLE_SCHEDULE,cv,"uid_schedule="+uid, null);
-            db.execSQL(sql);
-        }catch (Exception e){
-            Log.d(TAG, "Failed update schedule");
-        }
-
         db.close();
     }
 

@@ -13,13 +13,11 @@ import com.example.novan.tugasakhir.util.DataHelper;
 public class Schedule implements Parcelable {
     int id;
     String uid;
-    String medicine_name;
     int hour;
     int minute;
     int status;
 
-    public Schedule(String uid, String medicine_name, int hour, int minute, int status){
-        this.medicine_name = medicine_name;
+    public Schedule(String uid, int hour, int minute, int status){
         this.hour = hour;
         this.minute = minute;
         this.status = status;
@@ -29,7 +27,6 @@ public class Schedule implements Parcelable {
     public Schedule(Cursor cursor){
         this.id = cursor.getInt(cursor.getColumnIndex(DataHelper.COLUMN_ID_SCHEDULE));
         this.uid = cursor.getString(cursor.getColumnIndex(DataHelper.COLUMN_UIDMedicine_SCHEDULE));
-        this.medicine_name = cursor.getString(cursor.getColumnIndex(DataHelper.COLUMN_NameMadicine_SCHEDULE));
         this.hour = cursor.getInt(cursor.getColumnIndex(DataHelper.COLUMN_HOUR_SCHEDULE));
         this.minute = cursor.getInt(cursor.getColumnIndex(DataHelper.COLUMN_MINUTE_SCHEDULE));
         this.status = cursor.getInt(cursor.getColumnIndex(DataHelper.COLUMN_STATUS_SCHEDULE));
@@ -47,15 +44,6 @@ public class Schedule implements Parcelable {
     public String getUid() {return uid;}
 
     public void setUid(String uid) {this.uid = uid;}
-
-
-    public String getMedicine_name() {
-        return medicine_name;
-    }
-
-    public void setMedicine_name(String medicine_name) {
-        this.medicine_name = medicine_name;
-    }
 
     public int getHour() {
         return hour;
@@ -84,7 +72,6 @@ public class Schedule implements Parcelable {
     protected Schedule(Parcel in) {
         id = in.readInt();
         uid = in.readString();
-        medicine_name = in.readString();
         hour = in.readInt();
         minute = in.readInt();
         status = in.readInt();
@@ -111,7 +98,6 @@ public class Schedule implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(uid);
-        dest.writeString(medicine_name);
         dest.writeInt(hour);
         dest.writeInt(minute);
         dest.writeInt(status);

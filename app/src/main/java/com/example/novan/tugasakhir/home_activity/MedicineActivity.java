@@ -25,6 +25,7 @@ import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.models.Medicine;
 import com.example.novan.tugasakhir.models.Schedule;
 import com.example.novan.tugasakhir.util.DataHelper;
+import com.example.novan.tugasakhir.util.SetStatusAlarm;
 import com.example.novan.tugasakhir.util.TimePickerInterface;
 import com.rey.material.widget.Switch;
 
@@ -44,6 +45,7 @@ public class MedicineActivity extends AppCompatActivity implements TimePickerInt
     String TAG = "TAGapp";
     ArrayList<Schedule> schedules;
     MyListAdapter myListAdapter;
+    TimePickerFragment newFragment = new TimePickerFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +90,7 @@ public class MedicineActivity extends AppCompatActivity implements TimePickerInt
         time = (TextView) findViewById(R.id.medicine_time);
         SetText(name_medicine,dosage_medicine,time_medicine);
 
+
         //call list view of alarm
         callListviewAlarm();
     }
@@ -102,10 +105,9 @@ public class MedicineActivity extends AppCompatActivity implements TimePickerInt
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Bundle bundle = new Bundle();
                 bundle.putInt("id",schedules.get(i).getId());
-                bundle.putString("name", schedules.get(i).getMedicine_name());
+                bundle.putString("name", medicine.getMedicine_name());
                 bundle.getInt("status", schedules.get(i).getStatus());
 
-                DialogFragment newFragment = new TimePickerFragment();
                 newFragment.setArguments(bundle);
                 newFragment.show(getFragmentManager(),"TimePicker");
 
@@ -142,6 +144,8 @@ public class MedicineActivity extends AppCompatActivity implements TimePickerInt
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dataHelper.delete_medicine(medicine.getId());
                         dataHelper.delete_schedule(medicine.getUid());
+                        removeSchedule(schedules.size());
+
                         setResult(RESULT_OK);
                         finish();
                     }
@@ -179,6 +183,7 @@ public class MedicineActivity extends AppCompatActivity implements TimePickerInt
             else if(requestCode == 30){
                 Medicine med = data.getParcelableExtra("medicine");
                 SetText(med.getMedicine_name(),med.getDosage(),med.getCount());
+                OnTimeUpdate();
             }
         }
     }
@@ -211,7 +216,7 @@ public class MedicineActivity extends AppCompatActivity implements TimePickerInt
             String time = null;
 
             final int id = schedules.get(position).getId();
-            final String name = schedules.get(position).getMedicine_name();
+            final String name = medicine.getMedicine_name();
             final int minute = schedules.get(position).getMinute();
             final int hour = schedules.get(position).getHour();
             int status = schedules.get(position).getStatus();
@@ -234,10 +239,12 @@ public class MedicineActivity extends AppCompatActivity implements TimePickerInt
                     if(checked){
                         viewHolder.alarm_time.setTextColor(getResources().getColor(R.color.custom_primary_color));
                         dataHelper.update_schedule(id,hour,minute,1);
+                        newFragment.setAlarm(MedicineActivity.this,name,hour,minute,id);
                         Toast.makeText(MedicineActivity.this, "Alarm active", Toast.LENGTH_SHORT).show();
                     }else{
                         viewHolder.alarm_time.setTextColor(getResources().getColor(R.color.custom_primary_text));
                         dataHelper.update_schedule(id,hour,minute,0);
+                        newFragment.cancelAlarm(MedicineActivity.this,id);
                     }
                 }
             } );
@@ -252,6 +259,7 @@ public class MedicineActivity extends AppCompatActivity implements TimePickerInt
         }
     }
 
+    // Set time to list view into String
     private String checkIfTime(int minute, int hour) {
         String time = null;
         if((minute < 10) && (hour >= 10)){
@@ -269,6 +277,13 @@ public class MedicineActivity extends AppCompatActivity implements TimePickerInt
         else{
             time = ""+hour+":"+minute;
             return time;
+        }
+    }
+
+    private void removeSchedule(int size) {
+        for (int i = 0 ; i < size ; i++){
+            Log.d(TAG,"ID schedule = "+schedules.get(i).getId());
+            newFragment.cancelAlarm(MedicineActivity.this, schedules.get(i).getId());
         }
     }
 }

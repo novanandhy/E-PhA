@@ -81,7 +81,8 @@
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"
                     android:hint="Medicane Name"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:singleLine="true"/>
             </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
             <!-- add some padding -->
@@ -111,7 +112,8 @@
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:hint="Medicine's Dosage" />
+                    android:hint="Medicine's Dosage"
+                    android:singleLine="true"/>
             </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
             <!-- add some padding -->

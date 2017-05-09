@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.novan.tugasakhir.MainActivity;
 import com.example.novan.tugasakhir.R;
@@ -24,8 +23,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         int requestCode = intent.getIntExtra("requestCode",0);
         String name = intent.getStringExtra("name");
 
-        Toast.makeText(context, "Alarm code "+requestCode, Toast.LENGTH_SHORT).show();
-        Log.d(TAG,"Yee muncul alarm untuk obat "+ name);
+        Log.d(TAG,"Alarm code "+requestCode);
 
         Intent notificationIntent = new Intent(context, MainActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context,0,notificationIntent,PendingIntent.FLAG_CANCEL_CURRENT);
@@ -36,8 +34,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setContentIntent(contentIntent)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
-                .setContentTitle(name)
-                .setContentText("Saatnya minum obat"+name)
+                .setContentTitle("E-PhA")
+                .setContentText("Saatnya minum obat "+name)
                 .setContentInfo("Alarm");
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
