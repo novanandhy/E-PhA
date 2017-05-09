@@ -1,4 +1,4 @@
-package com.example.novan.tugasakhir.util;
+package com.example.novan.tugasakhir.util.UIcomponent;
 
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IValueFormatter;

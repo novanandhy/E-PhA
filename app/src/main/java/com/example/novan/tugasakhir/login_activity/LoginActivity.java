@@ -24,10 +24,10 @@ import java.util.Map;
 
 import com.example.novan.tugasakhir.MainActivity;
 import com.example.novan.tugasakhir.R;
-import com.example.novan.tugasakhir.util.AppConfig;
-import com.example.novan.tugasakhir.util.AppController;
-import com.example.novan.tugasakhir.util.DataHelper;
-import com.example.novan.tugasakhir.util.SessionManager;
+import com.example.novan.tugasakhir.util.database.AppConfig;
+import com.example.novan.tugasakhir.util.database.AppController;
+import com.example.novan.tugasakhir.util.database.DataHelper;
+import com.example.novan.tugasakhir.util.database.SessionManager;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = RegisterActivity.class.getSimpleName();

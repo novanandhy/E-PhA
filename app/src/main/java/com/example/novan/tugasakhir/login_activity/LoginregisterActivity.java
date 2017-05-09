@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import com.example.novan.tugasakhir.MainActivity;
 import com.example.novan.tugasakhir.R;
-import com.example.novan.tugasakhir.util.SessionManager;
+import com.example.novan.tugasakhir.util.database.SessionManager;
 
 public class LoginregisterActivity extends AppCompatActivity {
     Button login, signup;

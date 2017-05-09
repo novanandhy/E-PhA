@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.models.Medicine;
-import com.example.novan.tugasakhir.util.DataHelper;
+import com.example.novan.tugasakhir.util.database.DataHelper;
 
 public class EditMedineActivity extends AppCompatActivity {
     EditText input1,input2,input3,input4;

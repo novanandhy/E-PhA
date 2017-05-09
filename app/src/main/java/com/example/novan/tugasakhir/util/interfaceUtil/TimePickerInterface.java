@@ -1,4 +1,4 @@
-package com.example.novan.tugasakhir.util;
+package com.example.novan.tugasakhir.util.interfaceUtil;
 
 /**
  * Created by Novan on 08/05/2017.

@@ -4,7 +4,7 @@ import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.example.novan.tugasakhir.util.DataHelper;
+import com.example.novan.tugasakhir.util.database.DataHelper;
 
 /**
  * Created by Novan on 04/05/2017.

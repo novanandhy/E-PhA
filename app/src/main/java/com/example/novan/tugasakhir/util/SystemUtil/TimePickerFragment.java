@@ -1,4 +1,4 @@
-package com.example.novan.tugasakhir.home_activity;
+package com.example.novan.tugasakhir.util.SystemUtil;
 
 import android.app.AlarmManager;
 import android.app.Dialog;
@@ -12,10 +12,9 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.TimePicker;
 
-import com.example.novan.tugasakhir.util.AlarmReceiver;
-import com.example.novan.tugasakhir.util.DataHelper;
-import com.example.novan.tugasakhir.util.SetStatusAlarm;
-import com.example.novan.tugasakhir.util.TimePickerInterface;
+import com.example.novan.tugasakhir.util.database.DataHelper;
+import com.example.novan.tugasakhir.util.interfaceUtil.SetStatusAlarm;
+import com.example.novan.tugasakhir.util.interfaceUtil.TimePickerInterface;
 
 import java.util.Calendar;
 

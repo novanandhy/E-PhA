@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.novan.tugasakhir.util;
+package com.example.novan.tugasakhir.util.UIcomponent;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;

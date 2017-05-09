@@ -1,4 +1,4 @@
-package com.example.novan.tugasakhir.util;
+package com.example.novan.tugasakhir.util.database;
 
 /**
  * Created by Novan on 01/05/2017.

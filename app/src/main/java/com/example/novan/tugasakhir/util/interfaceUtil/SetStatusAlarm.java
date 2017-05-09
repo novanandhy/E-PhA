@@ -1,4 +1,4 @@
-package com.example.novan.tugasakhir.util;
+package com.example.novan.tugasakhir.util.interfaceUtil;
 
 import android.content.Context;
 

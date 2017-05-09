@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.novan.tugasakhir.R;
-import com.example.novan.tugasakhir.util.DataHelper;
+import com.example.novan.tugasakhir.util.database.DataHelper;
 
 public class ContactActivity extends AppCompatActivity {
     FragmentManager mFragmentManager;

@@ -1,6 +1,5 @@
 package com.example.novan.tugasakhir.home_activity;
 
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,9 +23,9 @@ import com.eralp.circleprogressview.CircleProgressView;
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.models.Medicine;
 import com.example.novan.tugasakhir.models.Schedule;
-import com.example.novan.tugasakhir.util.DataHelper;
-import com.example.novan.tugasakhir.util.SetStatusAlarm;
-import com.example.novan.tugasakhir.util.TimePickerInterface;
+import com.example.novan.tugasakhir.util.SystemUtil.TimePickerFragment;
+import com.example.novan.tugasakhir.util.database.DataHelper;
+import com.example.novan.tugasakhir.util.interfaceUtil.TimePickerInterface;
 import com.rey.material.widget.Switch;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.example.novan.tugasakhir.util;
+package com.example.novan.tugasakhir.util.database;
 
 import android.content.Context;
 import android.content.SharedPreferences;

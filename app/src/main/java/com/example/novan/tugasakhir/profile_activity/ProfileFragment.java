@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.models.Contact;
-import com.example.novan.tugasakhir.util.DataHelper;
+import com.example.novan.tugasakhir.util.database.DataHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;

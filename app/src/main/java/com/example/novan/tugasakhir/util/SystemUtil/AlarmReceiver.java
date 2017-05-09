@@ -1,4 +1,4 @@
-package com.example.novan.tugasakhir.util;
+package com.example.novan.tugasakhir.util.SystemUtil;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -32,11 +32,12 @@ public class AlarmReceiver extends BroadcastReceiver {
         builder.setAutoCancel(true)
                 .setSmallIcon(R.drawable.medicine)
                 .setContentIntent(contentIntent)
+                .setOngoing(true)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
                 .setContentTitle("E-PhA")
                 .setContentText("Saatnya minum obat "+name)
-                .setContentInfo("Alarm");
+                .setContentInfo("");
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(requestCode, builder.getNotification());

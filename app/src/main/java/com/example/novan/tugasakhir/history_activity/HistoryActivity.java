@@ -8,7 +8,7 @@ import android.text.SpannableString;
 import android.view.MenuItem;
 
 import com.example.novan.tugasakhir.R;
-import com.example.novan.tugasakhir.util.MyValueFormatter;
+import com.example.novan.tugasakhir.util.UIcomponent.MyValueFormatter;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;

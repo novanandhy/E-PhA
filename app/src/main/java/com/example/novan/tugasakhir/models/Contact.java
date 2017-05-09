@@ -1,11 +1,10 @@
 package com.example.novan.tugasakhir.models;
 
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.example.novan.tugasakhir.util.DataHelper;
+import com.example.novan.tugasakhir.util.database.DataHelper;
 
 /**
  * Created by Novan on 22/04/2017.
