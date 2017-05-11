@@ -6,7 +6,7 @@ package com.example.novan.tugasakhir.util.database;
 
 public class AppConfig {
     static String IP_HOME = "192.168.1.11";
-    static String IP_PRIVATE = "192.168.137.1";
+    static String IP_PRIVATE = "192.168.43.83";
 
     // Server user login url
     public static String URL_LOGIN = "http://"+IP_PRIVATE+"/android_api/login.php";

@@ -4,12 +4,15 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.SpannableString;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.novan.tugasakhir.R;
+import com.example.novan.tugasakhir.models.History;
 import com.example.novan.tugasakhir.util.UIcomponent.MyValueFormatter;
+import com.example.novan.tugasakhir.util.database.DataHelper;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -38,6 +41,10 @@ public class HistoryFragment extends Fragment {
             ColorTemplate.rgb("#2ecc71"), ColorTemplate.rgb("#e74c3c")
     };
 
+    private DataHelper dataHelper;
+
+    private String TAG = "TAGapp";
+
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_history, container, false);
@@ -45,11 +52,19 @@ public class HistoryFragment extends Fragment {
         pieChart = (PieChart) view.findViewById(R.id.pieChart);
         lineChart = (LineChart) view.findViewById(R.id.lineGraph);
 
+        dataHelper = new DataHelper(getActivity());
+
+        int total = dataHelper.getAllHistory().size();
+        int consumed = dataHelper.getAllHistoryWhere(1).size();
+        int not_consumed = dataHelper.getAllHistoryWhere(0).size();
+
+        Log.d(TAG,"total = "+total+" consumed = "+consumed+" not consumed ="+not_consumed);
+
         //create Line Chart
         createLineChart();
 
         //create Pie Chart
-        createPieChart();
+        createPieChart(consumed, not_consumed, total);
 
         return view;
     }
@@ -138,7 +153,7 @@ public class HistoryFragment extends Fragment {
         }
     }
 
-    private void createPieChart(){
+    private void createPieChart(int consumed, int not_consumed, int total){
         pieChart.setUsePercentValues(true);
         pieChart.setExtraOffsets(5, 10, 5, 5);
         pieChart.setDragDecelerationFrictionCoef(0.95f);
@@ -147,7 +162,7 @@ public class HistoryFragment extends Fragment {
         pieChart.setHoleColor(Color.WHITE);
         pieChart.setTransparentCircleColor(Color.WHITE);
         pieChart.setTransparentCircleAlpha(110);
-        pieChart.setHoleRadius(70f);
+        pieChart.setHoleRadius(60f);
         pieChart.setTransparentCircleRadius(61f);
         pieChart.setDrawCenterText(true);
         pieChart.setRotationAngle(0);
@@ -155,7 +170,7 @@ public class HistoryFragment extends Fragment {
         pieChart.setRotationEnabled(true);
         pieChart.setHighlightPerTapEnabled(true);
         // add a selection listener
-        setPieData(2, 100);
+        setPieData(consumed, not_consumed, total);
         pieChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
     }
 
@@ -165,19 +180,19 @@ public class HistoryFragment extends Fragment {
         return s;
     }
 
-    private void setPieData(int count, float range) {
-
-        float mult = range;
+    private void setPieData(int consumed, int not_consumed, int total) {
 
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
 
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
-        for (int i = 0; i < count ; i++) {
-            entries.add(new PieEntry((float) ((Math.random() * mult) + mult / 5)));
-        }
+        //add medicine consumed statistic
+        entries.add(new PieEntry((float) (consumed/total)*100));
 
-        PieDataSet dataSet = new PieDataSet(entries, "Election Results");
+        //add medicine not consumed statistic
+        entries.add(new PieEntry((float) (not_consumed/total)*100));
+
+        PieDataSet dataSet = new PieDataSet(entries, "");
 
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);

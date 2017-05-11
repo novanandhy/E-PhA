@@ -281,7 +281,7 @@ public class MedicineActivity extends AppCompatActivity implements TimePickerInt
 
     private void removeSchedule(int size) {
         for (int i = 0 ; i < size ; i++){
-            Log.d(TAG,"ID schedule = "+schedules.get(i).getId());
+            Log.d(TAG,"ID schedule deleted = "+schedules.get(i).getId());
             newFragment.cancelAlarm(MedicineActivity.this, schedules.get(i).getId());
         }
     }

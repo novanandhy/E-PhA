@@ -25,12 +25,11 @@ import java.util.Calendar;
 public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener, SetStatusAlarm{
     private String TAG = "TAGapp";
     DataHelper dataHelper;
-    int id, status;
+    int id, status, hourNow, minuteNow;
     String name;
     TimePickerInterface timePickerInterface;
     Calendar calendar = Calendar.getInstance();
     long time;
-    Context context;
 
 
 
@@ -40,6 +39,11 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         final Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
+
+        hourNow = calendar.get(Calendar.HOUR_OF_DAY);
+        minuteNow = calendar.get(Calendar.MINUTE);
+
+        Log.d(TAG, "Hour = "+hourNow+" Minute "+minuteNow);
 
         dataHelper = new DataHelper(getActivity().getApplicationContext());
 
@@ -70,14 +74,19 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND,00);
 
         time = calendar.getTimeInMillis();
+
+//        if(hourNow < calendar.get(Calendar.HOUR_OF_DAY) || hourNow == calendar.get(Calendar.HOUR_OF_DAY) && minuteNow < calendar.get(Calendar.MINUTE)){
+//            time = time+1000*60*60*24;
+//        }
         Log.d(TAG,"milis = "+time);
 
         PendingIntent pendingintent = PendingIntent.getBroadcast(context, requestCode, intent,0);
 
         AlarmManager alarmManager  = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, time, pendingintent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, time, AlarmManager.INTERVAL_DAY, pendingintent);
     }
 
     public void cancelAlarm(Context context, int requestCode) {

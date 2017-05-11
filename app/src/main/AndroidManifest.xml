@@ -29,9 +29,10 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
         <activity android:name=".MainActivity" />
         <activity android:name=".login_activity.LoginActivity" />
-        <activity android:name=".login_activity.RegisterActivity"></activity>
+        <activity android:name=".login_activity.RegisterActivity" />
         <activity
             android:name=".home_activity.InputMedicineActivity"
             android:label="@string/title_activity_input_medicine"
@@ -122,7 +123,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.novan.tugasakhir.MainActivity" />
         </activity>
-        <receiver android:name=".util.SystemUtil.AlarmReceiver"/>
+
+        <receiver android:name=".util.SystemUtil.AlarmReceiver" />
+
+        <activity
+            android:name=".util.SystemUtil.DialogAlarm"
+            android:theme="@style/Theme.Dialog">
+        </activity>
     </application>
 
 </manifest>

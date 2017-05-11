@@ -9,10 +9,13 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.novan.tugasakhir.models.Contact;
+import com.example.novan.tugasakhir.models.History;
 import com.example.novan.tugasakhir.models.Medicine;
 import com.example.novan.tugasakhir.models.Schedule;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -61,17 +64,17 @@ public class DataHelper extends SQLiteOpenHelper {
     public static final String COLUMN_MINUTE_SCHEDULE = "minute_schedule";
     public static final String COLUMN_STATUS_SCHEDULE = "status_schedule";
 
-    //Table History Data
-    private static final String COLUMN_ID_HISTORY = "id_history";
-    private static final String COLUMN_IDmedicine_HISTORY = "id_medicine";
-    private static final String COLUMN_IDuser_HISTORY = "id_user";
-    private static final String COLUMN_TIME_HISTORY = "time_history";
-    private static final String COLUMN_STATUS_HISTORY = "status_history";
-
     //Table Contact Data
     public static final String COLUMN_ID_CONTACT = "id_contact";
     public static final String COLUMN_NUMBER_CONTACT = "number_contact";
     public static final String COLUMN_NAME_CONTACT = "name_contact";
+
+    //Table History Data
+    public static final String COLUMN_ID_HISTORY = "id_history";
+    public static final String COLUMN_IDmedicine_HISTORY = "id_medicine";
+    public static final String COLUMN_UIDuser_HISTORY = "uid_user";
+    public static final String COLUMN_TIME_HISTORY = "time_history";
+    public static final String COLUMN_STATUS_HISTORY = "status_history";
 
     //Table Relapse Data
     private static final String COLUMN_ID_RELAPSE = "id_relapse";
@@ -85,12 +88,19 @@ public class DataHelper extends SQLiteOpenHelper {
     private static final String COLUMN_NAME_EPILEPTICS = "name_epileptic";
 
     //Create Table
-    private static final String DB_MEDICINE = "create table db_medic (id_medicine integer primary key AUTOINCREMENT, uid_medicine text, name_medicine text, amount_medicine integer , dosage_medicine integer, count_medicine integer, remain_medicine integer );";
-    private static final String DB_CONTACT = "create table db_contact (id_contact integer primary key AUTOINCREMENT, name_contact text, number_contact text);";
-    private static final String DB_SCHEDULE = "create table db_schedule (id_schedule integer primary key AUTOINCREMENT, uid_schedule text, hour_schedule integer, minute_schedule integer, status_schedule integer);";
+    private static final String DB_MEDICINE = "create table db_medic (id_medicine integer primary key" +
+            " AUTOINCREMENT, uid_medicine text, name_medicine text, amount_medicine integer , " +
+            "dosage_medicine integer, count_medicine integer, remain_medicine integer );";
+    private static final String DB_CONTACT = "create table db_contact (id_contact integer primary " +
+            "key AUTOINCREMENT, name_contact text, number_contact text);";
+    private static final String DB_SCHEDULE = "create table db_schedule (id_schedule integer primary " +
+            "key AUTOINCREMENT, uid_schedule text, hour_schedule integer, minute_schedule integer, " +
+            "status_schedule integer);";
     String CREATE_LOGIN_TABLE = "CREATE TABLE " + TABLE_USER + "("
             + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_PREVILLAGE + " TEXT,"
             + KEY_USERNAME + " TEXT UNIQUE," + KEY_UID + " TEXT," + KEY_CREATED_AT + " TEXT" + ")";
+    private static final String DB_HISTORY = "create table db_history (id_history integer primary key " +
+            "AUTOINCREMENT, uid_user text, id_medicine integer, time_history date, status_history integer)";
 
     private SQLiteDatabase db;
     @Override
@@ -100,6 +110,7 @@ public class DataHelper extends SQLiteOpenHelper {
         db.execSQL(DB_CONTACT);
         db.execSQL(CREATE_LOGIN_TABLE);
         db.execSQL(DB_SCHEDULE);
+        db.execSQL(DB_HISTORY);
     }
 
     @Override
@@ -108,6 +119,7 @@ public class DataHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXIST db_contact");
         db.execSQL("DROP TABLE IF EXIST db_schedule");
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_HISTORY);
     }
 
 
@@ -362,6 +374,70 @@ public class DataHelper extends SQLiteOpenHelper {
         db.close();
 
         Log.d(TAG, "Deleted all user info from sqlite");
+    }
+
+    //CRUD History
+    public ArrayList<History> getAllHistory(){
+        ArrayList<History> histories = new ArrayList<>();
+        String sql = "SELECT * FROM "+ TABLE_HISTORY +" ORDER BY "+COLUMN_ID_HISTORY;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+
+        Cursor cursor = db.rawQuery(sql,null);
+        cursor.moveToFirst();
+        Log.d(TAG,"size cursor history: "+cursor.getCount());
+        if(cursor.getCount() > 0 ) {
+            do {
+                histories.add(new History(cursor));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        db.close();
+        return histories;
+    }
+
+    public ArrayList<History> getAllHistoryWhere(int status){
+        ArrayList<History> histories = new ArrayList<>();
+        String sql = "SELECT * FROM "+ TABLE_HISTORY +" WHERE "+COLUMN_STATUS_HISTORY+" = '"+status+"' ORDER BY "+COLUMN_ID_HISTORY;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+
+        Cursor cursor = db.rawQuery(sql,null);
+        cursor.moveToFirst();
+        Log.d(TAG,"size cursor history where status = "+status+ ": " +cursor.getCount());
+        if(cursor.getCount() > 0 ) {
+            do {
+                histories.add(new History(cursor));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        db.close();
+        return histories;
+    }
+
+    public void addStatusHistory(String uid_user, int id_medicine, int status_history) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_UIDuser_HISTORY, uid_user); // uid_user
+        values.put(COLUMN_IDmedicine_HISTORY, id_medicine); // id_medicine
+        values.put(COLUMN_STATUS_HISTORY, status_history); // id_medicine
+        values.put(COLUMN_TIME_HISTORY, dateFormat.format(date)); // id_medicine
+
+        Log.d(TAG, "Fetching history from Sqlite: " + values.toString());
+
+        // Inserting Row
+        try{
+            db.insert(TABLE_HISTORY, null, values);
+            db.close(); // Closing database connection
+        }catch (Exception e){
+            Log.d(TAG,"Failed add status history");
+        }
+
     }
 
 }

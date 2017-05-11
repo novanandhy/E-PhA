@@ -30,4 +30,6 @@
 
     <color name="box_layout_color">#ffffff</color>
     <color name="box_layout_shadow">#d2d7d3</color>
+
+    <drawable name="transparent">#00000000</drawable>
 </resources>

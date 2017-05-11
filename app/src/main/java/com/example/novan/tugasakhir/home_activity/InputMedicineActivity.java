@@ -80,7 +80,7 @@ public class InputMedicineActivity extends AppCompatActivity {
                         setResult(RESULT_OK,intent);
                         finish();
                     }else{
-                        alertCreator("this user is already exists");
+                        alertCreator("this medicine is already exists");
                     }
 
                 }catch (SQLException e){
