@@ -11,12 +11,14 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.novan.tugasakhir.util.database.DataHelper;
 import com.example.novan.tugasakhir.util.interfaceUtil.SetStatusAlarm;
 import com.example.novan.tugasakhir.util.interfaceUtil.TimePickerInterface;
 
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Novan on 16/03/2017.
@@ -28,18 +30,14 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
     int id, status, hourNow, minuteNow;
     String name;
     TimePickerInterface timePickerInterface;
-    Calendar calendar = Calendar.getInstance();
-    long time;
+    Calendar calendar ;
+    long time, timeTmp;
 
 
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
-        //Use the current time as the default values for the time picker
-        final Calendar c = Calendar.getInstance();
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-        int minute = c.get(Calendar.MINUTE);
-
+        calendar = Calendar.getInstance();
         hourNow = calendar.get(Calendar.HOUR_OF_DAY);
         minuteNow = calendar.get(Calendar.MINUTE);
 
@@ -55,7 +53,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         Log.d(TAG,"name schedule = "+name);
 
         //Create and return a new instance of TimePickerDialog
-        return new TimePickerDialog(getActivity(),this, hour, minute,
+        return new TimePickerDialog(getActivity(),this, hourNow, minuteNow,
                 DateFormat.is24HourFormat(getActivity()));
     }
 
@@ -72,21 +70,32 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         intent.putExtra("name", name);
         intent.putExtra("requestCode", requestCode);
 
+        calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+        calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+        calendar.set(Calendar.SECOND, 0);
+
+        timeTmp = calendar.getTimeInMillis();
+
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
-        calendar.set(Calendar.SECOND,00);
+        calendar.set(Calendar.SECOND,0);
 
         time = calendar.getTimeInMillis();
 
-//        if(hourNow < calendar.get(Calendar.HOUR_OF_DAY) || hourNow == calendar.get(Calendar.HOUR_OF_DAY) && minuteNow < calendar.get(Calendar.MINUTE)){
-//            time = time+1000*60*60*24;
-//        }
-        Log.d(TAG,"milis = "+time);
+        if((time - timeTmp) < 0){
+            time = time+1000*60*60*24;
+        }
+        Log.d(TAG,"milis = "+(time - timeTmp));
+        int minuteTmp = (int) TimeUnit.MILLISECONDS.toMinutes(time-timeTmp);
+        int hoursString = minuteTmp / 60;
+        int minuteString = minuteTmp - (hoursString * 60);
 
         PendingIntent pendingintent = PendingIntent.getBroadcast(context, requestCode, intent,0);
 
         AlarmManager alarmManager  = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, time, AlarmManager.INTERVAL_DAY, pendingintent);
+        Toast.makeText(context, "Alarm set for "+hoursString+" hours and "+minuteString+" minutes from now", Toast.LENGTH_SHORT).show();
     }
 
     public void cancelAlarm(Context context, int requestCode) {
