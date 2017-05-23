@@ -1,14 +1,20 @@
 package com.example.novan.tugasakhir.profile_activity;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.novan.tugasakhir.MainActivity;
 import com.example.novan.tugasakhir.R;
@@ -21,7 +27,9 @@ public class EditProfileActivity extends AppCompatActivity {
     CircleImageView photo;
     FloatingActionButton button_photo;
     Button button_submit;
-    private static final int RESULT_LOAD_IMAGE = 1000;
+    String imgPath;
+    String TAG = "TAGapp";
+    private static final int SELECT_PICTURE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,15 +48,13 @@ public class EditProfileActivity extends AppCompatActivity {
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
+               openImageSource();
             }
         });
         button_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
+                openImageSource();
             }
         });
         button_submit.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +63,50 @@ public class EditProfileActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private void openImageSource() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        try{
+            //when image is picked
+            if (resultCode == RESULT_OK) {
+                if (requestCode == SELECT_PICTURE) {
+                    // Get the url from data
+                    Uri selectedImageUri = data.getData();
+                    if (null != selectedImageUri) {
+                        // Get the path from the Uri
+                        String path = getPathFromURI(selectedImageUri);
+                        Log.i(TAG, "Image Path : " + path);
+                        // Set the image in ImageView
+                        photo.setImageURI(selectedImageUri);
+                    }
+                }
+            }else {
+                Toast.makeText(this, "You haven't picked an image", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e){
+            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private String getPathFromURI(Uri contentUri) {
+        String res = null;
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
+        if (cursor.moveToFirst()) {
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            res = cursor.getString(column_index);
+        }
+        cursor.close();
+        return res;
     }
 
     @Override

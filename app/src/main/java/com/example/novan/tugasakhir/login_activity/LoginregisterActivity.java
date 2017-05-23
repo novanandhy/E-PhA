@@ -34,8 +34,7 @@ public class LoginregisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginregisterActivity.this, LoginActivity.class);
-                startActivityForResult(intent,10);
-                finish();
+                startActivity(intent);
             }
         });
 
@@ -44,8 +43,7 @@ public class LoginregisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginregisterActivity.this, RegisterActivity.class);
-                startActivityForResult(intent, 10);
-                finish();
+                startActivity(intent);
             }
         });
     }
