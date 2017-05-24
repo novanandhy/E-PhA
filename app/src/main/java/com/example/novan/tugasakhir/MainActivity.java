@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         HashMap<String, String> user = dataHelper.getUserDetails();
         String string = user.get("previllage");
 
-        Log.d("TAG", string);
+        Log.d("TAG", "previllage = "+string);
 
         /**
          *Setup the DrawerLayout and NavigationView

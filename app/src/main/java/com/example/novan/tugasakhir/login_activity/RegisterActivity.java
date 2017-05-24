@@ -1,9 +1,13 @@
 package com.example.novan.tugasakhir.login_activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,6 +31,7 @@ import com.example.novan.tugasakhir.util.database.SessionManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,17 +46,24 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
     DataHelper db;
     String name_string, username_string, password_string, repassword_string,
             previllage_string;
+    Bitmap imageDefault;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        
+        context = RegisterActivity.this;
 
         //get all input form
         name = (EditText) findViewById(R.id.name);
         username = (EditText) findViewById(R.id.username_signup);
         password = (EditText) findViewById(R.id.password_signup);
         repassword = (EditText) findViewById(R.id.repassword_signup);
+
+        //set default image profile
+        imageDefault = BitmapFactory.decodeResource(context.getResources(), R.drawable.user);
 
         //progress dialog show
         progressDialog = new ProgressDialog(this);
@@ -89,7 +101,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                     Toast.makeText(RegisterActivity.this, "Password does not match", Toast.LENGTH_SHORT).show();
                 }else if(!name_string.isEmpty() && !username_string.isEmpty()
                         && !password_string.isEmpty() && !repassword_string.isEmpty()){
-                    registerUser(name_string,previllage_string,username_string,password_string);
+                    registerUser(name_string,previllage_string,username_string,password_string, imageDefault);
                 }else{
                     Toast.makeText(RegisterActivity.this, "Please fill all form", Toast.LENGTH_SHORT).show();
                 }
@@ -114,7 +126,8 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
     }
 
     private void registerUser(final String name_string, final String previllage_string,
-                              final String username_string, final String password_string) {
+                              final String username_string, final String password_string, final Bitmap image) {
+
         // Tag used to cancel the request
         String tag_string_req = "req_register";
 
@@ -134,18 +147,6 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                     boolean error = jObj.getBoolean("error");
                     if (!error) {
                         // User successfully stored in MySQL
-                        // Now store the user in sqlite
-                        String uid = jObj.getString("uid");
-
-                        JSONObject user = jObj.getJSONObject("user");
-                        String name = user.getString("name");
-                        String previllage = user.getString("previllage");
-                        String username = user.getString("username");
-                        String created_at = user
-                                .getString("created_at");
-
-                        // Inserting row in users table
-                        db.addUser(uid, name, previllage, username, created_at);
 
                         Toast.makeText(getApplicationContext(), "User successfully registered. Try login now!", Toast.LENGTH_LONG).show();
 
@@ -179,10 +180,15 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
             protected Map<String, String> getParams() {
                 // Posting params to register url
                 Map<String, String> params = new HashMap<String, String>();
+
+                //convert bitmap to string
+                String img = getStringImage(image);
+
                 params.put("name", name_string);
                 params.put("previllage", previllage_string);
                 params.put("username", username_string);
                 params.put("password", password_string);
+                params.put("image",img);
 
                 return params;
             }
@@ -191,6 +197,14 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
 
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
+    public String getStringImage(Bitmap bmp){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 60, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
     }
 
     private void showDialog() {

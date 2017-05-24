@@ -99,7 +99,7 @@ public class DataHelper extends SQLiteOpenHelper {
             "status_schedule integer);";
     String CREATE_LOGIN_TABLE = "CREATE TABLE " + TABLE_USER + "("
             + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_PREVILLAGE + " TEXT,"
-            + KEY_USERNAME + " TEXT UNIQUE," + KEY_UID + " TEXT," + KEY_PHOTO + "BLOB," + KEY_CREATED_AT + " TEXT" + ")";
+            + KEY_USERNAME + " TEXT UNIQUE," + KEY_UID + " TEXT," + KEY_CREATED_AT + " TEXT" + ")";
     private static final String DB_HISTORY = "create table db_history (id_history integer primary key " +
             "AUTOINCREMENT, uid_user text, id_medicine integer, time_history date, status_history integer)";
 
@@ -324,7 +324,7 @@ public class DataHelper extends SQLiteOpenHelper {
     /**
      * Storing user details in database
      * */
-    public void addUser(String uid, String name, String previllage, String username, byte[] img,  String created_at) {
+    public void addUser(String uid, String name, String previllage, String username, String created_at) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -332,7 +332,6 @@ public class DataHelper extends SQLiteOpenHelper {
         values.put(KEY_PREVILLAGE, previllage); // previllage
         values.put(KEY_USERNAME, username); // username
         values.put(KEY_UID, uid); // uid
-        values.put(KEY_PHOTO, img); // uid
         values.put(KEY_CREATED_AT, created_at); // Created At
 
         // Inserting Row
@@ -357,8 +356,7 @@ public class DataHelper extends SQLiteOpenHelper {
             user.put("previllage", cursor.getString(2));
             user.put("username", cursor.getString(3));
             user.put("uid", cursor.getString(4));
-            user.put("photo", cursor.getString(5));
-            user.put("created_at", cursor.getString(6));
+            user.put("created_at", cursor.getString(5));
         }
         cursor.close();
         db.close();

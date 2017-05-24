@@ -134,11 +134,10 @@ public class LoginActivity extends AppCompatActivity {
                         String name = user.getString("name");
                         String previllage = user.getString("previllage");
                         String username = user.getString("username");
-                        String created_at = user
-                                .getString("created_at");
+                        String created_at = user.getString("created_at");
 
                         // Inserting row in users table
-                        db.addUser(uid, name, previllage, username, img, created_at);
+                        db.addUser(uid, name, previllage, username, created_at);
 
                         //move to intent if successful
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
