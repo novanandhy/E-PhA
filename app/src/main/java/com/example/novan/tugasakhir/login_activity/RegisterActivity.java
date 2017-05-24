@@ -53,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        
+
         context = RegisterActivity.this;
 
         //get all input form
@@ -204,6 +204,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         bmp.compress(Bitmap.CompressFormat.JPEG, 60, baos);
         byte[] imageBytes = baos.toByteArray();
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        Log.d(TAG,"encodedImage = "+encodedImage);
         return encodedImage;
     }
 
@@ -229,8 +230,6 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(RegisterActivity.this, LoginregisterActivity.class);
-        startActivity(intent);
         finish();
     }
 }
