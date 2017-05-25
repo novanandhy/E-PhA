@@ -1,4 +1,4 @@
-package com.example.novan.tugasakhir.util.SystemUtil;
+package com.example.novan.tugasakhir.util.reminderComponent;
 
 import android.app.Notification;
 import android.app.NotificationManager;

@@ -1,4 +1,4 @@
-package com.example.novan.tugasakhir.util.SystemUtil;
+package com.example.novan.tugasakhir.util.reminderComponent;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

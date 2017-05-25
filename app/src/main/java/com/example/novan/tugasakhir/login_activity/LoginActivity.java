@@ -135,9 +135,8 @@ public class LoginActivity extends AppCompatActivity {
                         String previllage = user.getString("previllage");
                         String username = user.getString("username");
                         String created_at = user.getString("created_at");
-                        String image = user.getString("image");
-
-                        Log.d(TAG,"image_string =" +image);
+//                        String image = user.getString("image");
+//                        Log.d(TAG,"image_string =" +image);
 
                         // Inserting row in users table
                         db.addUser(uid, name, previllage, username, created_at);

@@ -23,7 +23,7 @@ import com.eralp.circleprogressview.CircleProgressView;
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.models.Medicine;
 import com.example.novan.tugasakhir.models.Schedule;
-import com.example.novan.tugasakhir.util.SystemUtil.TimePickerFragment;
+import com.example.novan.tugasakhir.util.reminderComponent.TimePickerFragment;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 import com.example.novan.tugasakhir.util.interfaceUtil.TimePickerInterface;
 import com.rey.material.widget.Switch;
