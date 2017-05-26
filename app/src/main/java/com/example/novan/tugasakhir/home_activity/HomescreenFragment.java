@@ -44,7 +44,6 @@ public class HomescreenFragment extends Fragment {
     SendMessage sendMessage;
     String latitude, longitude;
     String TAG = "TAGapp";
-    MainActivity ma;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,17 +63,13 @@ public class HomescreenFragment extends Fragment {
 //        }
 
         view = inflater.inflate(R.layout.activity_temporary_emergency, container, false);
-        sendMessage = new SendMessage();
-        ma = new MainActivity();
+        sendMessage = new SendMessage(getActivity().getApplicationContext());
 
         emergency = (Button) view.findViewById(R.id.emergency);
         emergency.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                latitude = ma.latitude;
-                longitude = ma.longitude;
-                Toast.makeText(getContext(), "clicked", Toast.LENGTH_SHORT).show();
-                sendMessage.sendSMSByManager("085646780564", latitude, longitude);
+                sendMessage.sendSMSByManager();
             }
         });
 
