@@ -6,9 +6,6 @@ import android.os.Parcelable;
 
 import com.example.novan.tugasakhir.util.database.DataHelper;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * Created by Novan on 11/05/2017.
  */

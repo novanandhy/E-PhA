@@ -47,6 +47,7 @@ public class SendMessage implements GoogleApiClient.ConnectionCallbacks,
         dataHelper = new DataHelper(context);
         locations = new ArrayList<>();
 
+        //create google api connection
         buildGoogleApiClient();
 
     }
@@ -76,13 +77,14 @@ public class SendMessage implements GoogleApiClient.ConnectionCallbacks,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
         }
 
+        //create request for update location
         createLocationRequest();
+
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
         if(mLastLocation != null){
             latitude = String.valueOf(mLastLocation.getLatitude());
             longitude = String.valueOf(mLastLocation.getLongitude());
-
             try{
                delivSMS(latitude, longitude);
                 Log.d(TAG,"deliver by last known location");

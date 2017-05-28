@@ -2,7 +2,6 @@ package com.example.novan.tugasakhir.profile_activity;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -16,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.novan.tugasakhir.MainActivity;
 import com.example.novan.tugasakhir.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;

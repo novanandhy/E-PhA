@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.novan.tugasakhir.R;
-import com.example.novan.tugasakhir.models.History;
 import com.example.novan.tugasakhir.util.UIcomponent.MyValueFormatter;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 import com.github.mikephil.charting.animation.Easing;

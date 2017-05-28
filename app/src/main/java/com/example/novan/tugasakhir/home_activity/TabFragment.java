@@ -1,7 +1,6 @@
 package com.example.novan.tugasakhir.home_activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,7 +22,6 @@ public class TabFragment extends Fragment {
     public static ViewPager viewPager;
     public static int int_items = 2 ;
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         /**
