@@ -27,14 +27,11 @@ public class SendMessage implements GoogleApiClient.ConnectionCallbacks,
     Context context;
 
     GoogleApiClient mGoogleApiClient;
-    Location mLastLocation, mUpdateLocation, mBestLocation;
+    Location mLastLocation;
     LocationRequest mLocationRequest;
     LocationManager locationManager;
 
     private String latitude, longitude;
-
-    private static final int TWO_MINUTES = 1000*60*2;
-    private static final int FIVE_SECONDS = 1000*5;
 
     public SendMessage(Context context) {
         this.context = context;
@@ -69,39 +66,10 @@ public class SendMessage implements GoogleApiClient.ConnectionCallbacks,
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
         }
 
         createLocationRequest();
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
-//        LocationListener locationListener = new LocationListener() {
-//            @Override
-//            public void onLocationChanged(Location location) {
-//                mUpdateLocation = location;
-//
-//                boolean status = isBetterLocation(mUpdateLocation, mLastLocation);
-//
-//                if(status){
-//                    Log.d("TAG","update location");
-//                    mBestLocation = mUpdateLocation;
-//                }else {
-//                    Log.d("TAG","last location");
-//                    mBestLocation = mLastLocation;
-//                }
-//
-//                Log.d("TAG","Best location latitude = "+mBestLocation.getLatitude());
-//                Log.d("TAG","Best location longitude = "+mBestLocation.getLongitude());
-//            }
-//        };
-//        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,mLocationRequest,locationListener);
 
         if(mLastLocation != null){
             latitude = String.valueOf(mLastLocation.getLatitude());
@@ -132,51 +100,4 @@ public class SendMessage implements GoogleApiClient.ConnectionCallbacks,
 
     }
 
-    protected boolean isBetterLocation(Location updateLocation, Location lastLocation){
-        if(lastLocation == null){
-            //a new location is always better than no last location
-            return true;
-        }
-
-        //check if the updated location is newer or older than last location
-        long timeDelta = updateLocation.getTime();
-        boolean isSignificantlyNewer = timeDelta > TWO_MINUTES;
-        boolean isSignificantlyOlder = timeDelta < -TWO_MINUTES;
-        boolean isNewer = timeDelta > 0;
-
-        //if it's been 2 minutes, the new loction likely used
-        //if the user is moved
-        if(isSignificantlyNewer){
-            return true;
-        }else if(isSignificantlyOlder){
-            return false;
-        }
-
-        //check if the new location is fix accurate or not
-        int accuracyDelta = (int) (updateLocation.getAccuracy() - lastLocation.getAccuracy());
-        boolean isLessAccurate = accuracyDelta > 0;
-        boolean isMoreAccurate = accuracyDelta < 0;
-        boolean isSignificantlyLessAccurate = accuracyDelta > 200;
-
-        //check if the old and new location is from the same provider
-        boolean isSameProvider = isSameProvider(updateLocation.getProvider(), lastLocation.getProvider());
-
-        //determine location quality using a combination of timeliness and accuracy
-        if(isMoreAccurate){
-            return true;
-        }else if(isNewer && !isLessAccurate){
-            return true;
-        }else  if(isNewer && !isSignificantlyLessAccurate){
-            return true;
-        }
-
-        return false;
-    }
-
-    private boolean isSameProvider(String update, String last) {
-        if(update == null){
-            return last == null;
-        }
-        return update.equals(last);
-    }
 }

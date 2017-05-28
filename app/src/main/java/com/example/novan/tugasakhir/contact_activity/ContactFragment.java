@@ -37,12 +37,9 @@ public class ContactFragment extends Fragment {
     private View view;
     private ListView listView;
     private static final int REQUEST_CODE_PICK_CONTACTS = 1;
-    private Uri uriContact;
-    private String contactID;
     private String TAG = "TAGapp";
     DataHelper dataHelper;
     ArrayList<Contact> contacts;
-    MyListAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -59,10 +56,10 @@ public class ContactFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getActivity().getApplicationContext(), ContactActivity.class);
-                intent.putExtra("contact", contacts.get(i));
-                intent.putExtra("name",contacts.get(i).getName());
-                intent.putExtra("number",contacts.get(i).getNumber());
-                intent.putExtra("id",contacts.get(i).getId());
+                intent.putExtra("contact", contacts.get(i)); //send contact via intent
+                intent.putExtra("name",contacts.get(i).getName()); //send name
+                intent.putExtra("number",contacts.get(i).getNumber()); //send number
+                intent.putExtra("id",contacts.get(i).getId()); //send id
                 startActivityForResult(intent,10);
             }
         });
@@ -100,8 +97,8 @@ public class ContactFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK){
-            contactPicked(data);//save contact to sqlite
-            PopulateAdapter();//call array adapter
+            contactPicked(data); //save contact to sqlite
+            PopulateAdapter(); //call array adapter
         }
     }
 
@@ -110,23 +107,30 @@ public class ContactFragment extends Fragment {
         try {
             String phoneNo = null ;
             String name = null;
+
             // getData() method will have the Content Uri of the selected contact
             Uri uri = data.getData();
+
             //Query the content uri
             cursor = getActivity().getApplicationContext().getContentResolver().query(uri, null, null, null, null);
             cursor.moveToFirst();
+
             // column index of the phone number
             int  phoneIndex =cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+
             // column index of the contact name
             int  nameIndex =cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
             phoneNo = cursor.getString(phoneIndex);
             name = cursor.getString(nameIndex);
 
+            //check if contact exists
             boolean check = isContactExists(phoneNo);
             Log.d(TAG,""+check);
            
             // Set the value to the textviews
             if(check == false){
+
+                //contact saved to sqlite
                 dataHelper.save_contact(name,phoneNo);
             }else{
                 alertCreator("Contact is already exists");
@@ -149,6 +153,10 @@ public class ContactFragment extends Fragment {
         }
     }
 
+
+    /**
+     * create alert if contact exists
+     */
     private void alertCreator(String msg){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setMessage(msg);

@@ -1,22 +1,12 @@
 package com.example.novan.tugasakhir;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.Settings;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -34,10 +24,6 @@ import com.example.novan.tugasakhir.login_activity.LoginregisterActivity;
 import com.example.novan.tugasakhir.profile_activity.ProfileFragment;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 import com.example.novan.tugasakhir.util.database.SessionManager;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
 
 import java.util.HashMap;
 
@@ -50,9 +36,6 @@ public class MainActivity extends AppCompatActivity  {
 
     private DataHelper dataHelper;
     private SessionManager session;
-
-
-    LocationManager mLocationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +57,6 @@ public class MainActivity extends AppCompatActivity  {
         /**
          *Setup the DrawerLayout and NavigationView
          */
-
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mNavigationView = (NavigationView) findViewById(R.id.shitstuff);
 
@@ -82,14 +64,13 @@ public class MainActivity extends AppCompatActivity  {
          * Lets inflate the very first fragment
          * Here , we are inflating the TabFragment as the first Fragment
          */
-
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.add(R.id.containerView, new TabFragment()).commit();
+
         /**
          * Setup click events on the Navigation View Items.
          */
-
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -126,44 +107,28 @@ public class MainActivity extends AppCompatActivity  {
         /**
          * Setup Drawer Toggle of the Toolbar
          */
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.app_name,
                 R.string.app_name);
-
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-
         mDrawerToggle.syncState();
 
-        /**
-         * Setup Location utilites
-         */
-        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        boolean gps_enabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        boolean network_enbled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-        if (!gps_enabled && !network_enbled) {
-            // notify user
-            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-            dialog.setMessage("Location is not enabled. Please active it");
-            dialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    startActivityForResult(intent, 10);
-                }
-            });
-            dialog.show();
-        }
     }
 
     private void ShowLogoutConfirmation() {
+
+        /**
+         * create alert dialog
+         */
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
         alertDialogBuilder.setMessage("Logging Out causes loosing of all data. Are you sure to log out ?");
         alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
+                /**
+                 * clear all session and database after logout
+                 */
                 session.setLogin(false);
                 dataHelper.deleteUsers();
                 dataHelper.clear_medicine();
@@ -220,6 +185,10 @@ public class MainActivity extends AppCompatActivity  {
 
     @Override
     public void onBackPressed() {
+
+        /**
+         * create double press for exiting
+         */
         if (doubleBackToExitPressedOnce) {
             finish();
         }

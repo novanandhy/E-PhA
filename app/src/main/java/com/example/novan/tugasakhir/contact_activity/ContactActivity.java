@@ -29,6 +29,7 @@ public class ContactActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // identifying database helper
         dataHelper = new DataHelper(this);
 
         name = (TextView) findViewById(R.id.contact_name_preview);
@@ -42,6 +43,10 @@ public class ContactActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                /**
+                 * create alert of deleting contact
+                 */
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ContactActivity.this);
                 alertDialogBuilder.setMessage("Are you sure to remove this data ?");
                 alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
