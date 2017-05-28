@@ -21,6 +21,7 @@ import android.widget.Button;
 
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.emergency_activity.SendMessage;
+import com.example.novan.tugasakhir.util.database.DataHelper;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -47,7 +48,7 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
 
     boolean gps_enabled, network_enabled;
 
-    private String latitude, longitude;
+    DataHelper dataHelper;
 
     private static final int TWO_MINUTES = 1000 * 60 * 2;
 
@@ -57,6 +58,7 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
         context = getActivity().getApplicationContext();
         view = inflater.inflate(R.layout.activity_temporary_emergency, container, false);
         sendMessage = new SendMessage(context);
+        dataHelper = new DataHelper(context);
 
         //create google API
         buildGoogleApiClient();
@@ -192,6 +194,8 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
                     if (status) {
                         Log.d("TAG", "update location");
                         mBestLocation = mUpdateLocation;
+                        dataHelper.update_location(String.valueOf(mBestLocation.getLatitude()),
+                                String.valueOf(mBestLocation.getLongitude()));
                     } else {
                         Log.d("TAG", "last location");
                         mBestLocation = mLastLocation;

@@ -6,10 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.novan.tugasakhir.models.Contact;
 import com.example.novan.tugasakhir.models.History;
+import com.example.novan.tugasakhir.models.Locations;
 import com.example.novan.tugasakhir.models.Medicine;
 import com.example.novan.tugasakhir.models.Schedule;
 
@@ -37,6 +37,7 @@ public class DataHelper extends SQLiteOpenHelper {
     private static  final String TABLE_SCHEDULE = "db_schedule";
     private static  final String TABLE_HISTORY = "db_history";
     private static  final String TABLE_RELAPSE = "db_relapse";
+    private static  final String TABLE_LOCATION = "db_location";
     private static  final String TABLE_EPILEPTICS = "db_epileptic";
     private static  final String TABLE_CONTACTS = "db_contact";
 
@@ -77,6 +78,11 @@ public class DataHelper extends SQLiteOpenHelper {
     public static final String COLUMN_TIME_HISTORY = "time_history";
     public static final String COLUMN_STATUS_HISTORY = "status_history";
 
+    //Table Location
+    public static final String COLUMN_ID_LOCATION="id_location";
+    public static final String COLUMN_LATITUDE_LOCATION="latitude_location";
+    public static final String COLUMN_LONGITUDE_LOCATION="latitude_location";
+
     //Table Relapse Data
     private static final String COLUMN_ID_RELAPSE = "id_relapse";
     private static final String COLUMN_IDuser_RELAPSE = "id_user";
@@ -102,8 +108,13 @@ public class DataHelper extends SQLiteOpenHelper {
             + KEY_USERNAME + " TEXT UNIQUE," + KEY_UID + " TEXT," + KEY_CREATED_AT + " TEXT" + ")";
     private static final String DB_HISTORY = "create table db_history (id_history integer primary key " +
             "AUTOINCREMENT, uid_user text, id_medicine integer, time_history date, status_history integer)";
+    private static final String DB_LOCATION = "create table db_location (id_location integer primary " +
+            "key AUTOINCREMENT, latitude_location text, longitude_location text);";
 
-    private SQLiteDatabase db;
+
+
+    private static final String createNullLocation = "insert into 'db_location' ('id_location', " +
+            "'latitude_location', longitude_location) values (1,null,null);";
     @Override
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
@@ -112,6 +123,14 @@ public class DataHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_LOGIN_TABLE);
         db.execSQL(DB_SCHEDULE);
         db.execSQL(DB_HISTORY);
+        db.execSQL(DB_LOCATION);
+
+        try {
+            db.execSQL(createNullLocation);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -121,6 +140,7 @@ public class DataHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXIST db_schedule");
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_HISTORY);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOCATION);
     }
 
 
@@ -439,7 +459,44 @@ public class DataHelper extends SQLiteOpenHelper {
         }catch (Exception e){
             Log.d(TAG,"Failed add status history");
         }
+    }
 
+    //Update location
+    public void update_location(String latitude, String longitude){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_LATITUDE_LOCATION,latitude);
+        cv.put(COLUMN_LONGITUDE_LOCATION,longitude);
+
+        try{
+            db.update(TABLE_LOCATION,cv,"id_location = 1",null);
+            Log.d(TAG,"Succes update location");
+        }catch (Exception e){
+            e.printStackTrace();
+            Log.d(TAG,"Failed update location");
+        }
+    }
+
+    //show location
+    public ArrayList<Locations> getLocation(){
+        ArrayList<Locations> location = new ArrayList<>();
+        String sql = "SELECT * FROM "+ TABLE_LOCATION +" ORDER BY "+COLUMN_ID_LOCATION;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+
+        Cursor cursor = db.rawQuery(sql,null);
+        cursor.moveToFirst();
+        Log.d(TAG,"size cursor location: "+cursor.getCount());
+        if(cursor.getCount() > 0 ) {
+            do {
+                location.add(new Locations(cursor));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        db.close();
+        return location;
     }
 
 }
