@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.telephony.SmsManager;
 import android.util.Log;
 
+import com.example.novan.tugasakhir.models.Contact;
 import com.example.novan.tugasakhir.models.Locations;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 import com.google.android.gms.common.ConnectionResult;
@@ -26,7 +27,6 @@ import java.util.ArrayList;
 public class SendMessage implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
     private String TAG = "TAGapp";
-    private String number_phone = "085646780564";
     Context context;
 
     GoogleApiClient mGoogleApiClient;
@@ -35,9 +35,11 @@ public class SendMessage implements GoogleApiClient.ConnectionCallbacks,
     LocationManager locationManager;
 
     private String latitude, longitude;
+    int count = 0;
 
     DataHelper dataHelper;
     ArrayList<Locations> locations;
+    ArrayList<Contact> contacts;
 
     public SendMessage(Context context) {
         this.context = context;
@@ -46,6 +48,7 @@ public class SendMessage implements GoogleApiClient.ConnectionCallbacks,
     public void sendSMSByManager() {
         dataHelper = new DataHelper(context);
         locations = new ArrayList<>();
+        contacts = new ArrayList<>();
 
         //create google api connection
         buildGoogleApiClient();
@@ -85,30 +88,39 @@ public class SendMessage implements GoogleApiClient.ConnectionCallbacks,
         if(mLastLocation != null){
             latitude = String.valueOf(mLastLocation.getLatitude());
             longitude = String.valueOf(mLastLocation.getLongitude());
-            try{
-               delivSMS(latitude, longitude);
-                Log.d(TAG,"deliver by last known location");
-            }catch (Exception ex){
-                Log.d(TAG,"Failed to deliver SMS");
-                ex.printStackTrace();
-            }
-        }else {
-            locations = dataHelper.getLocation();
-            for (int i = 0 ; i < locations.size() ; i++){
-                latitude = locations.get(i).getLatitude();
-                longitude = locations.get(i).getLongitude();
+
+            contacts = dataHelper.getAllContacts();
+            for (int i = 0; i < contacts.size() ; i++){
+                String number_phone = contacts.get(i).getNumber();
                 try{
-                    delivSMS(latitude, longitude);
-                    Log.d(TAG,"deliver by sqlite location");
+                    delivSMS(latitude, longitude, number_phone);
+                    Log.d(TAG,"deliver by last known location");
                 }catch (Exception ex){
                     Log.d(TAG,"Failed to deliver SMS");
+                    ex.printStackTrace();
+                }
+            }
+
+        }else {
+            locations = dataHelper.getLocation();
+            latitude = locations.get(count).getLatitude();
+            longitude = locations.get(count).getLongitude();
+
+            contacts = dataHelper.getAllContacts();
+            for (int i = 0; i < contacts.size() ; i++){
+                String number_phone = contacts.get(i).getNumber();
+                try {
+                    delivSMS(latitude, longitude,number_phone);
+                    Log.d(TAG, "deliver by sqlite location");
+                } catch (Exception ex) {
+                    Log.d(TAG, "Failed to deliver SMS");
                     ex.printStackTrace();
                 }
             }
         }
     }
 
-    private void delivSMS(String latitude, String longitude) {
+    private void delivSMS(String latitude, String longitude, String number_phone) {
         String link = "http://google.com/maps/place/"+latitude+","+longitude;
         String message = "Hi, I'm novan. I'm in trouble now\nPlease check me at my location:\n"+
                 link+"\n\n\nvia E-Pha Apps";
