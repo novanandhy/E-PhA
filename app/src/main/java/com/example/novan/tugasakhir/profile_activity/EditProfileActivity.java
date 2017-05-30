@@ -2,6 +2,7 @@ package com.example.novan.tugasakhir.profile_activity;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -16,32 +17,54 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.novan.tugasakhir.R;
+import com.example.novan.tugasakhir.models.User;
+import com.example.novan.tugasakhir.util.database.DataHelper;
+
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditProfileActivity extends AppCompatActivity {
 
-    EditText name, age;
+    EditText name, username;
     CircleImageView photo;
     FloatingActionButton button_photo;
     Button button_submit;
     String imgPath;
     String TAG = "TAGapp";
     private static final int SELECT_PICTURE = 100;
+    int count = 0;
+
+    private DataHelper dataHelper;
+    private ArrayList<User> users;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
+        //initialize database
+        dataHelper = new DataHelper(this);
+
+        //initialize user
+        users = new ArrayList<>();
+        users = dataHelper.getUserDetail();
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         name = (EditText) findViewById(R.id.edit_name_profile);
+        username = (EditText) findViewById(R.id.edit_username_profile);
         photo = (CircleImageView) findViewById(R.id.image_edit_profile);
         button_photo = (FloatingActionButton) findViewById(R.id.image_edit_profile_button);
         button_submit = (Button) findViewById(R.id.submit_profile);
+
+        name.setText(users.get(count).getName());
+        username.setText(users.get(count).getUsername());
+        photo.setImageBitmap(BitmapFactory.decodeByteArray(users.get(count).getImage(),0,
+                users.get(count).getImage().length));
 
         photo.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -39,8 +39,7 @@
             android:id="@+id/image_edit_profile"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_gravity="center"
-            android:src="@drawable/user" />
+            android:layout_gravity="center"/>
 
         <!-- add some padding -->
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
@@ -52,7 +51,10 @@
                 android:id="@+id/edit_name_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Name" />
+                android:hint="Name"
+                android:textColor="@color/custom_primary_color"
+                android:textStyle="bold"
+                android:textSize="22sp"/>
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
@@ -64,7 +66,10 @@
                 android:id="@+id/edit_username_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Username" />
+                android:hint="Username"
+                android:textColor="@color/custom_primary_color"
+                android:textStyle="bold"
+                android:textSize="22sp"/>
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
 
