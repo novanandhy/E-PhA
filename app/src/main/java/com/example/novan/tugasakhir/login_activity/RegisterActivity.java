@@ -203,7 +203,6 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         bmp.compress(Bitmap.CompressFormat.JPEG, 60, baos);
         byte[] imageBytes = baos.toByteArray();
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-        Log.d(TAG,"encodedImage = "+encodedImage);
         return encodedImage;
     }
 

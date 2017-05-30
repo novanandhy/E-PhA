@@ -1,9 +1,12 @@
 package com.example.novan.tugasakhir.login_activity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -38,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     SessionManager sessionManager;
     DataHelper db;
+    Bitmap img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,11 +139,15 @@ public class LoginActivity extends AppCompatActivity {
                         String previllage = user.getString("previllage");
                         String username = user.getString("username");
                         String created_at = user.getString("created_at");
-//                        String image = user.getString("image");
-//                        Log.d(TAG,"image_string =" +image);
+                        String image = user.getString("image");
+
+                        Log.d(TAG,image.toString());
+
+                        //decode base64 to byte array
+                        byte[] image_data = Base64.decode(image, Base64.DEFAULT);
 
                         // Inserting row in users table
-                        db.addUser(uid, name, previllage, username, created_at);
+                        db.addUser(uid, name, previllage, username, created_at, image_data);
 
                         //move to intent if successful
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);

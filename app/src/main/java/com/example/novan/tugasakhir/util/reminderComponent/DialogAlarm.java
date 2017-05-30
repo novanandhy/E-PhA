@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.models.Medicine;
+import com.example.novan.tugasakhir.models.User;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class DialogAlarm extends AppCompatActivity {
     private String TAG = "TAGapp";
     private DataHelper dataHelper;
     private ArrayList<Medicine> medicines;
+    private ArrayList<User> users;
     private String uid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +33,12 @@ public class DialogAlarm extends AppCompatActivity {
 
         dataHelper = new DataHelper(this);
         medicines = new ArrayList<>();
+        users = new ArrayList<>();
 
-        HashMap<String, String> user = dataHelper.getUserDetails();
-        uid = user.get("uid");
+        users = dataHelper.getUserDetail();
+        int count = 0;
+
+        uid = users.get(count).getUnique_id();
 
         name = getIntent().getStringExtra("name");
         Log.d(TAG,"Name medicine dialog "+name);

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.example.novan.tugasakhir.models.Contact;
@@ -12,6 +13,7 @@ import com.example.novan.tugasakhir.models.History;
 import com.example.novan.tugasakhir.models.Locations;
 import com.example.novan.tugasakhir.models.Medicine;
 import com.example.novan.tugasakhir.models.Schedule;
+import com.example.novan.tugasakhir.models.User;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -105,7 +107,7 @@ public class DataHelper extends SQLiteOpenHelper {
             "status_schedule integer);";
     String CREATE_LOGIN_TABLE = "CREATE TABLE " + TABLE_USER + "("
             + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_PREVILLAGE + " TEXT,"
-            + KEY_USERNAME + " TEXT UNIQUE," + KEY_UID + " TEXT," + KEY_CREATED_AT + " TEXT" + ")";
+            + KEY_USERNAME + " TEXT UNIQUE," + KEY_UID + " TEXT," + KEY_CREATED_AT + " TEXT," + KEY_PHOTO + " BLOB)";
     private static final String DB_HISTORY = "create table db_history (id_history integer primary key " +
             "AUTOINCREMENT, uid_user text, id_medicine integer, time_history date, status_history integer)";
     private static final String DB_LOCATION = "create table db_location (id_location integer primary " +
@@ -344,7 +346,7 @@ public class DataHelper extends SQLiteOpenHelper {
     /**
      * Storing user details in database
      * */
-    public void addUser(String uid, String name, String previllage, String username, String created_at) {
+    public void addUser(String uid, String name, String previllage, String username, String created_at, byte[] img) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -353,6 +355,7 @@ public class DataHelper extends SQLiteOpenHelper {
         values.put(KEY_USERNAME, username); // username
         values.put(KEY_UID, uid); // uid
         values.put(KEY_CREATED_AT, created_at); // Created At
+        values.put(KEY_PHOTO, img); // Created At
 
         // Inserting Row
         db.insert(TABLE_USER, null, values);
@@ -363,27 +366,25 @@ public class DataHelper extends SQLiteOpenHelper {
     /**
      * Getting user data from database
      * */
-    public HashMap<String, String> getUserDetails() {
-        HashMap<String, String> user = new HashMap<String, String>();
-        String selectQuery = "SELECT  * FROM " + TABLE_USER;
-
+    public ArrayList<User> getUserDetail(){
+        ArrayList<User> users = new ArrayList<>();
+        String sql = "SELECT * FROM "+ TABLE_USER +" ORDER BY "+KEY_ID;
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        // Move to first row
+
+
+        Cursor cursor = db.rawQuery(sql,null);
         cursor.moveToFirst();
-        if (cursor.getCount() > 0) {
-            user.put("name", cursor.getString(1));
-            user.put("previllage", cursor.getString(2));
-            user.put("username", cursor.getString(3));
-            user.put("uid", cursor.getString(4));
-            user.put("created_at", cursor.getString(5));
+        Log.d(TAG,"size cursor user: "+cursor.getCount());
+        if(cursor.getCount() > 0 ) {
+            do {
+                users.add(new User(cursor));
+            } while (cursor.moveToNext());
+            Log.d(TAG,"fetching from sqlite "+users.toString());
         }
         cursor.close();
-        db.close();
-        // return user
-        Log.d(TAG, "Fetching user from Sqlite: " + user.toString());
 
-        return user;
+        db.close();
+        return users;
     }
 
     /**

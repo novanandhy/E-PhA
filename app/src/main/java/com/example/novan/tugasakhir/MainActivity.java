@@ -21,10 +21,12 @@ import com.example.novan.tugasakhir.friend_activity.FriendFragment;
 import com.example.novan.tugasakhir.history_activity.HistoryFragment;
 import com.example.novan.tugasakhir.home_activity.TabFragment;
 import com.example.novan.tugasakhir.login_activity.LoginregisterActivity;
+import com.example.novan.tugasakhir.models.User;
 import com.example.novan.tugasakhir.profile_activity.ProfileFragment;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 import com.example.novan.tugasakhir.util.database.SessionManager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity  {
@@ -33,9 +35,11 @@ public class MainActivity extends AppCompatActivity  {
     FragmentManager mFragmentManager;
     FragmentTransaction mFragmentTransaction;
     boolean doubleBackToExitPressedOnce = false;
+    String TAG = "TAGapp";
 
     private DataHelper dataHelper;
     private SessionManager session;
+    ArrayList<User> users;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +48,16 @@ public class MainActivity extends AppCompatActivity  {
 
         //SQLite database handler second
         dataHelper = new DataHelper(getApplicationContext());
+        users = new ArrayList<>();
 
         // session manager
         session = new SessionManager(getApplicationContext());
 
         // Fetching user details from sqlite
-        HashMap<String, String> user = dataHelper.getUserDetails();
-        String string = user.get("previllage");
+        users = dataHelper.getUserDetail();
 
-        Log.d("TAG", "previllage = " + string);
+        int count = 0;
+        Log.d(TAG,"previllage user = "+users.get(count).getPrevillage());
 
         /**
          *Setup the DrawerLayout and NavigationView
