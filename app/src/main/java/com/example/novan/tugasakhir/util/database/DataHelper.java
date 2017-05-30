@@ -379,12 +379,27 @@ public class DataHelper extends SQLiteOpenHelper {
             do {
                 users.add(new User(cursor));
             } while (cursor.moveToNext());
-            Log.d(TAG,"fetching from sqlite "+users.toString());
         }
         cursor.close();
 
         db.close();
         return users;
+    }
+
+    /**
+     * update user detail
+     * */
+    public void update_user(int id, String username, String name, byte[] img){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(KEY_NAME,name);
+        cv.put(KEY_USERNAME,username);
+        cv.put(KEY_PHOTO,img);
+
+        db.update(TABLE_USER,cv,"id="+id,null);
+        Log.d(TAG,"fetching from schedule = "+cv.toString());
+        db.close();
     }
 
     /**

@@ -109,6 +109,21 @@ public class MainActivity extends AppCompatActivity  {
 
         });
 
+
+        /**
+         * Apply if there is intent
+         */
+        try{
+            Intent intent = getIntent();
+            if (intent != null){
+                String tag = (String) intent.getSerializableExtra("TAG");
+
+                if(tag.equalsIgnoreCase("profile")){
+                    OpenProfileFragment();
+                }
+            }
+        }catch (Exception e){}
+
         /**
          * Setup Drawer Toggle of the Toolbar
          */

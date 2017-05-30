@@ -1,7 +1,7 @@
 package com.example.novan.tugasakhir.profile_activity;
 
 import android.content.Intent;
-import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,17 +9,18 @@ import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.novan.tugasakhir.MainActivity;
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.models.User;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -32,6 +33,7 @@ public class EditProfileActivity extends AppCompatActivity {
     Button button_submit;
     String imgPath;
     String TAG = "TAGapp";
+    Bitmap image;
     private static final int SELECT_PICTURE = 100;
     int count = 0;
 
@@ -81,9 +83,38 @@ public class EditProfileActivity extends AppCompatActivity {
         button_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                updateData();
             }
         });
+    }
+
+    private void updateData() {
+        String name_string = name.getText().toString();
+        String username_string = username.getText().toString();
+        int id = users.get(count).getId();
+        Bitmap img = image;
+
+        if(name_string == null || username_string == null){
+            Toast.makeText(this, "please fill all form", Toast.LENGTH_SHORT).show();
+        }else {
+            if(img == null){
+                byte[] byteArray = users.get(count).getImage();
+                dataHelper.update_user(id,username_string,name_string,byteArray);
+                Intent intent = new Intent(EditProfileActivity.this, MainActivity.class);
+                intent.putExtra("TAG","profile");
+                startActivity(intent);
+                finish();
+            }else{
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                img.compress(Bitmap.CompressFormat.PNG,100,stream);
+                byte[] byteArray = stream.toByteArray();
+                dataHelper.update_user(id,username_string,name_string,byteArray);
+                Intent intent = new Intent(EditProfileActivity.this, MainActivity.class);
+                intent.putExtra("TAG","profile");
+                startActivity(intent);
+                finish();
+            }
+        }
     }
 
     private void openImageSource() {
@@ -103,11 +134,8 @@ public class EditProfileActivity extends AppCompatActivity {
                     // Get the url from data
                     Uri selectedImageUri = data.getData();
                     if (null != selectedImageUri) {
-                        // Get the path from the Uri
-                        String path = getPathFromURI(selectedImageUri);
-                        Log.i(TAG, "Image Path : " + path);
-                        // Set the image in ImageView
-                        photo.setImageURI(selectedImageUri);
+                        image = MediaStore.Images.Media.getBitmap(getContentResolver(),selectedImageUri);
+                        photo.setImageBitmap(image);
                     }
                 }
             }else {
@@ -116,18 +144,6 @@ public class EditProfileActivity extends AppCompatActivity {
         } catch (Exception e){
             Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private String getPathFromURI(Uri contentUri) {
-        String res = null;
-        String[] proj = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
-        if (cursor.moveToFirst()) {
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            res = cursor.getString(column_index);
-        }
-        cursor.close();
-        return res;
     }
 
     @Override
