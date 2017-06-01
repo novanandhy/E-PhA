@@ -125,7 +125,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
     }
 
     private void registerUser(final String name_string, final String previllage_string,
-                              final String username_string, final String password_string, final Bitmap image) {
+                               final String username_string, final String password_string, final Bitmap image) {
 
         // Tag used to cancel the request
         String tag_string_req = "req_register";

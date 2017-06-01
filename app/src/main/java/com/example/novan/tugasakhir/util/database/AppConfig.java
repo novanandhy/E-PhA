@@ -14,4 +14,7 @@ public class AppConfig {
 
     // Server user register url
     public static String URL_REGISTER = "http://"+IP_HOME+"/android_api/register.php";
+
+    // Server user update url
+    public static String URL_UPDATE = "http://"+IP_HOME+"/android_api/update.php";
 }
