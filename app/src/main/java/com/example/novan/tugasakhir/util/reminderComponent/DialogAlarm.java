@@ -89,22 +89,18 @@ public class DialogAlarm extends AppCompatActivity {
 
                 Log.d(TAG,"Name medicine = "+name_medicine);
                 Log.d(TAG,"remain medicine = "+remain);
-
                 if(status == 1 && (remain - dosage) > 0){
-                    remain = remain - dosage;
-                }
-
-                Log.d(TAG,"remain last stock = "+remain);
-                dataHelper.update_medicine(id,name_medicine,amount,dosage,remain,count);
-
-                if(status == 1 && (remain - dosage) > 0){
+                    remain = remain-dosage;
                     dataHelper.addStatusHistory(uid,id,1);
+                    dataHelper.update_medicine(id,name_medicine,amount,dosage,remain,count);
                 }else if(status == 0 && (remain - dosage) > 0){
                     dataHelper.addStatusHistory(uid,id,0);
+                    dataHelper.update_medicine(id,name_medicine,amount,dosage,remain,count);
                 }else{
                     dataHelper.delete_medicine(id);
                 }
 
+                Log.d(TAG,"remain last stock = "+remain);
                 finish();
             }
         }

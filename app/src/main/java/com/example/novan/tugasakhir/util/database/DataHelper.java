@@ -189,6 +189,7 @@ public class DataHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_MEDICINE,"id_medicine="+id, null);
         db.close();
+        Log.d(TAG, "medicine by id= "+id+" has been deleted");
     }
 
     public ArrayList<Medicine> getAllMedicine(){
