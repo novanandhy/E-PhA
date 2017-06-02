@@ -9,7 +9,7 @@
         <item name="colorAccent">@color/custom_primary_color</item>
     </style>
 
-    <style name="Theme.Dialog" parent="Theme.AppCompat.Dialog"></style>
+    <style name="Theme.Dialog" parent="Theme.AppCompat.Light.Dialog"></style>
 
     <style name="Transparent">
         <item name="android:windowIsTranslucent">true</item>

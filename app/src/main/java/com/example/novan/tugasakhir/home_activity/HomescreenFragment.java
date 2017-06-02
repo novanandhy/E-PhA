@@ -21,6 +21,7 @@ import android.widget.Button;
 
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.emergency_activity.SendMessage;
+import com.example.novan.tugasakhir.util.countDownComponent.CountDown;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -53,7 +54,7 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
     private static final int TWO_MINUTES = 1000 * 60 * 2;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
 
         context = getActivity().getApplicationContext();
         view = inflater.inflate(R.layout.activity_temporary_emergency, container, false);
@@ -67,7 +68,8 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
         emergency.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendMessage.sendSMSByManager();
+                Intent intent = new Intent(context, CountDown.class);
+                startActivityForResult(intent,10);
             }
         });
 

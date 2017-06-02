@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <uses-features android:name="android.hardware.location.gps"/>
+    <uses-features android:name="android.hardware.location.gps" />
 
     <application
         android:name=".util.database.AppController"
@@ -132,10 +132,11 @@
 
         <activity
             android:name=".util.reminderComponent.DialogAlarm"
-            android:theme="@style/Theme.Dialog">
-        </activity>
-
-        <activity android:name=".emergency_activity.SendMessage"/>
+            android:theme="@style/Theme.Dialog"></activity>
+        <activity android:name=".emergency_activity.SendMessage" />
+        <activity
+            android:name=".util.countDownComponent.CountDown"
+            android:theme="@style/Theme.Dialog"></activity>
     </application>
 
 </manifest>
