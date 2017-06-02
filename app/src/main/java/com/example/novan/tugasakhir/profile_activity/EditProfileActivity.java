@@ -45,7 +45,6 @@ public class EditProfileActivity extends AppCompatActivity {
     CircleImageView photo;
     FloatingActionButton button_photo;
     Button button_submit;
-    String imgPath;
     String TAG = "TAGapp";
     Bitmap image;
     private static final int SELECT_PICTURE = 100;
@@ -55,6 +54,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private DataHelper dataHelper;
     private ArrayList<User> users = new ArrayList<>();
+
+    MainActivity ma;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +111,7 @@ public class EditProfileActivity extends AppCompatActivity {
         String name_string = name.getText().toString();
         String username_string = username.getText().toString();
         String unique_id = users.get(count).getUnique_id();
+        String used_username = users.get(count).getUsername();
         Bitmap img = image;
 
         if(name_string == null || username_string == null){
@@ -119,14 +121,14 @@ public class EditProfileActivity extends AppCompatActivity {
                 //if image null, then image will not be replaced
                 byte[] byteArray = users.get(count).getImage();
 
-                updateUser(name_string,username_string,unique_id,byteArray);
+                updateUser(name_string,username_string,used_username,unique_id,byteArray);
             }else{
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 img.compress(Bitmap.CompressFormat.PNG,100,stream);
                 byte[] byteArray = stream.toByteArray();
 
                 //image replaced with new one
-                updateUser(name_string,username_string,unique_id,byteArray);
+                updateUser(name_string,username_string,used_username,unique_id,byteArray);
             }
         }
     }
@@ -176,7 +178,9 @@ public class EditProfileActivity extends AppCompatActivity {
         }
     }
 
-    private void updateUser(final String name, final String username, final String uid, final byte[] image) {
+    private void updateUser(final String name, final String username, final String used_username, final String uid, final byte[] image) {
+
+        ma = new MainActivity();
 
         // Tag used to cancel the request
         String tag_string_req = "req_register";
@@ -205,6 +209,7 @@ public class EditProfileActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "User successfully updated.", Toast.LENGTH_LONG).show();
 
                         // Launch login activity
+                        ma.finish();
                         Intent intent = new Intent(EditProfileActivity.this, MainActivity.class);
                         intent.putExtra("TAG","profile");
                         startActivityForResult(intent,10);
@@ -244,6 +249,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 params.put("unique_id", uid);
                 params.put("name", name);
                 params.put("username", username);
+                params.put("used_username", used_username);
                 params.put("image",img);
 
                 return params;
