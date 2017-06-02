@@ -104,6 +104,8 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 
         AlarmManager alarmManager  = (AlarmManager)context .getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(pendingintent);
+
+        Log.d(TAG,"Success to cancel alarm");
     }
 
 }

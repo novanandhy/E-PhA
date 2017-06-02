@@ -1,6 +1,10 @@
 package com.example.novan.tugasakhir.util.reminderComponent;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -10,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.models.Medicine;
+import com.example.novan.tugasakhir.models.Schedule;
 import com.example.novan.tugasakhir.models.User;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 
@@ -21,9 +26,13 @@ public class DialogAlarm extends AppCompatActivity {
     private TextView message;
     private String name;
     private String TAG = "TAGapp";
+
     private DataHelper dataHelper;
     private ArrayList<Medicine> medicines;
     private ArrayList<User> users;
+    private ArrayList<Schedule> schedules;
+    TimePickerFragment timePickerFragment = new TimePickerFragment();
+
     private String uid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +43,7 @@ public class DialogAlarm extends AppCompatActivity {
         dataHelper = new DataHelper(this);
         medicines = new ArrayList<>();
         users = new ArrayList<>();
+        schedules = new ArrayList<>();
 
         users = dataHelper.getUserDetail();
         int count = 0;
@@ -87,6 +97,8 @@ public class DialogAlarm extends AppCompatActivity {
                 int remain = medicines.get(i).getRemain();
                 int count = medicines.get(i).getCount();
 
+                schedules = dataHelper.getAllSchedule(medicines.get(i).getUid());
+
                 Log.d(TAG,"Name medicine = "+name_medicine);
                 Log.d(TAG,"remain medicine = "+remain);
                 if(status == 1 && (remain - dosage) > 0){
@@ -98,11 +110,18 @@ public class DialogAlarm extends AppCompatActivity {
                     dataHelper.update_medicine(id,name_medicine,amount,dosage,remain,count);
                 }else{
                     dataHelper.delete_medicine(id);
+                    removeSchedule(schedules.size());
                 }
 
                 Log.d(TAG,"remain last stock = "+remain);
                 finish();
             }
+        }
+    }
+
+    private void removeSchedule(int size) {
+        for (int i = 0 ; i< size ; i++){
+            timePickerFragment.cancelAlarm(DialogAlarm.this,schedules.get(i).getId());
         }
     }
 }

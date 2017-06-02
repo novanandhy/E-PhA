@@ -26,6 +26,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         Log.d(TAG,"Alarm code "+requestCode);
 
+        //Uri sound = Uri.parse("android.resource://"+context.getPackageName()+"/"+R.raw.alarm);
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
 
         Intent notificationIntent = new Intent(context, DialogAlarm.class);
