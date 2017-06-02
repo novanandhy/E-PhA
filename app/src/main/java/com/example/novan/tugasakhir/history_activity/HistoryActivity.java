@@ -12,13 +12,17 @@ import com.example.novan.tugasakhir.util.UIcomponent.MyValueFormatter;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
@@ -91,16 +95,28 @@ public class HistoryActivity extends AppCompatActivity {
         l.setEnabled(false);
 
         //create layout graph
+        final ArrayList<String> xLabel = new ArrayList<>();
+        for(int i = 0; i < 7; i++){
+            xLabel.add(""+i);
+        }
+
         lineChart.getAxisRight().setEnabled(false);
         lineChart.getAxisLeft().setDrawGridLines(false);
         lineChart.getAxisLeft().setSpaceTop(50f);
         lineChart.getAxisLeft().setSpaceBottom(50f);
         lineChart.getXAxis().setDrawGridLines(false);
         lineChart.getAxisLeft().setDrawLabels(false);
-        lineChart.getAxisRight().setDrawLabels(true);
+        lineChart.getAxisRight().setDrawLabels(false);
+        lineChart.getXAxis().setEnabled(false);
+        lineChart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return xLabel.get((int) value);
+            }
+        });
 
         // add data
-        setData(6, 10);
+        setData(7, 10);
 
         lineChart.animateY(2500);
 
@@ -111,11 +127,13 @@ public class HistoryActivity extends AppCompatActivity {
     private void setData(int count, float range) {
 
         ArrayList<Entry> values = new ArrayList<Entry>();
+        ArrayList<String> labels = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
 
             int val = (int) (Math.random() * range) + 3;
             values.add(new Entry(i, val));
+            labels.add(""+i);
         }
 
         LineDataSet set1;

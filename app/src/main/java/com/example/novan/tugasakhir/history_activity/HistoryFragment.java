@@ -53,17 +53,17 @@ public class HistoryFragment extends Fragment {
 
         dataHelper = new DataHelper(getActivity());
 
-        int total = dataHelper.getAllHistory().size();
+        //get value of history from sqlite
         int consumed = dataHelper.getAllHistoryWhere(1).size();
         int not_consumed = dataHelper.getAllHistoryWhere(0).size();
 
-        Log.d(TAG,"total = "+total+" consumed = "+consumed+" not consumed ="+not_consumed);
+        Log.d(TAG,"consumed = "+consumed+" not consumed ="+not_consumed);
 
         //create Line Chart
         createLineChart();
 
         //create Pie Chart
-        createPieChart(consumed, not_consumed, total);
+        createPieChart(consumed, not_consumed);
 
         return view;
     }
@@ -125,7 +125,7 @@ public class HistoryFragment extends Fragment {
             lineChart.notifyDataSetChanged();
         } else {
             // create a dataset and give it a type
-            set1 = new LineDataSet(values, "");
+            set1 = new LineDataSet(values, "tono");
 
             // set the line to be drawn like this "- - - - - -"
             set1.setLineWidth(3f);
@@ -152,7 +152,7 @@ public class HistoryFragment extends Fragment {
         }
     }
 
-    private void createPieChart(int consumed, int not_consumed, int total){
+    private void createPieChart(int consumed, int not_consumed){
         pieChart.setUsePercentValues(true);
         pieChart.setExtraOffsets(5, 10, 5, 5);
         pieChart.setDragDecelerationFrictionCoef(0.95f);
@@ -169,8 +169,11 @@ public class HistoryFragment extends Fragment {
         pieChart.setRotationEnabled(true);
         pieChart.setHighlightPerTapEnabled(true);
         // add a selection listener
-        setPieData(consumed, not_consumed, total);
+        setPieData(consumed, not_consumed);
         pieChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
+
+        Legend legend = new Legend();
+        legend.setEnabled(false);
     }
 
     private SpannableString generateCenterSpannableText() {
@@ -179,19 +182,18 @@ public class HistoryFragment extends Fragment {
         return s;
     }
 
-    private void setPieData(int consumed, int not_consumed, int total) {
+    private void setPieData(int consumed, int not_consumed) {
 
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
 
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
-        //add medicine consumed statistic
-        entries.add(new PieEntry((float) (consumed/total)*100));
 
-        //add medicine not consumed statistic
-        entries.add(new PieEntry((float) (not_consumed/total)*100));
+        //set data value of pie chart
+        entries.add(new PieEntry((float) consumed, "consumed"));
+        entries.add(new PieEntry((float) not_consumed, "not consumed"));
 
-        PieDataSet dataSet = new PieDataSet(entries, "");
+        PieDataSet dataSet = new PieDataSet(entries,"");
 
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
