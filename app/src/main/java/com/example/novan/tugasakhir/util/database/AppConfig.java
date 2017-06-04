@@ -10,11 +10,11 @@ public class AppConfig {
     static String IP_PRIVATE = "192.168.43.166";
 
     // Server user login url
-    public static String URL_LOGIN = "http://"+IP_HOME+"/android_api/login.php";
+    public static String URL_LOGIN = "http://"+DOMAIN+"/android_api/login.php";
 
     // Server user register url
-    public static String URL_REGISTER = "http://"+IP_HOME+"/android_api/register.php";
+    public static String URL_REGISTER = "http://"+DOMAIN+"/android_api/register.php";
 
     // Server user update url
-    public static String URL_UPDATE = "http://"+IP_HOME+"/android_api/update.php";
+    public static String URL_UPDATE = "http://"+DOMAIN+"/android_api/update.php";
 }

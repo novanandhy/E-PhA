@@ -185,7 +185,7 @@ public class EditProfileActivity extends AppCompatActivity {
         // Tag used to cancel the request
         String tag_string_req = "req_register";
 
-        progressDialog.setMessage("Registering ...");
+        progressDialog.setMessage("Updating ...");
         showDialog();
 
         StringRequest strReq = new StringRequest(Request.Method.POST,

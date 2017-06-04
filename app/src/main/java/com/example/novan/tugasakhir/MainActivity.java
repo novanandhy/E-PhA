@@ -1,5 +1,6 @@
 package com.example.novan.tugasakhir;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,15 +20,17 @@ import android.widget.Toast;
 import com.example.novan.tugasakhir.contact_activity.ContactFragment;
 import com.example.novan.tugasakhir.friend_activity.FriendFragment;
 import com.example.novan.tugasakhir.history_activity.HistoryFragment;
+import com.example.novan.tugasakhir.home_activity.MedicineActivity;
 import com.example.novan.tugasakhir.home_activity.TabFragment;
 import com.example.novan.tugasakhir.login_activity.LoginregisterActivity;
+import com.example.novan.tugasakhir.models.Medicine;
+import com.example.novan.tugasakhir.models.Schedule;
 import com.example.novan.tugasakhir.models.User;
 import com.example.novan.tugasakhir.profile_activity.ProfileFragment;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 import com.example.novan.tugasakhir.util.database.SessionManager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity  {
     DrawerLayout mDrawerLayout;
@@ -39,22 +42,38 @@ public class MainActivity extends AppCompatActivity  {
 
     private DataHelper dataHelper;
     private SessionManager session;
+
+    MedicineActivity medicineActivity;
+    Context context;
+
     ArrayList<User> users;
+    ArrayList<Medicine> medicines;
+    ArrayList<Schedule> schedules;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        context = this;
+
         //SQLite database handler second
         dataHelper = new DataHelper(getApplicationContext());
+
+        //declaration of object
         users = new ArrayList<>();
+        medicines = new ArrayList<>();
+        schedules = new ArrayList<>();
+        medicineActivity = new MedicineActivity();
 
         // session manager
         session = new SessionManager(getApplicationContext());
 
         // Fetching user details from sqlite
         users = dataHelper.getUserDetail();
+
+        //fetching all medicine
+        medicines = dataHelper.getAllMedicine();
 
         int count = 0;
         Log.d(TAG,"previllage user = "+users.get(count).getPrevillage());
@@ -146,6 +165,14 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
+                //get all medicine list
+                for (int j = 0; j < medicines.size(); j++){
+                    schedules = dataHelper.getAllSchedule(medicines.get(j).getUid());
+
+                    //remove all schedule
+                    medicineActivity.removeSchedule(context, schedules);
+                }
+
                 /**
                  * clear all session and database after logout
                  */
@@ -153,6 +180,7 @@ public class MainActivity extends AppCompatActivity  {
                 dataHelper.deleteUsers();
                 dataHelper.clear_medicine();
                 dataHelper.clear_contact();
+                dataHelper.clear_schedule();
 
                 Intent intent = new Intent(MainActivity.this, LoginregisterActivity.class);
                 startActivity(intent);

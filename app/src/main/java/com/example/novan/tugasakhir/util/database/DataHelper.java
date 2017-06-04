@@ -288,6 +288,15 @@ public class DataHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void clear_schedule(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Delete All Rows
+        db.delete(TABLE_SCHEDULE, null, null);
+        db.close();
+
+        Log.d(TAG, "Deleted all schedule info from sqlite");
+    }
+
     //CRUD Contact
     public ArrayList<Contact> getAllContacts(){
         ArrayList<Contact> contacts = new ArrayList<>();

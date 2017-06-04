@@ -42,14 +42,19 @@ public class MedicineActivity extends AppCompatActivity implements TimePickerInt
     float percentage;
     private DataHelper dataHelper;
     String TAG = "TAGapp";
+
     ArrayList<Schedule> schedules;
     MyListAdapter myListAdapter;
     TimePickerFragment newFragment = new TimePickerFragment();
+
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submain_medicine);
+
+        context = this;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -143,7 +148,7 @@ public class MedicineActivity extends AppCompatActivity implements TimePickerInt
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dataHelper.delete_medicine(medicine.getId());
                         dataHelper.delete_schedule(medicine.getUid());
-                        removeSchedule(schedules.size());
+                        removeSchedule(context,schedules);
 
                         setResult(RESULT_OK);
                         finish();
@@ -279,10 +284,10 @@ public class MedicineActivity extends AppCompatActivity implements TimePickerInt
         }
     }
 
-    private void removeSchedule(int size) {
-        for (int i = 0 ; i < size ; i++){
+    public void removeSchedule(Context context, ArrayList<Schedule> schedules) {
+        for (int i = 0 ; i < schedules.size() ; i++){
             Log.d(TAG,"ID schedule deleted = "+schedules.get(i).getId());
-            newFragment.cancelAlarm(MedicineActivity.this, schedules.get(i).getId());
+            newFragment.cancelAlarm(context, schedules.get(i).getId());
         }
     }
 }
