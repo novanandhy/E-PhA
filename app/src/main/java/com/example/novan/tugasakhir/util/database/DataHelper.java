@@ -18,6 +18,7 @@ import com.example.novan.tugasakhir.models.User;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -29,6 +30,8 @@ public class DataHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "DBase_EphA";
     private static final int DATABASE_VERSION = 1;
     private static final String TAG = "TAGapp";
+
+    Calendar calendar;
     public DataHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         // TODO Auto-generated constructor stub
@@ -78,8 +81,10 @@ public class DataHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ID_HISTORY = "id_history";
     public static final String COLUMN_IDmedicine_HISTORY = "id_medicine";
     public static final String COLUMN_UIDuser_HISTORY = "uid_user";
-    public static final String COLUMN_TIME_HISTORY = "time_history";
     public static final String COLUMN_STATUS_HISTORY = "status_history";
+    public static final String COLUMN_DATE_HISTORY = "date_history";
+    public static final String COLUMN_MONTH_HISTORY = "month_history";
+    public static final String COLUMN_YEAR_HISTORY = "year_history";
 
     //Table Location
     public static final String COLUMN_ID_LOCATION="id_location";
@@ -115,7 +120,8 @@ public class DataHelper extends SQLiteOpenHelper {
             + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_PREVILLAGE + " TEXT,"
             + KEY_USERNAME + " TEXT UNIQUE," + KEY_UID + " TEXT," + KEY_CREATED_AT + " TEXT," + KEY_PHOTO + " BLOB)";
     private static final String DB_HISTORY = "create table db_history (id_history integer primary key " +
-            "AUTOINCREMENT, uid_user text, id_medicine integer, time_history date, status_history integer)";
+            "AUTOINCREMENT, uid_user text, id_medicine integer, status_history text, date_history text, month_history, " +
+            "year_history)";
     private static final String DB_LOCATION = "create table db_location (id_location integer primary " +
             "key AUTOINCREMENT, latitude_location text, longitude_location text);";
     private static final String DB_RELAPSE = "create table db_relapse(id_relapse integer primary key " +
@@ -476,16 +482,17 @@ public class DataHelper extends SQLiteOpenHelper {
         return histories;
     }
 
-    public void addStatusHistory(String uid_user, int id_medicine, int status_history) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date();
+    public void addStatusHistory(String uid_user, int id_medicine, int status_history, String date,
+                                 String month, String year) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(COLUMN_UIDuser_HISTORY, uid_user); // uid_user
         values.put(COLUMN_IDmedicine_HISTORY, id_medicine); // id_medicine
-        values.put(COLUMN_STATUS_HISTORY, status_history); // id_medicine
-        values.put(COLUMN_TIME_HISTORY, dateFormat.format(date)); // id_medicine
+        values.put(COLUMN_STATUS_HISTORY, status_history); // status
+        values.put(COLUMN_DATE_HISTORY, date); // date
+        values.put(COLUMN_MONTH_HISTORY, month); // month
+        values.put(COLUMN_YEAR_HISTORY, year); // year
 
         Log.d(TAG, "Fetching history from Sqlite: " + values.toString());
 

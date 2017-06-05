@@ -19,6 +19,7 @@ import com.example.novan.tugasakhir.models.User;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 public class DialogAlarm extends AppCompatActivity {
@@ -32,6 +33,8 @@ public class DialogAlarm extends AppCompatActivity {
     private ArrayList<User> users;
     private ArrayList<Schedule> schedules;
     TimePickerFragment timePickerFragment = new TimePickerFragment();
+
+    Calendar calendar;
 
     private String uid;
     @Override
@@ -90,6 +93,12 @@ public class DialogAlarm extends AppCompatActivity {
     private void changeStatusAndRemain(String name, int status){
         medicines = dataHelper.getAllMedicine();
 
+        calendar = Calendar.getInstance();
+
+        String date = String.valueOf(calendar.get(Calendar.DATE));
+        String month = String.valueOf(calendar.get(Calendar.MONTH));
+        String year = String.valueOf(calendar.get(Calendar.YEAR));
+
         for (int i = 0; i <medicines.size() ; i++){
             if(name.equalsIgnoreCase(medicines.get(i).getMedicine_name())){
                 int id = medicines.get(i).getId();
@@ -105,10 +114,10 @@ public class DialogAlarm extends AppCompatActivity {
                 Log.d(TAG,"remain medicine = "+remain);
                 if(status == 1 && (remain - dosage) > 0){
                     remain = remain-dosage;
-                    dataHelper.addStatusHistory(uid,id,1);
+                    dataHelper.addStatusHistory(uid,id,1,date,month,year);
                     dataHelper.update_medicine(id,name_medicine,amount,dosage,remain,count);
                 }else if(status == 0 && (remain - dosage) > 0){
-                    dataHelper.addStatusHistory(uid,id,0);
+                    dataHelper.addStatusHistory(uid,id,0,date,month,year);
                     dataHelper.update_medicine(id,name_medicine,amount,dosage,remain,count);
                 }else{
                     dataHelper.delete_medicine(id);
