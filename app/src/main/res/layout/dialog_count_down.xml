@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="20dp"
     tools:context="com.example.novan.tugasakhir.util.countDownComponent.CountDown"
     android:orientation="vertical">
 
@@ -26,13 +27,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <Button
-            android:id="@+id/cancel_countdown"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="cancel"
-            android:textColor="@color/custom_primary_color"/>
         <Button
             android:id="@+id/ok_countdown"
             android:layout_width="fill_parent"
