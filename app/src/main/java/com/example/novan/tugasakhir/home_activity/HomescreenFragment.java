@@ -21,7 +21,7 @@ import android.widget.Button;
 
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.emergency_activity.SendMessage;
-import com.example.novan.tugasakhir.util.countDownComponent.CountDown;
+import com.example.novan.tugasakhir.emergency_activity.CountDown;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -37,7 +37,6 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
         GoogleApiClient.OnConnectionFailedListener {
     private View view;
     private Button emergency;
-    SendMessage sendMessage;
     String TAG = "TAGapp";
     Context context;
 
@@ -58,7 +57,6 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
 
         context = getActivity().getApplicationContext();
         view = inflater.inflate(R.layout.activity_temporary_emergency, container, false);
-        sendMessage = new SendMessage(context);
         dataHelper = new DataHelper(context);
 
         //create google API

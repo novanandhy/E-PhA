@@ -136,7 +136,7 @@
             android:theme="@style/Theme.Dialog"></activity>
         <activity android:name=".emergency_activity.SendMessage" />
         <activity
-            android:name=".util.countDownComponent.CountDown"
+            android:name=".emergency_activity.CountDown"
             android:theme="@style/Theme.Dialog"></activity>
     </application>
 

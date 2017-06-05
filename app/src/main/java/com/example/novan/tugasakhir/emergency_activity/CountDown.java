@@ -1,4 +1,4 @@
-package com.example.novan.tugasakhir.util.countDownComponent;
+package com.example.novan.tugasakhir.emergency_activity;
 
 import android.media.MediaPlayer;
 import android.media.Ringtone;
@@ -32,11 +32,11 @@ public class CountDown extends AppCompatActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_count_down);
 
-
         countdown = (TextView) findViewById(R.id.dialog_countdown);
         ok = (Button) findViewById(R.id.ok_countdown);
 
         sendMessage = new SendMessage(this);
+
 
         //get resource media to play ringtone
         ringtone = MediaPlayer.create(this, R.raw.alarm);
@@ -75,4 +75,7 @@ public class CountDown extends AppCompatActivity implements View.OnClickListener
     public boolean onTouchEvent(MotionEvent event) {
         return false;
     }
+
+    @Override
+    public void onBackPressed() {    }
 }

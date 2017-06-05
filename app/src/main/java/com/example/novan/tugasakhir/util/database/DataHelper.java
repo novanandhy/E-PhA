@@ -12,6 +12,7 @@ import com.example.novan.tugasakhir.models.Contact;
 import com.example.novan.tugasakhir.models.History;
 import com.example.novan.tugasakhir.models.Locations;
 import com.example.novan.tugasakhir.models.Medicine;
+import com.example.novan.tugasakhir.models.Relapse;
 import com.example.novan.tugasakhir.models.Schedule;
 import com.example.novan.tugasakhir.models.User;
 
@@ -86,10 +87,15 @@ public class DataHelper extends SQLiteOpenHelper {
     public static final String COLUMN_LONGITUDE_LOCATION="latitude_location";
 
     //Table Relapse Data
-    private static final String COLUMN_ID_RELAPSE = "id_relapse";
-    private static final String COLUMN_IDuser_RELAPSE = "id_user";
-    private static final String COLUMN_LOCATION_RELAPSE = "location_relapse";
-    private static final String COLUMN_TIME_RELAPSE = "time_relapse";
+    public static final String COLUMN_ID_RELAPSE = "id_relapse";
+    public static final String COLUMN_IDuser_RELAPSE = "uid_user";
+    public static final String COLUMN_LATITUDE_RELAPSE = "latitude_relapse";
+    public static final String COLUMN_LONGITUDE_RELAPSE = "longitude_relapse";
+    public static final String COLUMN_DATE_RELAPSE = "date_relapse";
+    public static final String COLUMN_MONTH_RELAPSE = "month_relapse";
+    public static final String COLUMN_YEAR_RELAPSE = "year_relapse";
+    public static final String COLUMN_HOUR_RELAPSE = "hour_relapse";
+    public static final String COLUMN_MINUTE_RELAPSE = "minute_relapse";
 
     //Table Epileptics Data
     private static final String COLUMN_ID_EPILEPTICS = "id_epileptic";
@@ -112,6 +118,9 @@ public class DataHelper extends SQLiteOpenHelper {
             "AUTOINCREMENT, uid_user text, id_medicine integer, time_history date, status_history integer)";
     private static final String DB_LOCATION = "create table db_location (id_location integer primary " +
             "key AUTOINCREMENT, latitude_location text, longitude_location text);";
+    private static final String DB_RELAPSE = "create table db_relapse(id_relapse integer primary key " +
+            "AUTOINCREMENT, uid_user text, latitude_relapse text, longitude_relapse text, date_relapse " +
+            "text, month_relapse text, year_relapse text, hour_relapse text, minute_relapse text);";
 
 
 
@@ -126,6 +135,7 @@ public class DataHelper extends SQLiteOpenHelper {
         db.execSQL(DB_SCHEDULE);
         db.execSQL(DB_HISTORY);
         db.execSQL(DB_LOCATION);
+        db.execSQL(DB_RELAPSE);
 
         try {
             db.execSQL(createNullLocation);
@@ -143,6 +153,7 @@ public class DataHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_HISTORY);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOCATION);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_RELAPSE);
     }
 
 
@@ -523,6 +534,63 @@ public class DataHelper extends SQLiteOpenHelper {
 
         db.close();
         return location;
+    }
+
+    //show relapse
+    public ArrayList<Relapse> getRelpase(){
+        ArrayList<Relapse> relapses = new ArrayList<>();
+        String sql = "SELECT * FROM "+ TABLE_RELAPSE +" ORDER BY "+COLUMN_ID_RELAPSE;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+
+        Cursor cursor = db.rawQuery(sql,null);
+        cursor.moveToFirst();
+        Log.d(TAG,"size cursor relapse: "+cursor.getCount());
+        if(cursor.getCount() > 0 ) {
+            do {
+                getRelpase().add(new Relapse(cursor));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        db.close();
+        return relapses;
+    }
+
+    //add relapse data
+    public void addRelapseHistory(String uid_user, String latitude, String longitude, String date, String
+            month, String year, String hour, String minute) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_IDuser_RELAPSE, uid_user); // uid_user
+        values.put(COLUMN_LATITUDE_RELAPSE, latitude); // latitude
+        values.put(COLUMN_LONGITUDE_RELAPSE, longitude); // longitude
+        values.put(COLUMN_DATE_RELAPSE, date); // date
+        values.put(COLUMN_MONTH_RELAPSE, month); // month
+        values.put(COLUMN_YEAR_RELAPSE, year); // year
+        values.put(COLUMN_HOUR_RELAPSE, hour); // hour
+        values.put(COLUMN_MINUTE_RELAPSE, minute); // minute
+
+        Log.d(TAG, "Fetching relapse history from Sqlite: " + values.toString());
+
+        // Inserting Row
+        try{
+            db.insert(TABLE_HISTORY, null, values);
+            db.close(); // Closing database connection
+        }catch (Exception e){
+            Log.d(TAG,"Failed add relapse history");
+        }
+    }
+
+    //delete relapse data
+    public void clear_relapse() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Delete All Rows
+        db.delete(TABLE_RELAPSE, null, null);
+        db.close();
+
+        Log.d(TAG, "Deleted all contacts info from sqlite");
     }
 
 }

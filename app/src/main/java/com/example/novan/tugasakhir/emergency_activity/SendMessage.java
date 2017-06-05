@@ -41,12 +41,15 @@ public class SendMessage implements GoogleApiClient.ConnectionCallbacks,
     ArrayList<Locations> locations;
     ArrayList<Contact> contacts;
 
+    RelapseData relapseData;
+
     public SendMessage(Context context) {
         this.context = context;
     }
 
     public void sendSMSByManager() {
         dataHelper = new DataHelper(context);
+        relapseData = new RelapseData(context);
         locations = new ArrayList<>();
         contacts = new ArrayList<>();
 
@@ -127,6 +130,8 @@ public class SendMessage implements GoogleApiClient.ConnectionCallbacks,
         SmsManager smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage(number_phone,null,message,null,null);
         Log.d(TAG,message);
+
+        relapseData.setRelapse(latitude,longitude);
     }
 
     @Override
