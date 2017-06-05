@@ -181,6 +181,7 @@ public class MainActivity extends AppCompatActivity  {
                 dataHelper.clear_medicine();
                 dataHelper.clear_contact();
                 dataHelper.clear_schedule();
+                dataHelper.clear_relapse();
 
                 Intent intent = new Intent(MainActivity.this, LoginregisterActivity.class);
                 startActivity(intent);

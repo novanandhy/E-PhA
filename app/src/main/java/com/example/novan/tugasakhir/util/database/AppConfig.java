@@ -17,4 +17,7 @@ public class AppConfig {
 
     // Server user update url
     public static String URL_UPDATE = "http://"+DOMAIN+"/android_api/update.php";
+
+    // Server relapse history update url
+    public static String URL_STORE_RELAPSE = "http://"+DOMAIN+"/android_api/set_relapse_history.php";
 }

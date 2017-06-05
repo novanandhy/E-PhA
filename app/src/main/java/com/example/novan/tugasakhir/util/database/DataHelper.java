@@ -576,7 +576,7 @@ public class DataHelper extends SQLiteOpenHelper {
 
         // Inserting Row
         try{
-            db.insert(TABLE_HISTORY, null, values);
+            db.insert(TABLE_RELAPSE, null, values);
             db.close(); // Closing database connection
         }catch (Exception e){
             Log.d(TAG,"Failed add relapse history");
@@ -594,6 +594,3 @@ public class DataHelper extends SQLiteOpenHelper {
     }
 
 }
-
-
-
