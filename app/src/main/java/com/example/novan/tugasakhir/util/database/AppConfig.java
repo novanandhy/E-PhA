@@ -20,4 +20,7 @@ public class AppConfig {
 
     // Server relapse history update url
     public static String URL_STORE_RELAPSE = "http://"+DOMAIN+"/android_api/set_relapse_history.php";
+
+    // Server medicine history update url
+    public static String URL_STORE_MEDICINE = "http://"+DOMAIN+"/android_api/set_medicine_history.php";
 }

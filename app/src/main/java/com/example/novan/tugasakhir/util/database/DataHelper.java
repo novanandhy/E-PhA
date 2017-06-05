@@ -482,7 +482,7 @@ public class DataHelper extends SQLiteOpenHelper {
         return histories;
     }
 
-    public void addStatusHistory(String uid_user, int id_medicine, int status_history, String date,
+    public void addStatusHistory(String uid_user, int id_medicine, String status_history, String date,
                                  String month, String year) {
         SQLiteDatabase db = this.getWritableDatabase();
 

@@ -11,16 +11,27 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.models.Medicine;
 import com.example.novan.tugasakhir.models.Schedule;
 import com.example.novan.tugasakhir.models.User;
+import com.example.novan.tugasakhir.util.database.AppConfig;
+import com.example.novan.tugasakhir.util.database.AppController;
 import com.example.novan.tugasakhir.util.database.DataHelper;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Map;
 
 public class DialogAlarm extends AppCompatActivity {
     private Button okbutton, cancelbutton;
@@ -114,10 +125,10 @@ public class DialogAlarm extends AppCompatActivity {
                 Log.d(TAG,"remain medicine = "+remain);
                 if(status == 1 && (remain - dosage) > 0){
                     remain = remain-dosage;
-                    dataHelper.addStatusHistory(uid,id,1,date,month,year);
+                    storeRelapseHistory(uid,id,"1",date,month,year);
                     dataHelper.update_medicine(id,name_medicine,amount,dosage,remain,count);
                 }else if(status == 0 && (remain - dosage) > 0){
-                    dataHelper.addStatusHistory(uid,id,0,date,month,year);
+                    storeRelapseHistory(uid,id,"0",date,month,year);
                     dataHelper.update_medicine(id,name_medicine,amount,dosage,remain,count);
                 }else{
                     dataHelper.delete_medicine(id);
@@ -134,5 +145,67 @@ public class DialogAlarm extends AppCompatActivity {
         for (int i = 0 ; i< size ; i++){
             timePickerFragment.cancelAlarm(DialogAlarm.this,schedules.get(i).getId());
         }
+    }
+
+    private void storeRelapseHistory(final String uid, final int id_medicine, final String status, final String date, final String month, final String year) {
+
+        // Tag used to cancel the request
+        String tag_string_req = "req_register";
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                AppConfig.URL_STORE_MEDICINE, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, "Register Response: " + response.toString());
+
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean error = jObj.getBoolean("error");
+                    if (!error) {
+                        // User successfully stored in MySQL
+                        dataHelper.addStatusHistory(uid,id_medicine,status,date,month,year);
+                    } else {
+
+                        // Error occurred in registration. Get the error
+                        // message
+                        String errorMsg = jObj.getString("error_msg");
+                        Toast.makeText(getApplicationContext(),
+                                errorMsg, Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Registration Error: " + error.getMessage());
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to register url
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("unique_id", uid);
+                params.put("id_medicine", String.valueOf(id_medicine));
+                params.put("status", status);
+                params.put("date", date);
+                params.put("month", month);
+                params.put("year", year);
+
+                return params;
+            }
+
+        };
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 }
