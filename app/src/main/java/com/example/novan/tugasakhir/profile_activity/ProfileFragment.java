@@ -29,7 +29,7 @@ import java.util.HashMap;
 
 public class ProfileFragment extends Fragment {
     private View view;
-    TextView contactCount, namePreview;
+    TextView contactCount, namePreview, usernamePreview;
     ImageView imageView;
 
     int contactSize;
@@ -57,11 +57,15 @@ public class ProfileFragment extends Fragment {
         int count = 0;
 
         String name = users.get(count).getName();
+        String username = users.get(count).getUsername();
         byte[] image_data = users.get(count).getImage();
         Log.d(TAG,"image byte to string = "+image_data.toString());
 
         namePreview = (TextView) view.findViewById(R.id.name_profile);
         namePreview.setText(name);
+
+        usernamePreview = (TextView) view.findViewById(R.id.username_profile);
+        usernamePreview.setText(username);
 
         imageView = (ImageView) view.findViewById(R.id.image_profile);
         imageView.setImageBitmap(BitmapFactory.decodeByteArray(image_data,0,image_data.length));
