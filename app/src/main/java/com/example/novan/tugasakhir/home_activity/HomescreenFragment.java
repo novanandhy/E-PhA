@@ -6,8 +6,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -18,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.emergency_activity.SendMessage;
@@ -34,7 +40,7 @@ import com.google.android.gms.location.LocationServices;
  */
 
 public class HomescreenFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener, SensorEventListener {
     private View view;
     private Button emergency;
     String TAG = "TAGapp";
@@ -51,6 +57,29 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
     DataHelper dataHelper;
 
     private static final int TWO_MINUTES = 1000 * 60 * 2;
+    
+    //variable for sensor
+    public double ax,ay,az;
+    public double a_norm;
+    public double a_n;
+
+    public int i = 0;
+    public int x = 0;
+    public double max_dif = 0;
+
+    static int BUFF_SIZE = 50;
+    static int TEMP_SIZE = 2;
+    static public double[] window = new double[BUFF_SIZE];
+    static public double[] temp = new double[TEMP_SIZE];
+
+    public double GRAVITY = 9.8;
+    double sigma = 0.5,th = 10,th1 = 5,th2 = 2, th3 = (1.2*GRAVITY);
+
+    private SensorManager sensorManager;
+    public static String curr_state,prev_state;
+    public MediaPlayer m1_fall,m2_sit,m3_stand,m4_walk;
+
+    TextView xCoor, yCoor, zCoor, total, max, min, diff, max_diff, status;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -61,6 +90,11 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
 
         //create google API
         buildGoogleApiClient();
+
+        //create sensor listener
+        sensorManager=(SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_UI);
+        initialize();
 
         emergency = (Button) view.findViewById(R.id.emergency);
         emergency.setOnClickListener(new View.OnClickListener() {
@@ -222,5 +256,164 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
     }
-}
 
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType()==Sensor.TYPE_ACCELEROMETER){
+            ax=event.values[0];
+            ay=event.values[1];
+            az=event.values[2];
+
+            AddData(ax,ay,az);
+            posture_recognition(window,ay);
+            fall_detection(ax,ay,az);
+            SystemState(curr_state,prev_state);
+            if(!prev_state.equalsIgnoreCase(curr_state)){
+                prev_state=curr_state;
+            }
+
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
+    private void initialize() {
+        // TODO Auto-generated method stub
+        for(i=0;i<BUFF_SIZE;i++){
+            window[i]=0;
+        }
+        prev_state="none";
+        curr_state="none";
+        m1_fall=MediaPlayer.create(context, R.raw.fall);
+        m2_sit=MediaPlayer.create(context, R.raw.sitting);
+        m3_stand=MediaPlayer.create(context, R.raw.standing);
+        m4_walk=MediaPlayer.create(context, R.raw.walking);
+
+        xCoor = (TextView)view.findViewById(R.id.xcoor);
+        yCoor = (TextView)view.findViewById(R.id.ycoor);
+        zCoor = (TextView)view.findViewById(R.id.zcoor);
+        total = (TextView)view.findViewById(R.id.total);
+        max = (TextView)view.findViewById(R.id.maximum);
+        min = (TextView)view.findViewById(R.id.minimum);
+        diff = (TextView)view.findViewById(R.id.difference);
+        max_diff = (TextView)view.findViewById(R.id.max_difference);
+        status = (TextView)view.findViewById(R.id.status_position);
+    }
+
+    private void fall_detection(double ax, double ay, double az) {
+        double maximum = GRAVITY;
+        double minimum = GRAVITY;
+
+        a_n=Math.sqrt((ax*ax)+(ay*ay)+(az*az));
+
+        xCoor.setText("X: "+ax);
+        yCoor.setText("Y: "+ay);
+        zCoor.setText("Z: "+az);
+        total.setText("TA :"+a_n);
+
+
+        if (maximum < a_n){
+            maximum = a_n;
+        }else if(minimum > a_n){
+            minimum = a_n;
+        }
+
+        max.setText("maximum ="+maximum);
+        min.setText("minimum ="+minimum);
+
+        if (x == 0){
+            temp[0] = minimum;
+        }else{
+            temp[1] = maximum;
+            double dif = temp[1] - temp[0];
+            diff.setText("difference ="+dif);
+
+            if(max_dif < dif){
+                max_dif = dif;
+                max_diff.setText("maximum difference ="+max_dif);
+            }
+
+            if (temp[1]-temp[0] > th3){
+                curr_state="fall";
+            }
+        }
+
+        if (x == 1){
+            x = 0;
+        }else{
+            x++;
+        }
+    }
+
+    private void posture_recognition(double[] window2,double ay2) {
+        // TODO Auto-generated method stub
+        int zrc=compute_zrc(window2);
+        if(zrc==0){
+
+            if(Math.abs(ay2)<th1){
+                curr_state="sitting";
+            }else{
+                curr_state="standing";
+            }
+
+        }else{
+
+            if(zrc>th2){
+                curr_state="walking";
+            }else{
+                curr_state="none";
+            }
+
+        }
+    }
+
+    private int compute_zrc(double[] window2) {
+        // TODO Auto-generated method stub
+        int count=0;
+        for(i=1;i<=BUFF_SIZE-1;i++){
+
+            if((window2[i]-th)<sigma && (window2[i-1]-th)>sigma){
+                count=count+1;
+            }
+
+        }
+        return count;
+    }
+
+    private void SystemState(String curr_state1,String prev_state1) {
+        // TODO Auto-generated method stub
+
+        //Fall !!
+        if(!prev_state1.equalsIgnoreCase(curr_state1)){
+            if(curr_state1.equalsIgnoreCase("fall")){
+                m1_fall.start();
+                status.setText("Fall");
+                Intent intent = new Intent(context, CountDown.class);
+                startActivityForResult(intent,10);
+            }
+            if(curr_state1.equalsIgnoreCase("sitting")){
+//                m2_sit.start();
+                status.setText("Sit");
+            }
+            if(curr_state1.equalsIgnoreCase("standing")){
+//                m3_stand.start();
+                status.setText("Stand");
+            }
+            if(curr_state1.equalsIgnoreCase("walking")){
+//                m4_walk.start();
+                status.setText("Walk");
+            }
+        }
+    }
+    private void AddData(double ax2, double ay2, double az2) {
+        // TODO Auto-generated method stub
+        a_norm=Math.sqrt((ax2*ax2)+(ay2*ay2)+(az2*az2));
+        for(i=0;i<=BUFF_SIZE-2;i++){
+            window[i]=window[i+1];
+        }
+        window[BUFF_SIZE-1]=a_norm;
+    }
+}

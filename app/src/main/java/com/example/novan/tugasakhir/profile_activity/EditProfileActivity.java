@@ -124,7 +124,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 updateUser(name_string,username_string,used_username,unique_id,byteArray);
             }else{
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                img.compress(Bitmap.CompressFormat.PNG,100,stream);
+                img.compress(Bitmap.CompressFormat.PNG,40,stream);
                 byte[] byteArray = stream.toByteArray();
 
                 //image replaced with new one
