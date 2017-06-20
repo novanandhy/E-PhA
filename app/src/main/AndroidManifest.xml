@@ -124,7 +124,7 @@
 
         <activity
             android:name=".util.reminderComponent.DialogAlarm"
-            android:theme="@style/Theme.Dialog" />
+            android:theme="@style/Round.Dialog" />
         <activity android:name=".emergency_activity.SendMessage" />
         <activity
             android:name=".emergency_activity.CountDown"

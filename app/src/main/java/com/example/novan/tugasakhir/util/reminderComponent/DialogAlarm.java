@@ -1,5 +1,6 @@
 package com.example.novan.tugasakhir.util.reminderComponent;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,7 +34,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DialogAlarm extends AppCompatActivity {
+public class DialogAlarm extends Activity {
     private Button okbutton, cancelbutton;
     private TextView message;
     private String name;
