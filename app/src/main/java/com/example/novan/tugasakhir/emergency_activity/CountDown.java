@@ -1,20 +1,17 @@
 package com.example.novan.tugasakhir.emergency_activity;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.novan.tugasakhir.R;
-import com.example.novan.tugasakhir.emergency_activity.SendMessage;
+import com.example.novan.tugasakhir.tutorial_activity.TutorialActivity;
 
 public class CountDown extends AppCompatActivity implements View.OnClickListener{
 
@@ -56,6 +53,8 @@ public class CountDown extends AppCompatActivity implements View.OnClickListener
                 countdown.setText("Done");
                 ringtone.stop();
                 sendMessage.sendSMSByManager();
+                Intent intent = new Intent(CountDown.this, TutorialActivity.class);
+                startActivity(intent);
                 finish();
             }
         };

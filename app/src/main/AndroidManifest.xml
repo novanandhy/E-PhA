@@ -111,15 +111,6 @@
                 android:value="com.example.novan.tugasakhir.MainActivity" />
         </activity>
         <activity
-            android:name=".tutorial_activity.TutorialActivity"
-            android:label="@string/title_activity_tutorial"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.novan.tugasakhir.MainActivity" />
-        </activity>
-        <activity
             android:name=".history_activity.HistoryActivity"
             android:label="@string/title_activity_history"
             android:parentActivityName=".MainActivity"
@@ -133,11 +124,15 @@
 
         <activity
             android:name=".util.reminderComponent.DialogAlarm"
-            android:theme="@style/Theme.Dialog"></activity>
+            android:theme="@style/Theme.Dialog" />
         <activity android:name=".emergency_activity.SendMessage" />
         <activity
             android:name=".emergency_activity.CountDown"
-            android:theme="@style/Theme.Dialog"></activity>
+            android:theme="@style/Theme.Dialog" />
+        <activity
+            android:name=".tutorial_activity.TutorialActivity"
+            android:label="@string/title_activity_tutorial"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

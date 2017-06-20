@@ -26,7 +26,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.novan.tugasakhir.R;
-import com.example.novan.tugasakhir.emergency_activity.SendMessage;
 import com.example.novan.tugasakhir.emergency_activity.CountDown;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 import com.google.android.gms.common.ConnectionResult;
