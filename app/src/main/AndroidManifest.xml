@@ -128,7 +128,7 @@
         <activity android:name=".emergency_activity.SendMessage" />
         <activity
             android:name=".emergency_activity.CountDown"
-            android:theme="@style/Theme.Dialog" />
+            android:theme="@style/Round.Dialog" />
         <activity
             android:name=".tutorial_activity.TutorialActivity"
             android:label="@string/title_activity_tutorial"

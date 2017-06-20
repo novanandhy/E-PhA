@@ -1,5 +1,6 @@
 package com.example.novan.tugasakhir.emergency_activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.CountDownTimer;
@@ -13,7 +14,7 @@ import android.widget.TextView;
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.tutorial_activity.TutorialActivity;
 
-public class CountDown extends AppCompatActivity implements View.OnClickListener{
+public class CountDown extends Activity implements View.OnClickListener{
 
     private TextView countdown;
     private Button ok;

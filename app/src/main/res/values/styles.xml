@@ -9,6 +9,9 @@
         <item name="colorAccent">@color/custom_primary_color</item>
     </style>
 
+    <style name="Round.Dialog" parent="@android:style/Theme.Holo.Light.Dialog.NoActionBar">
+        <item name="android:windowBackground">@drawable/bg_white_very_rounded</item>
+    </style>
     <style name="Theme.Dialog" parent="Theme.AppCompat.Light.Dialog"></style>
 
     <style name="Transparent">

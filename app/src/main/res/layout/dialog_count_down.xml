@@ -3,37 +3,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
     tools:context="com.example.novan.tugasakhir.emergency_activity.CountDown"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/bg_white_very_rounded"
+    android:padding="0dp">
 
     <TextView
+        android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_margin="10dp"
-        android:text="Are You ok ?"
-        android:textSize="29sp"/>
+        android:gravity="center"
+        android:text="Apakah anda baik-baik saja ?"
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/dialog_countdown"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_margin="10dp"
+        android:gravity="center"
         android:text="tes"
-        android:textSize="60sp"/>
+        android:textSize="60sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <Button
             android:id="@+id/ok_countdown"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="yes"
-            android:textColor="@color/custom_primary_color"/>
+            android:text="YES"
+            android:textColor="@color/custom_text"
+            android:background="@color/custom_button_first"/>
     </LinearLayout>
 
 </LinearLayout>
