@@ -91,9 +91,9 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
         buildGoogleApiClient();
 
         //create sensor listener
-        sensorManager=(SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
-        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_UI);
-        initialize();
+//        sensorManager=(SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
+//        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_UI);
+//        initialize();
 
         emergency = (Button) view.findViewById(R.id.emergency);
         emergency.setOnClickListener(new View.OnClickListener() {
@@ -258,20 +258,20 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType()==Sensor.TYPE_ACCELEROMETER){
-            ax=event.values[0];
-            ay=event.values[1];
-            az=event.values[2];
-
-            AddData(ax,ay,az);
-            posture_recognition(window,ay);
-            fall_detection(ax,ay,az);
-            SystemState(curr_state,prev_state);
-            if(!prev_state.equalsIgnoreCase(curr_state)){
-                prev_state=curr_state;
-            }
-
-        }
+//        if (event.sensor.getType()==Sensor.TYPE_ACCELEROMETER){
+//            ax=event.values[0];
+//            ay=event.values[1];
+//            az=event.values[2];
+//
+//            AddData(ax,ay,az);
+//            posture_recognition(window,ay);
+//            fall_detection(ax,ay,az);
+//            SystemState(curr_state,prev_state);
+//            if(!prev_state.equalsIgnoreCase(curr_state)){
+//                prev_state=curr_state;
+//            }
+//
+//        }
     }
 
     @Override
@@ -279,140 +279,140 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
 
     }
 
-    private void initialize() {
-        // TODO Auto-generated method stub
-        for(i=0;i<BUFF_SIZE;i++){
-            window[i]=0;
-        }
-        prev_state="none";
-        curr_state="none";
-        m1_fall=MediaPlayer.create(context, R.raw.fall);
-        m2_sit=MediaPlayer.create(context, R.raw.sitting);
-        m3_stand=MediaPlayer.create(context, R.raw.standing);
-        m4_walk=MediaPlayer.create(context, R.raw.walking);
-
-        xCoor = (TextView)view.findViewById(R.id.xcoor);
-        yCoor = (TextView)view.findViewById(R.id.ycoor);
-        zCoor = (TextView)view.findViewById(R.id.zcoor);
-        total = (TextView)view.findViewById(R.id.total);
-        max = (TextView)view.findViewById(R.id.maximum);
-        min = (TextView)view.findViewById(R.id.minimum);
-        diff = (TextView)view.findViewById(R.id.difference);
-        max_diff = (TextView)view.findViewById(R.id.max_difference);
-        status = (TextView)view.findViewById(R.id.status_position);
-    }
-
-    private void fall_detection(double ax, double ay, double az) {
-        double maximum = GRAVITY;
-        double minimum = GRAVITY;
-
-        a_n=Math.sqrt((ax*ax)+(ay*ay)+(az*az));
-
-        xCoor.setText("X: "+ax);
-        yCoor.setText("Y: "+ay);
-        zCoor.setText("Z: "+az);
-        total.setText("TA :"+a_n);
-
-
-        if (maximum < a_n){
-            maximum = a_n;
-        }else if(minimum > a_n){
-            minimum = a_n;
-        }
-
-        max.setText("maximum ="+maximum);
-        min.setText("minimum ="+minimum);
-
-        if (x == 0){
-            temp[0] = minimum;
-        }else{
-            temp[1] = maximum;
-            double dif = temp[1] - temp[0];
-            diff.setText("difference ="+dif);
-
-            if(max_dif < dif){
-                max_dif = dif;
-                max_diff.setText("maximum difference ="+max_dif);
-            }
-
-            if (temp[1]-temp[0] > th3){
-                curr_state="fall";
-            }
-        }
-
-        if (x == 1){
-            x = 0;
-        }else{
-            x++;
-        }
-    }
-
-    private void posture_recognition(double[] window2,double ay2) {
-        // TODO Auto-generated method stub
-        int zrc=compute_zrc(window2);
-        if(zrc==0){
-
-            if(Math.abs(ay2)<th1){
-                curr_state="sitting";
-            }else{
-                curr_state="standing";
-            }
-
-        }else{
-
-            if(zrc>th2){
-                curr_state="walking";
-            }else{
-                curr_state="none";
-            }
-
-        }
-    }
-
-    private int compute_zrc(double[] window2) {
-        // TODO Auto-generated method stub
-        int count=0;
-        for(i=1;i<=BUFF_SIZE-1;i++){
-
-            if((window2[i]-th)<sigma && (window2[i-1]-th)>sigma){
-                count=count+1;
-            }
-
-        }
-        return count;
-    }
-
-    private void SystemState(String curr_state1,String prev_state1) {
-        // TODO Auto-generated method stub
-
-        //Fall !!
-        if(!prev_state1.equalsIgnoreCase(curr_state1)){
-            if(curr_state1.equalsIgnoreCase("fall")){
-                m1_fall.start();
-                status.setText("Fall");
-                Intent intent = new Intent(context, CountDown.class);
-                startActivityForResult(intent,10);
-            }
-            if(curr_state1.equalsIgnoreCase("sitting")){
-//                m2_sit.start();
-                status.setText("Sit");
-            }
-            if(curr_state1.equalsIgnoreCase("standing")){
-//                m3_stand.start();
-                status.setText("Stand");
-            }
-            if(curr_state1.equalsIgnoreCase("walking")){
-//                m4_walk.start();
-                status.setText("Walk");
-            }
-        }
-    }
-    private void AddData(double ax2, double ay2, double az2) {
-        // TODO Auto-generated method stub
-        a_norm=Math.sqrt((ax2*ax2)+(ay2*ay2)+(az2*az2));
-        for(i=0;i<=BUFF_SIZE-2;i++){
-            window[i]=window[i+1];
-        }
-        window[BUFF_SIZE-1]=a_norm;
-    }
+//    private void initialize() {
+//        // TODO Auto-generated method stub
+//        for(i=0;i<BUFF_SIZE;i++){
+//            window[i]=0;
+//        }
+//        prev_state="none";
+//        curr_state="none";
+//        m1_fall=MediaPlayer.create(context, R.raw.fall);
+//        m2_sit=MediaPlayer.create(context, R.raw.sitting);
+//        m3_stand=MediaPlayer.create(context, R.raw.standing);
+//        m4_walk=MediaPlayer.create(context, R.raw.walking);
+//
+//        xCoor = (TextView)view.findViewById(R.id.xcoor);
+//        yCoor = (TextView)view.findViewById(R.id.ycoor);
+//        zCoor = (TextView)view.findViewById(R.id.zcoor);
+//        total = (TextView)view.findViewById(R.id.total);
+//        max = (TextView)view.findViewById(R.id.maximum);
+//        min = (TextView)view.findViewById(R.id.minimum);
+//        diff = (TextView)view.findViewById(R.id.difference);
+//        max_diff = (TextView)view.findViewById(R.id.max_difference);
+//        status = (TextView)view.findViewById(R.id.status_position);
+//    }
+//
+//    private void fall_detection(double ax, double ay, double az) {
+//        double maximum = GRAVITY;
+//        double minimum = GRAVITY;
+//
+//        a_n=Math.sqrt((ax*ax)+(ay*ay)+(az*az));
+//
+//        xCoor.setText("X: "+ax);
+//        yCoor.setText("Y: "+ay);
+//        zCoor.setText("Z: "+az);
+//        total.setText("TA :"+a_n);
+//
+//
+//        if (maximum < a_n){
+//            maximum = a_n;
+//        }else if(minimum > a_n){
+//            minimum = a_n;
+//        }
+//
+//        max.setText("maximum ="+maximum);
+//        min.setText("minimum ="+minimum);
+//
+//        if (x == 0){
+//            temp[0] = minimum;
+//        }else{
+//            temp[1] = maximum;
+//            double dif = temp[1] - temp[0];
+//            diff.setText("difference ="+dif);
+//
+//            if(max_dif < dif){
+//                max_dif = dif;
+//                max_diff.setText("maximum difference ="+max_dif);
+//            }
+//
+//            if (temp[1]-temp[0] > th3){
+//                curr_state="fall";
+//            }
+//        }
+//
+//        if (x == 1){
+//            x = 0;
+//        }else{
+//            x++;
+//        }
+//    }
+//
+//    private void posture_recognition(double[] window2,double ay2) {
+//        // TODO Auto-generated method stub
+//        int zrc=compute_zrc(window2);
+//        if(zrc==0){
+//
+//            if(Math.abs(ay2)<th1){
+//                curr_state="sitting";
+//            }else{
+//                curr_state="standing";
+//            }
+//
+//        }else{
+//
+//            if(zrc>th2){
+//                curr_state="walking";
+//            }else{
+//                curr_state="none";
+//            }
+//
+//        }
+//    }
+//
+//    private int compute_zrc(double[] window2) {
+//        // TODO Auto-generated method stub
+//        int count=0;
+//        for(i=1;i<=BUFF_SIZE-1;i++){
+//
+//            if((window2[i]-th)<sigma && (window2[i-1]-th)>sigma){
+//                count=count+1;
+//            }
+//
+//        }
+//        return count;
+//    }
+//
+//    private void SystemState(String curr_state1,String prev_state1) {
+//        // TODO Auto-generated method stub
+//
+//        //Fall !!
+//        if(!prev_state1.equalsIgnoreCase(curr_state1)){
+//            if(curr_state1.equalsIgnoreCase("fall")){
+//                m1_fall.start();
+//                status.setText("Fall");
+//                Intent intent = new Intent(context, CountDown.class);
+//                startActivityForResult(intent,10);
+//            }
+//            if(curr_state1.equalsIgnoreCase("sitting")){
+////                m2_sit.start();
+//                status.setText("Sit");
+//            }
+//            if(curr_state1.equalsIgnoreCase("standing")){
+////                m3_stand.start();
+//                status.setText("Stand");
+//            }
+//            if(curr_state1.equalsIgnoreCase("walking")){
+////                m4_walk.start();
+//                status.setText("Walk");
+//            }
+//        }
+//    }
+//    private void AddData(double ax2, double ay2, double az2) {
+//        // TODO Auto-generated method stub
+//        a_norm=Math.sqrt((ax2*ax2)+(ay2*ay2)+(az2*az2));
+//        for(i=0;i<=BUFF_SIZE-2;i++){
+//            window[i]=window[i+1];
+//        }
+//        window[BUFF_SIZE-1]=a_norm;
+//    }
 }

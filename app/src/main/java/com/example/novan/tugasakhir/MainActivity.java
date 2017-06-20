@@ -29,6 +29,7 @@ import com.example.novan.tugasakhir.models.User;
 import com.example.novan.tugasakhir.profile_activity.ProfileFragment;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 import com.example.novan.tugasakhir.util.database.SessionManager;
+import com.example.novan.tugasakhir.util.service.SensorService;
 
 import java.util.ArrayList;
 
@@ -74,6 +75,10 @@ public class MainActivity extends AppCompatActivity  {
 
         //fetching all medicine
         medicines = dataHelper.getAllMedicine();
+
+        //start service
+        Intent myService = new Intent(this, SensorService.class);
+        startService(myService);
 
         int count = 0;
         Log.d(TAG,"previllage user = "+users.get(count).getPrevillage());
