@@ -133,7 +133,7 @@ public class ContactFragment extends Fragment {
                 //contact saved to sqlite
                 dataHelper.save_contact(name,phoneNo);
             }else{
-                alertCreator("Contact is already exists");
+                alertCreator("Kontak sudah ada");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -160,7 +160,7 @@ public class ContactFragment extends Fragment {
     private void alertCreator(String msg){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setMessage(msg);
-        alertDialogBuilder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
             }

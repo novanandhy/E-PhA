@@ -80,8 +80,8 @@
                     android:id="@+id/input_medicine"
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"
-                    android:hint="Medicine Name"
-                    android:maxLines="1"/>
+                    android:hint="Nama Obat"
+                    android:maxLines="1" />
             </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
             <!-- add some padding -->
@@ -94,8 +94,8 @@
                     android:id="@+id/input_number_medicine"
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:hint="Medicine's Amount" />
+                    android:hint="Jumlah Obat"
+                    android:inputType="number" />
             </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
             <!-- add some padding -->
@@ -108,8 +108,8 @@
                     android:id="@+id/input_dosage_medicine"
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:hint="Medicine's Dosage" />
+                    android:hint="Dosis Obat"
+                    android:inputType="number" />
             </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
             <!-- add some padding -->
@@ -122,7 +122,7 @@
                     android:id="@+id/input_time_medicine"
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"
-                    android:hint="Medicine's Time per Day"
+                    android:hint="Konsumsi Obat perhari"
                     android:inputType="number" />
             </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
@@ -140,7 +140,7 @@
         android:layout_alignParentStart="true"
         android:background="@color/custom_button_first"
         android:fontFamily="sans-font_family_medium"
-        android:text="Submit"
+        android:text="Simpan"
         android:textAllCaps="false"
         android:textColor="@color/custom_text"
         android:textSize="18sp"

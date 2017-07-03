@@ -13,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -37,7 +36,6 @@ import java.util.Map;
 public class RegisterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private static final String TAG = RegisterActivity.class.getSimpleName();
     Button signup;
-    ImageButton fb, google;
     EditText  name, username, password, repassword;
     Spinner spinner;
     ProgressDialog progressDialog;
@@ -104,22 +102,6 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                 }else{
                     Toast.makeText(RegisterActivity.this, "Please fill all form", Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
-
-        fb = (ImageButton) findViewById(R.id.btn_facebook_signup);
-        fb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(RegisterActivity.this, "FB clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        google = (ImageButton) findViewById(R.id.btn_google_signup);
-        google.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(RegisterActivity.this, "Google clicked", Toast.LENGTH_SHORT).show();
             }
         });
     }

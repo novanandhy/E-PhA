@@ -115,7 +115,7 @@ public class EditProfileActivity extends AppCompatActivity {
         Bitmap img = image;
 
         if(name_string == null || username_string == null){
-            Toast.makeText(this, "please fill all form", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Tolong isi semua form", Toast.LENGTH_SHORT).show();
         }else {
             if(img == null){
                 //if image null, then image will not be replaced
@@ -137,7 +137,7 @@ public class EditProfileActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
+        startActivityForResult(Intent.createChooser(intent, "Pilih gambar"), SELECT_PICTURE);
     }
 
     @Override
@@ -155,10 +155,10 @@ public class EditProfileActivity extends AppCompatActivity {
                     }
                 }
             }else {
-                Toast.makeText(this, "You haven't picked an image", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Anda belum memilih gambar", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e){
-            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -206,7 +206,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     if (!error) {
                         // User successfully stored in MySQL
                         dataHelper.update_user(id,username,name,image);
-                        Toast.makeText(getApplicationContext(), "User successfully updated.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Pengguna telah diperbarui.", Toast.LENGTH_LONG).show();
 
                         // Launch login activity
                         ma.finish();

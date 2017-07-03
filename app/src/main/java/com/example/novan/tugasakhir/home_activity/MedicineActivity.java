@@ -142,8 +142,8 @@ public class MedicineActivity extends AppCompatActivity implements TimePickerInt
         switch (item.getItemId()) {
             case R.id.action_remove:
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-                alertDialogBuilder.setMessage("Are you sure to remove this data ?");
-                alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                alertDialogBuilder.setMessage("Ingin menghapus obat ini ?");
+                alertDialogBuilder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dataHelper.delete_medicine(medicine.getId());
@@ -154,7 +154,7 @@ public class MedicineActivity extends AppCompatActivity implements TimePickerInt
                         finish();
                     }
                 });
-                alertDialogBuilder.setNegativeButton("no", new DialogInterface.OnClickListener() {
+                alertDialogBuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                     }

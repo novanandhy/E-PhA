@@ -45,7 +45,7 @@
         android:layout_gravity="bottom"
         android:background="@color/custom_button_first"
         android:fontFamily="sans-font_family_medium"
-        android:text="Confirm"
+        android:text="Konfirmasi"
         android:textAllCaps="false"
         android:textColor="@color/custom_text"
         android:textSize="18sp"

@@ -1,30 +1,21 @@
 package com.example.novan.tugasakhir.login_activity;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.support.v7.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.android.volley.Request.Method;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import com.example.novan.tugasakhir.MainActivity;
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.util.database.AppConfig;
@@ -32,10 +23,15 @@ import com.example.novan.tugasakhir.util.database.AppController;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 import com.example.novan.tugasakhir.util.database.SessionManager;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = RegisterActivity.class.getSimpleName();
     Button login;
-    ImageButton fb, google;
     EditText username, password;
     String username_string, password_string;
     ProgressDialog progressDialog;
@@ -83,25 +79,9 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     // Prompt user to enter credentials
                     Toast.makeText(getApplicationContext(),
-                            "Please enter the credentials!", Toast.LENGTH_LONG)
+                            "Tolong isi semua form", Toast.LENGTH_LONG)
                             .show();
                 }
-            }
-        });
-
-        fb = (ImageButton) findViewById(R.id.btn_facebook_login);
-        fb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(LoginActivity.this, "FB clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        google = (ImageButton) findViewById(R.id.btn_google_login);
-        google.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(LoginActivity.this, "Google clicked", Toast.LENGTH_SHORT).show();
             }
         });
     }

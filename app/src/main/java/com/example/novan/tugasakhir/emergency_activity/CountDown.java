@@ -3,9 +3,8 @@ package com.example.novan.tugasakhir.emergency_activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.os.CountDownTimer;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -51,7 +50,7 @@ public class CountDown extends Activity implements View.OnClickListener{
 
             @Override
             public void onFinish() {
-                countdown.setText("Done");
+                countdown.setText("Selesai");
                 ringtone.stop();
                 sendMessage.sendSMSByManager();
                 Intent intent = new Intent(CountDown.this, TutorialActivity.class);

@@ -89,9 +89,9 @@ public class TabFragment extends Fragment {
 
             switch (position){
                 case 0 :
-                    return "Homescreen";
+                    return "Halaman Utama";
                 case 1 :
-                    return "Overview";
+                    return "Daftar Obat";
             }
             return null;
         }

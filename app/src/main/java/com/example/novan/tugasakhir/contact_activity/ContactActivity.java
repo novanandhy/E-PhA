@@ -48,8 +48,8 @@ public class ContactActivity extends AppCompatActivity {
                  * create alert of deleting contact
                  */
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ContactActivity.this);
-                alertDialogBuilder.setMessage("Are you sure to remove this data ?");
-                alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                alertDialogBuilder.setMessage("Ingin menghapus kontak ini ?");
+                alertDialogBuilder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dataHelper.delete_contact((Integer) getIntent().getSerializableExtra("id"));
@@ -57,7 +57,7 @@ public class ContactActivity extends AppCompatActivity {
                         finish();
                     }
                 });
-                alertDialogBuilder.setNegativeButton("no", new DialogInterface.OnClickListener() {
+                alertDialogBuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                     }

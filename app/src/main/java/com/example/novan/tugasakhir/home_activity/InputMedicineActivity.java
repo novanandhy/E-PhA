@@ -59,9 +59,9 @@ public class InputMedicineActivity extends AppCompatActivity {
             //show toast if form not filled
             if (TextUtils.isEmpty(input1.getText()) || TextUtils.isEmpty(input2.getText()) ||
                     TextUtils.isEmpty(input3.getText()) || TextUtils.isEmpty(input4.getText())){
-                alertCreator("please fil all form");
+                alertCreator("Tolong isi semua form");
             }else if (Integer.parseInt(input2.getText().toString()) < Integer.parseInt(input3.getText().toString())){
-                alertCreator("Dosage should be less than amount");
+                alertCreator("Dosis harus kurang dari jumlah obat");
             }else {
                 name = input1.getText().toString();
                 amount = Integer.parseInt(input2.getText().toString());
@@ -80,12 +80,12 @@ public class InputMedicineActivity extends AppCompatActivity {
                         setResult(RESULT_OK,intent);
                         finish();
                     }else{
-                        alertCreator("this medicine is already exists");
+                        alertCreator("Obat ini sudah ada");
                     }
 
                 }catch (SQLException e){
                     e.printStackTrace();
-                    alertCreator("sorry, data not inserted");
+                    alertCreator("Maaf, obat ini gagal disimpan");
                     return;
                 }
             }
@@ -108,7 +108,7 @@ public class InputMedicineActivity extends AppCompatActivity {
     private void alertCreator(String msg){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage(msg);
-        alertDialogBuilder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
             }

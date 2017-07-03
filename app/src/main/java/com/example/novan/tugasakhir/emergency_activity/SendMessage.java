@@ -125,7 +125,7 @@ public class SendMessage implements GoogleApiClient.ConnectionCallbacks,
 
     private void delivSMS(String latitude, String longitude, String number_phone) {
         String link = "http://google.com/maps/place/"+latitude+","+longitude;
-        String message = "Hi, I'm novan. I'm in trouble now\nPlease check me at my location:\n"+
+        String message = "Halo, saya novan. Saya sedang ada masalah sekarang\nTolong bantu saya di lokasi:\n"+
                 link+"\n\n\nvia E-Pha Apps";
         SmsManager smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage(number_phone,null,message,null,null);

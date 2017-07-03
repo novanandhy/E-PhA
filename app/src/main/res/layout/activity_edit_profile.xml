@@ -51,10 +51,10 @@
                 android:id="@+id/edit_name_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Name"
+                android:hint="Nama"
                 android:textColor="@color/custom_primary_color"
-                android:textStyle="bold"
-                android:textSize="22sp"/>
+                android:textSize="22sp"
+                android:textStyle="bold" />
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
@@ -84,7 +84,7 @@
         android:layout_gravity="bottom"
         android:background="@color/custom_button_first"
         android:fontFamily="sans-font_family_medium"
-        android:text="Submit"
+        android:text="Simpan"
         android:textAllCaps="true"
         android:textColor="@color/custom_text"
         android:textSize="18sp"

@@ -52,7 +52,7 @@ public class EditMedineActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (TextUtils.isEmpty(input1.getText()) || TextUtils.isEmpty(input2.getText()) || TextUtils.isEmpty(input3.getText()) || TextUtils.isEmpty(input4.getText())){
-                    Toast.makeText(EditMedineActivity.this,"fill all form", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditMedineActivity.this,"Tolong isi semua form", Toast.LENGTH_SHORT).show();
                 } else {
                     name = input1.getText().toString();
                     amount = Integer.parseInt(input2.getText().toString());
@@ -70,7 +70,7 @@ public class EditMedineActivity extends AppCompatActivity {
                         finish();
                     }catch (SQLException e){
                         e.printStackTrace();
-                        Toast.makeText(EditMedineActivity.this, "data not inserted", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EditMedineActivity.this, "Data gagal dimasukkan", Toast.LENGTH_LONG).show();
                         return;
                     }
                 }

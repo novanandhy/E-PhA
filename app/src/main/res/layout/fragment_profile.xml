@@ -58,13 +58,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/contacts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Contacts"
                     android:gravity="center"
-                    android:textColor="@color/custom_primary_text"/>
+                    android:text="Kontak"
+                    android:textColor="@color/custom_primary_text" />
                 <TextView
                     android:id="@+id/id_contacts"
                     android:layout_width="match_parent"
@@ -80,13 +81,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/friendlist"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Friendlist"
                     android:gravity="center"
-                    android:textColor="@color/custom_primary_text"/>
+                    android:text="Teman"
+                    android:textColor="@color/custom_primary_text" />
                 <TextView
                     android:id="@+id/id_friendlist"
                     android:layout_width="match_parent"

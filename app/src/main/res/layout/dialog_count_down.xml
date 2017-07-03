@@ -30,14 +30,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <Button
             android:id="@+id/ok_countdown"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="YES"
-            android:textColor="@color/custom_text"
-            android:background="@color/custom_button_first"/>
+            android:background="@color/custom_button_first"
+            android:text="Ya"
+            android:textColor="@color/custom_text" />
     </LinearLayout>
 
 </LinearLayout>

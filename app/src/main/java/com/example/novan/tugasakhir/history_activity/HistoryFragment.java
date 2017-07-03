@@ -71,7 +71,7 @@ public class HistoryFragment extends Fragment {
     private void createLineChart(){
         // create description text
         lineChart.getDescription().setEnabled(true);
-        lineChart.getDescription().setText("Last 7 Day's Record Data");
+        lineChart.getDescription().setText("Data 7 hari terakhir");
 
         // enable touch gestures
         lineChart.setTouchEnabled(true);

@@ -80,9 +80,9 @@
                     android:id="@+id/edit_medicine"
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"
-                    android:hint="Medicane Name"
+                    android:hint="Nama Obat"
                     android:maxLines="1"
-                    android:singleLine="true"/>
+                    android:singleLine="true" />
             </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
             <!-- add some padding -->
@@ -95,10 +95,10 @@
                     android:id="@+id/edit_number_medicine"
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:hint="Medicine's Amount"
                     android:focusable="false"
-                    android:textColor="@color/custom_secondary_text"/>
+                    android:hint="Jumlah Obat"
+                    android:inputType="number"
+                    android:textColor="@color/custom_secondary_text" />
             </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
             <!-- add some padding -->
@@ -111,9 +111,9 @@
                     android:id="@+id/edit_dosage_medicine"
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"
+                    android:hint="Dosis Obat"
                     android:inputType="number"
-                    android:hint="Medicine's Dosage"
-                    android:singleLine="true"/>
+                    android:singleLine="true" />
             </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
             <!-- add some padding -->
@@ -126,11 +126,10 @@
                     android:id="@+id/edit_time_medicine"
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"
-                    android:hint="Medicine's Time per Day"
-                    android:inputType="number"
                     android:focusable="false"
-                    android:textColor="@color/custom_secondary_text"
-                    />
+                    android:hint="Waktu Konsumsi Perhari"
+                    android:inputType="number"
+                    android:textColor="@color/custom_secondary_text" />
             </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
 
@@ -147,7 +146,7 @@
         android:layout_alignParentStart="true"
         android:background="@color/custom_button_first"
         android:fontFamily="sans-font_family_medium"
-        android:text="SUBMIT"
+        android:text="Simpan"
         android:textAllCaps="true"
         android:textColor="@color/custom_text"
         android:textSize="18sp"

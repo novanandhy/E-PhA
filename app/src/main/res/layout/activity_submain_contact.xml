@@ -60,12 +60,12 @@
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
                 android:background="@drawable/bg_grey"
                 android:gravity="center_vertical"
+                android:paddingBottom="10dp"
                 android:paddingLeft="20dp"
-                android:text="Name"
+                android:paddingTop="10dp"
+                android:text="Nama"
                 android:textColor="@color/custom_text"
                 android:textSize="16sp" />
 
@@ -86,37 +86,38 @@
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
                 android:layout_marginTop="30dp"
-                android:paddingLeft="20dp"
-                android:text="Number"
-                android:gravity="center_vertical"
-                android:textColor="@color/custom_text"
                 android:background="@drawable/bg_grey"
-                android:textSize="16sp"/>
+                android:gravity="center_vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:text="Nomor"
+                android:textColor="@color/custom_text"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/contact_number_preview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:layout_marginTop="25dp"
-                android:paddingLeft="20dp"
                 android:fontFamily="sans-serif"
+                android:paddingLeft="20dp"
                 android:text="085xxxxxxxxxxx"
+                android:textColor="@color/custom_primary_text"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:typeface="normal"
-                android:textColor="@color/custom_primary_text"/>
+                android:typeface="normal" />
 
             <Button
                 android:id="@+id/button_delete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/holo_red_light"
-                android:text="Delete"
                 android:layout_gravity="center|bottom"
-                android:textColor="@color/custom_text"/>
+                android:background="@android:color/holo_red_light"
+                android:text="Hapus"
+                android:textColor="@color/custom_text" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

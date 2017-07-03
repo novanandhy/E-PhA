@@ -83,16 +83,6 @@
         </activity>
 
         <activity
-            android:name=".contact_activity.EditContactActivity"
-            android:label="@string/title_activity_edit_contact"
-            android:parentActivityName=".contact_activity.ContactActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.novan.tugasakhir.contact_activity.ContactActivity" />
-        </activity>
-
-        <activity
             android:name=".friend_activity.SearchFriendActivity"
             android:label="@string/title_activity_search_friend"
             android:parentActivityName=".MainActivity"

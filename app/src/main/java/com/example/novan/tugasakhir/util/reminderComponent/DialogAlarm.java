@@ -1,12 +1,7 @@
 package com.example.novan.tugasakhir.util.reminderComponent;
 
 import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -71,7 +66,7 @@ public class DialogAlarm extends Activity {
         Log.d(TAG,"Name medicine dialog "+name);
 
         message = (TextView) findViewById(R.id.dialog_text);
-        message.setText("Time to consume "+name);
+        message.setText("Saatnya meminum obat "+name);
 
         okbutton = (Button) findViewById(R.id.ok_dialog);
         okbutton.setOnClickListener(new View.OnClickListener() {

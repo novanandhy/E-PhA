@@ -74,15 +74,16 @@
                             android:layout_height="15dp"
                             android:src="@drawable/drugs"
                             android:layout_gravity="center_vertical"/>
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
                             android:fontFamily="sans-font_family_medium"
-                            android:text="Time"
+                            android:text="Waktu"
                             android:textColor="@color/custom_primary_text"
                             android:textSize="15dp"
-                            android:typeface="normal"
-                            android:layout_marginLeft="5dp"/>
+                            android:typeface="normal" />
                     </LinearLayout>
                     <TextView
                         android:id="@+id/medicine_time"
@@ -112,15 +113,16 @@
                             android:layout_height="15dp"
                             android:layout_gravity="center_vertical"
                             android:src="@drawable/dropper" />
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
                             android:fontFamily="sans-font_family_medium"
-                            android:text="Dosage"
+                            android:text="Dosis"
                             android:textColor="@color/custom_primary_text"
                             android:textSize="15dp"
-                            android:typeface="normal"
-                            android:layout_marginLeft="5dp"/>
+                            android:typeface="normal" />
                     </LinearLayout>
                     <TextView
                         android:id="@+id/medicine_dosage"
