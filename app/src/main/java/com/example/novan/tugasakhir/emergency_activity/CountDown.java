@@ -66,6 +66,7 @@ public class CountDown extends Activity implements View.OnClickListener{
     public void onClick(View v) {
         if(v == ok) {
             ringtone.stop();
+            countDownTimer.cancel();
             finish();
         }
     }
@@ -76,5 +77,5 @@ public class CountDown extends Activity implements View.OnClickListener{
     }
 
     @Override
-    public void onBackPressed() {    }
+    public void onBackPressed() {}
 }

@@ -6,10 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationManager;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -20,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.emergency_activity.CountDown;
@@ -53,29 +50,6 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
     DataHelper dataHelper;
 
     private static final int TWO_MINUTES = 1000 * 60 * 2;
-    
-    //variable for sensor
-    public double ax,ay,az;
-    public double a_norm;
-    public double a_n;
-
-    public int i = 0;
-    public int x = 0;
-    public double max_dif = 0;
-
-    static int BUFF_SIZE = 50;
-    static int TEMP_SIZE = 2;
-    static public double[] window = new double[BUFF_SIZE];
-    static public double[] temp = new double[TEMP_SIZE];
-
-    public double GRAVITY = 9.8;
-    double sigma = 0.5,th = 10,th1 = 5,th2 = 2, th3 = (1.2*GRAVITY);
-
-    private SensorManager sensorManager;
-    public static String curr_state,prev_state;
-    public MediaPlayer m1_fall,m2_sit,m3_stand,m4_walk;
-
-    TextView xCoor, yCoor, zCoor, total, max, min, diff, max_diff, status;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
