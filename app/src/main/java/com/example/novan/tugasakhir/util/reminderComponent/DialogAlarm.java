@@ -1,11 +1,13 @@
 package com.example.novan.tugasakhir.util.reminderComponent;
 
 import android.app.Activity;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +34,8 @@ import java.util.Map;
 public class DialogAlarm extends Activity {
     private Button okbutton, cancelbutton;
     private TextView message,dosage_message;
+    private ImageView photo;
+
     private String name;
     private String TAG = "TAGapp";
 
@@ -69,12 +73,15 @@ public class DialogAlarm extends Activity {
 
         for (int i = 0; i <medicines.size() ; i++) {
             if (name.equalsIgnoreCase(medicines.get(i).getMedicine_name())) {
-                String name_medicine = medicines.get(i).getMedicine_name();
+                byte[] image = medicines.get(i).getImage();
                 int dosage = medicines.get(i).getDosage();
 
                 //print message to dialog
                 dosage_message = (TextView) findViewById(R.id.dialog_text_dosis);
                 dosage_message.setText("dosis: "+dosage);
+
+                photo = (ImageView) findViewById(R.id.image_dialog);
+                photo.setImageBitmap(BitmapFactory.decodeByteArray(medicines.get(i).getImage(),0,medicines.get(i).getImage().length));
             }
         }
 
@@ -122,6 +129,7 @@ public class DialogAlarm extends Activity {
                 int dosage = medicines.get(i).getDosage();
                 int remain = medicines.get(i).getRemain();
                 int count = medicines.get(i).getCount();
+                byte[] img = medicines.get(i).getImage();
 
                 schedules = dataHelper.getAllSchedule(medicines.get(i).getUid());
 
@@ -130,10 +138,10 @@ public class DialogAlarm extends Activity {
                 if(status == 1 && (remain - dosage) > 0){
                     remain = remain-dosage;
                     storeRelapseHistory(uid,id,"1",date,month,year);
-                    dataHelper.update_medicine(id,name_medicine,amount,dosage,remain,count);
+                    dataHelper.update_medicine(id,name_medicine,amount,dosage,remain,count,img);
                 }else if(status == 0 && (remain - dosage) > 0){
                     storeRelapseHistory(uid,id,"0",date,month,year);
-                    dataHelper.update_medicine(id,name_medicine,amount,dosage,remain,count);
+                    dataHelper.update_medicine(id,name_medicine,amount,dosage,remain,count,img);
                 }else{
                     dataHelper.delete_medicine(id);
                     removeSchedule(schedules.size());

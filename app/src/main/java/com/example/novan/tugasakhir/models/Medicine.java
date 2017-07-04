@@ -19,6 +19,7 @@ public class Medicine implements Parcelable {
     private int count;
     private int id;
     private String uid;
+    private byte[] image;
 
     public Medicine(String medicine_name, int amount, int remain, int dosage, int count) {
         this.medicine_name = medicine_name;
@@ -36,6 +37,7 @@ public class Medicine implements Parcelable {
         this.remain = cursor.getInt(cursor.getColumnIndex(DataHelper.COLUMN_REMAINS_MEDICINE));
         this.dosage = cursor.getInt(cursor.getColumnIndex(DataHelper.COLUMN_DOSAGE_MEDICINE));
         this.count = cursor.getInt(cursor.getColumnIndex(DataHelper.COLUMN_COUNT_MEDICINE));
+        this.image = cursor.getBlob(cursor.getColumnIndex(DataHelper.COLUMN_IMAGE_MEDICINE));
     }
 
     protected Medicine(Parcel in) {
@@ -46,6 +48,7 @@ public class Medicine implements Parcelable {
         count = in.readInt();
         id = in.readInt();
         uid = in.readString();
+        image = in.createByteArray();
     }
 
     public static final Creator<Medicine> CREATOR = new Creator<Medicine>() {
@@ -60,59 +63,68 @@ public class Medicine implements Parcelable {
         }
     };
 
-    public void setMedicine_name(String medicine_name) {
-        this.medicine_name = medicine_name;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public void setRemain(int remain) {
-        this.remain = remain;
-    }
-
-    public void setDosage(int dosage) {
-        this.dosage = dosage;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
     public String getMedicine_name() {
         return medicine_name;
+    }
+
+    public void setMedicine_name(String medicine_name) {
+        this.medicine_name = medicine_name;
     }
 
     public int getAmount() {
         return amount;
     }
 
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
     public int getRemain() {
         return remain;
+    }
+
+    public void setRemain(int remain) {
+        this.remain = remain;
     }
 
     public int getDosage() {
         return dosage;
     }
 
+    public void setDosage(int dosage) {
+        this.dosage = dosage;
+    }
+
     public int getCount() {
         return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 
     public int getId() {
         return id;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getUid() {
         return uid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     @Override
@@ -129,5 +141,6 @@ public class Medicine implements Parcelable {
         dest.writeInt(count);
         dest.writeInt(id);
         dest.writeString(uid);
+        dest.writeByteArray(image);
     }
 }

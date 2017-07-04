@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.example.novan.tugasakhir.models.Contact;
@@ -16,11 +15,8 @@ import com.example.novan.tugasakhir.models.Relapse;
 import com.example.novan.tugasakhir.models.Schedule;
 import com.example.novan.tugasakhir.models.User;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 
 /**
  * Created by Novan on 29/03/2017.
@@ -64,6 +60,7 @@ public class DataHelper extends SQLiteOpenHelper {
     public static final String COLUMN_DOSAGE_MEDICINE = "dosage_medicine";
     public static final String COLUMN_REMAINS_MEDICINE = "remain_medicine";
     public static final String COLUMN_COUNT_MEDICINE = "count_medicine";
+    public static final String COLUMN_IMAGE_MEDICINE = "image_medicine";
 
     //Table Schedule Data
     public static final String COLUMN_ID_SCHEDULE = "id_schedule";
@@ -110,7 +107,7 @@ public class DataHelper extends SQLiteOpenHelper {
     //Create Table
     private static final String DB_MEDICINE = "create table db_medic (id_medicine integer primary key" +
             " AUTOINCREMENT, uid_medicine text, name_medicine text, amount_medicine integer , " +
-            "dosage_medicine integer, count_medicine integer, remain_medicine integer );";
+            "dosage_medicine integer, count_medicine integer, remain_medicine integer, image_medicine blob);";
     private static final String DB_CONTACT = "create table db_contact (id_contact integer primary " +
             "key AUTOINCREMENT, name_contact text, number_contact text);";
     private static final String DB_SCHEDULE = "create table db_schedule (id_schedule integer primary " +
@@ -164,7 +161,7 @@ public class DataHelper extends SQLiteOpenHelper {
 
 
     //CRUD Medicine
-    public Medicine save_medicine(String uid, String name, int amount, int dosage, int remain, int count){
+    public Medicine save_medicine(String uid, String name, int amount, int dosage, int remain, int count, byte[] img){
         SQLiteDatabase db = this.getWritableDatabase();
 
         Medicine medicine = new Medicine(name,amount,remain,dosage,count);
@@ -176,6 +173,7 @@ public class DataHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_DOSAGE_MEDICINE,dosage);
         cv.put(COLUMN_COUNT_MEDICINE,count);
         cv.put(COLUMN_REMAINS_MEDICINE,remain);
+        cv.put(COLUMN_IMAGE_MEDICINE,img);
         addSchedule(uid,count);
         db.insert(TABLE_MEDICINE,null,cv);
         db.close();
@@ -183,7 +181,7 @@ public class DataHelper extends SQLiteOpenHelper {
         return medicine;
     }
 
-    public Medicine update_medicine(int id, String name, int amount, int dosage, int remain, int count){
+    public Medicine update_medicine(int id, String name, int amount, int dosage, int remain, int count, byte[] img){
         SQLiteDatabase db = this.getWritableDatabase();
 
         Medicine medicine = new Medicine(name,amount,remain,dosage,count);
@@ -194,6 +192,7 @@ public class DataHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_DOSAGE_MEDICINE,dosage);
         cv.put(COLUMN_COUNT_MEDICINE,count);
         cv.put(COLUMN_REMAINS_MEDICINE,remain);
+        cv.put(COLUMN_IMAGE_MEDICINE,img);
         db.update(TABLE_MEDICINE,cv,"id_medicine="+id,null);
         db.close();
 
