@@ -122,7 +122,6 @@ public class DialogAlarm extends Activity {
                 int dosage = medicines.get(i).getDosage();
                 int remain = medicines.get(i).getRemain();
                 int count = medicines.get(i).getCount();
-                byte[] image = medicines.get(i).getImage();
 
                 schedules = dataHelper.getAllSchedule(medicines.get(i).getUid());
 
@@ -131,10 +130,10 @@ public class DialogAlarm extends Activity {
                 if(status == 1 && (remain - dosage) > 0){
                     remain = remain-dosage;
                     storeRelapseHistory(uid,id,"1",date,month,year);
-                    dataHelper.update_medicine(id,name_medicine,amount,dosage,remain,count,image);
+                    dataHelper.update_medicine(id,name_medicine,amount,dosage,remain,count);
                 }else if(status == 0 && (remain - dosage) > 0){
                     storeRelapseHistory(uid,id,"0",date,month,year);
-                    dataHelper.update_medicine(id,name_medicine,amount,dosage,remain,count,image);
+                    dataHelper.update_medicine(id,name_medicine,amount,dosage,remain,count);
                 }else{
                     dataHelper.delete_medicine(id);
                     removeSchedule(schedules.size());
