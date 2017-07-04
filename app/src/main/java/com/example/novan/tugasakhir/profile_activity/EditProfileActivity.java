@@ -1,6 +1,7 @@
 package com.example.novan.tugasakhir.profile_activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.novan.tugasakhir.MainActivity;
 import com.example.novan.tugasakhir.R;
+import com.example.novan.tugasakhir.home_activity.EditMedineActivity;
 import com.example.novan.tugasakhir.models.User;
 import com.example.novan.tugasakhir.util.database.AppConfig;
 import com.example.novan.tugasakhir.util.database.AppController;
@@ -152,6 +154,8 @@ public class EditProfileActivity extends AppCompatActivity {
                     if (null != selectedImageUri) {
                         image = MediaStore.Images.Media.getBitmap(getContentResolver(),selectedImageUri);
                         photo.setImageBitmap(image);
+                        //scale down image
+                        image = scaleDownBitmap(image,100,EditProfileActivity.this);
                     }
                 }
             }else {
@@ -274,5 +278,17 @@ public class EditProfileActivity extends AppCompatActivity {
     private void hideDialog() {
         if (progressDialog.isShowing())
             progressDialog.dismiss();
+    }
+
+    public static Bitmap scaleDownBitmap(Bitmap photo, int newHeight, Context context) {
+
+        final float densityMultiplier = context.getResources().getDisplayMetrics().density;
+
+        int h= (int) (newHeight*densityMultiplier);
+        int w= (int) (h * photo.getWidth()/((double) photo.getHeight()));
+
+        photo=Bitmap.createScaledBitmap(photo, w, h, true);
+
+        return photo;
     }
 }
