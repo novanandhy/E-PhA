@@ -23,11 +23,10 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="1"
-        android:layout_below="@+id/appBarLayout"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="150dp"
-        android:layout_marginLeft="8dp">
+        android:layout_marginTop="44dp"
+        android:layout_below="@+id/toolbar"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/linearLayout">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -129,6 +128,27 @@
 
         </LinearLayout>
     </LinearLayout>
+
+    <com.rey.material.widget.ImageView
+        android:id="@+id/medicine_image"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/drugs"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/image_add_medicine_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/camera"
+        app:backgroundTint="@color/custom_button_first"
+        app:fab_type="mini"
+        android:layout_marginBottom="12dp"
+        android:layout_above="@+id/button"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/button"

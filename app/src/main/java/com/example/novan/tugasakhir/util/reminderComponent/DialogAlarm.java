@@ -31,7 +31,7 @@ import java.util.Map;
 
 public class DialogAlarm extends Activity {
     private Button okbutton, cancelbutton;
-    private TextView message;
+    private TextView message,dosage_message;
     private String name;
     private String TAG = "TAGapp";
 
@@ -48,8 +48,6 @@ public class DialogAlarm extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         setContentView(R.layout.dialog_alarm);
 
         dataHelper = new DataHelper(this);
@@ -58,6 +56,7 @@ public class DialogAlarm extends Activity {
         schedules = new ArrayList<>();
 
         users = dataHelper.getUserDetail();
+        medicines = dataHelper.getAllMedicine();
         int count = 0;
 
         uid = users.get(count).getUnique_id();
@@ -66,7 +65,18 @@ public class DialogAlarm extends Activity {
         Log.d(TAG,"Name medicine dialog "+name);
 
         message = (TextView) findViewById(R.id.dialog_text);
-        message.setText("Saatnya meminum obat "+name);
+        message.setText("saatnya meminum obat "+name);
+
+        for (int i = 0; i <medicines.size() ; i++) {
+            if (name.equalsIgnoreCase(medicines.get(i).getMedicine_name())) {
+                String name_medicine = medicines.get(i).getMedicine_name();
+                int dosage = medicines.get(i).getDosage();
+
+                //print message to dialog
+                dosage_message = (TextView) findViewById(R.id.dialog_text_dosis);
+                dosage_message.setText("dosis: "+dosage);
+            }
+        }
 
         okbutton = (Button) findViewById(R.id.ok_dialog);
         okbutton.setOnClickListener(new View.OnClickListener() {
@@ -98,8 +108,6 @@ public class DialogAlarm extends Activity {
     }
 
     private void changeStatusAndRemain(String name, int status){
-        medicines = dataHelper.getAllMedicine();
-
         calendar = Calendar.getInstance();
 
         String date = String.valueOf(calendar.get(Calendar.DATE));
@@ -114,6 +122,7 @@ public class DialogAlarm extends Activity {
                 int dosage = medicines.get(i).getDosage();
                 int remain = medicines.get(i).getRemain();
                 int count = medicines.get(i).getCount();
+                byte[] image = medicines.get(i).getImage();
 
                 schedules = dataHelper.getAllSchedule(medicines.get(i).getUid());
 
@@ -122,10 +131,10 @@ public class DialogAlarm extends Activity {
                 if(status == 1 && (remain - dosage) > 0){
                     remain = remain-dosage;
                     storeRelapseHistory(uid,id,"1",date,month,year);
-                    dataHelper.update_medicine(id,name_medicine,amount,dosage,remain,count);
+                    dataHelper.update_medicine(id,name_medicine,amount,dosage,remain,count,image);
                 }else if(status == 0 && (remain - dosage) > 0){
                     storeRelapseHistory(uid,id,"0",date,month,year);
-                    dataHelper.update_medicine(id,name_medicine,amount,dosage,remain,count);
+                    dataHelper.update_medicine(id,name_medicine,amount,dosage,remain,count,image);
                 }else{
                     dataHelper.delete_medicine(id);
                     removeSchedule(schedules.size());
