@@ -16,16 +16,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.novan.tugasakhir.R;
+import com.example.novan.tugasakhir.models.Schedule;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -56,7 +54,7 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
 
     DataHelper dataHelper;
 
-    private ArrayList<String> kota;
+    private ArrayList<Schedule> schedules;
 
     private static final int TWO_MINUTES = 1000 * 60 * 2;
 
@@ -66,6 +64,7 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
         context = getActivity().getApplicationContext();
         view = inflater.inflate(R.layout.fragment_homescreen, container, false);
         dataHelper = new DataHelper(context);
+        schedules = new ArrayList<>();
 
         //create google API
         buildGoogleApiClient();
@@ -75,62 +74,31 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
         return view;
     }
 
-    private void initView(){
+    @Override
+    public void onResume() {
+        initView();
+        super.onResume();
+    }
+
+    private void initView() {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.card_recycler_view);
         recyclerView.setHasFixedSize(true);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
-        kota = new ArrayList<>();
-        kota.add("Semarang");
-        kota.add("Jakarta");
-        kota.add("Surabaya");
-        kota.add("Bandung");
-        kota.add("Srakarta");
-        kota.add("Depok");
-        kota.add("Semarang");
-        kota.add("Kendal");
-        kota.add("Bogor");
+        schedules.clear();
+        schedules = dataHelper.getAllActiveSchedule();
 
-        RecyclerView.Adapter adapter = new DataAdapter(kota);
+        RecyclerView.Adapter adapter = new DataAdapter(schedules);
         recyclerView.setAdapter(adapter);
-
-        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            GestureDetector gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-
-                public boolean onSingleTapUp(MotionEvent e){
-                    return true;
-                }
-            });
-
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                View child = rv.findChildViewUnder(e.getX(), e.getY());
-                if (child != null && gestureDetector.onTouchEvent(e)){
-                    int position = rv.getChildAdapterPosition(child);
-                    Toast.makeText(context, kota.get(position), Toast.LENGTH_SHORT).show();
-                }
-                return false;
-            }
-
-            @Override
-            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-            }
-        });
     }
 
     private class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
-        private ArrayList<String> kota;
+        private ArrayList<Schedule> schedules;
 
-        public DataAdapter(ArrayList<String> kota){
-            this.kota = kota;
+        public DataAdapter(ArrayList<Schedule> schedules){
+            this.schedules = schedules;
         }
 
 
@@ -142,21 +110,39 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
 
         @Override
         public void onBindViewHolder(DataAdapter.ViewHolder viewHolder, int i) {
+            int hour = schedules.get(i).getHour();
+            int minute = schedules.get(i).getMinute();
+            String time;
 
-            viewHolder.txtkota.setText(kota.get(i));
+            if (hour<10 && minute<10){
+                time = "0"+hour+":0"+minute;
+            }else if(minute<10 && hour>=10){
+                time = +hour+":0"+minute;
+            }else if(hour<10 && minute>=10){
+                time = "0"+hour+":"+minute;
+            }else{
+                time = hour+":"+minute;
+            }
+
+            viewHolder.name.setText(schedules.get(i).getUid());
+            viewHolder.time.setText(time);
         }
 
         @Override
         public int getItemCount() {
-            return kota.size();
+            return schedules.size();
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            private TextView txtkota;
+            TextView name;
+            TextView time;
+            TextView dosage;
+
             public ViewHolder(View view) {
                 super(view);
-
-                txtkota = (TextView)view.findViewById(R.id.medicine_name_cardview);
+                name = (TextView)view.findViewById(R.id.medicine_name_cardview);
+                time = (TextView)view.findViewById(R.id.time_cardview);
+                dosage = (TextView)view.findViewById(R.id.dosage_cardview);
             }
         }
     }

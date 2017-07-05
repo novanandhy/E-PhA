@@ -279,6 +279,25 @@ public class DataHelper extends SQLiteOpenHelper {
         return schedule;
     }
 
+    public ArrayList<Schedule> getAllActiveSchedule(){
+        ArrayList<Schedule> schedule = new ArrayList<>();
+        String sql = "SELECT * FROM "+ TABLE_SCHEDULE +" WHERE "+COLUMN_STATUS_SCHEDULE+" = '1' ORDER BY "+COLUMN_HOUR_SCHEDULE+" ASC, "+COLUMN_MINUTE_SCHEDULE+" ASC";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(sql,null);
+        cursor.moveToFirst();
+        Log.d(TAG,"size cursor schedule: "+cursor.getCount());
+        if(cursor.getCount() > 0 ) {
+            do {
+                schedule.add(new Schedule(cursor));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        db.close();
+        return schedule;
+    }
+
     public void update_schedule(int id, int hour, int minute, int status){
         SQLiteDatabase db = this.getWritableDatabase();
 
