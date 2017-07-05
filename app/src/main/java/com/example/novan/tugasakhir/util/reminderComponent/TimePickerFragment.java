@@ -28,7 +28,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
     private String TAG = "TAGapp";
     DataHelper dataHelper;
     int id, status, hourNow, minuteNow;
-    String name;
+    String uid;
     TimePickerInterface timePickerInterface;
     Calendar calendar ;
     long time, timeTmp;
@@ -48,9 +48,9 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         timePickerInterface = (TimePickerInterface) getActivity();
 
         id = getArguments().getInt("id");
-        name = getArguments().getString("name");
+        uid = getArguments().getString("uid");
         Log.d(TAG,"id schedule = "+id);
-        Log.d(TAG,"name schedule = "+name);
+        Log.d(TAG,"uid_medicine schedule = "+uid);
 
         //Create and return a new instance of TimePickerDialog
         return new TimePickerDialog(getActivity(),this, hourNow, minuteNow,
@@ -59,15 +59,15 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-        setAlarm(getActivity(),name, hour, minute, id);
+        setAlarm(getActivity(),uid, hour, minute, id);
         status = 1;
         dataHelper.update_schedule(id,hour,minute,status);
         timePickerInterface.OnTimeUpdate();
     }
 
-    public void setAlarm(Context context, String name, int hour, int minute, int requestCode) {
+    public void setAlarm(Context context, String uid, int hour, int minute, int requestCode) {
         Intent intent = new Intent(context, AlarmReceiver.class);
-        intent.putExtra("name", name);
+        intent.putExtra("uid", uid);
         intent.putExtra("requestCode", requestCode);
 
         calendar = Calendar.getInstance();

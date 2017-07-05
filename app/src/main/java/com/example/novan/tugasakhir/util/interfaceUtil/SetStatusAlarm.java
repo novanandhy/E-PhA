@@ -7,6 +7,6 @@ import android.content.Context;
  */
 
 public interface SetStatusAlarm {
-    public void setAlarm(Context context, String name, int hour, int minute, int requestCode);
+    public void setAlarm(Context context, String uid, int hour, int minute, int requestCode);
     public void cancelAlarm(Context context,int requestCode);
 }

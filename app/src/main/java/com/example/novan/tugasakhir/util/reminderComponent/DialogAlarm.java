@@ -36,7 +36,7 @@ public class DialogAlarm extends Activity {
     private TextView message,dosage_message;
     private ImageView photo;
 
-    private String name;
+    private String uid_medicine, name;
     private String TAG = "TAGapp";
 
     private DataHelper dataHelper;
@@ -65,23 +65,25 @@ public class DialogAlarm extends Activity {
 
         uid = users.get(count).getUnique_id();
 
-        name = getIntent().getStringExtra("name");
-        Log.d(TAG,"Name medicine dialog "+name);
+        uid_medicine = getIntent().getStringExtra("uid");
+        Log.d(TAG,"uid medicine dialog "+uid_medicine);
 
         message = (TextView) findViewById(R.id.dialog_text);
-        message.setText("saatnya meminum obat "+name);
 
         for (int i = 0; i <medicines.size() ; i++) {
-            if (name.equalsIgnoreCase(medicines.get(i).getMedicine_name())) {
+            if (uid_medicine.equalsIgnoreCase(medicines.get(i).getUid())) {
                 byte[] image = medicines.get(i).getImage();
                 int dosage = medicines.get(i).getDosage();
+                name = medicines.get(i).getMedicine_name();
 
                 //print message to dialog
+                message.setText("saatnya meminum obat "+name);
+
                 dosage_message = (TextView) findViewById(R.id.dialog_text_dosis);
                 dosage_message.setText("dosis: "+dosage);
 
                 photo = (ImageView) findViewById(R.id.image_dialog);
-                photo.setImageBitmap(BitmapFactory.decodeByteArray(medicines.get(i).getImage(),0,medicines.get(i).getImage().length));
+                photo.setImageBitmap(BitmapFactory.decodeByteArray(image,0,image.length));
             }
         }
 
@@ -89,14 +91,14 @@ public class DialogAlarm extends Activity {
         okbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeStatusAndRemain(name,1);
+                changeStatusAndRemain(uid_medicine,1);
             }
         });
         cancelbutton = (Button) findViewById(R.id.cancel_dialog);
         cancelbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeStatusAndRemain(name,0);
+                changeStatusAndRemain(uid_medicine,0);
             }
         });
     }
@@ -114,7 +116,7 @@ public class DialogAlarm extends Activity {
         return false;
     }
 
-    private void changeStatusAndRemain(String name, int status){
+    private void changeStatusAndRemain(String uid_medicine, int status){
         calendar = Calendar.getInstance();
 
         String date = String.valueOf(calendar.get(Calendar.DATE));
@@ -122,7 +124,7 @@ public class DialogAlarm extends Activity {
         String year = String.valueOf(calendar.get(Calendar.YEAR));
 
         for (int i = 0; i <medicines.size() ; i++){
-            if(name.equalsIgnoreCase(medicines.get(i).getMedicine_name())){
+            if(uid_medicine.equalsIgnoreCase(medicines.get(i).getUid())){
                 int id = medicines.get(i).getId();
                 String name_medicine = medicines.get(i).getMedicine_name();
                 int amount = medicines.get(i).getAmount();

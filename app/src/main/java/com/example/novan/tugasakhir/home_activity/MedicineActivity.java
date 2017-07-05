@@ -109,7 +109,7 @@ public class MedicineActivity extends AppCompatActivity implements TimePickerInt
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Bundle bundle = new Bundle();
                 bundle.putInt("id",schedules.get(i).getId());
-                bundle.putString("name", medicine.getMedicine_name());
+                bundle.putString("uid",uid_name_medicine);
                 bundle.getInt("status", schedules.get(i).getStatus());
 
                 newFragment.setArguments(bundle);
@@ -243,7 +243,7 @@ public class MedicineActivity extends AppCompatActivity implements TimePickerInt
                     if(checked){
                         viewHolder.alarm_time.setTextColor(getResources().getColor(R.color.custom_primary_color));
                         dataHelper.update_schedule(id,hour,minute,1);
-                        newFragment.setAlarm(MedicineActivity.this,name,hour,minute,id);
+                        newFragment.setAlarm(MedicineActivity.this,uid_name_medicine,hour,minute,id);
                         Toast.makeText(MedicineActivity.this, "Alarm active", Toast.LENGTH_SHORT).show();
                     }else{
                         viewHolder.alarm_time.setTextColor(getResources().getColor(R.color.custom_primary_text));

@@ -12,6 +12,10 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.example.novan.tugasakhir.R;
+import com.example.novan.tugasakhir.models.Medicine;
+import com.example.novan.tugasakhir.util.database.DataHelper;
+
+import java.util.ArrayList;
 
 /**
  * Created by Novan on 08/05/2017.
@@ -19,10 +23,26 @@ import com.example.novan.tugasakhir.R;
 
 public class AlarmReceiver extends BroadcastReceiver {
     String TAG = "APPname";
+    String name;
+
+    private ArrayList<Medicine> medicines;
+    private DataHelper dataHelper;
+
     @Override
     public void onReceive(Context context, Intent intent) {
+        dataHelper = new DataHelper(context);
+        medicines = new ArrayList<>();
+
+        medicines = dataHelper.getAllMedicine();
+
         int requestCode = intent.getIntExtra("requestCode",0);
-        String name = intent.getStringExtra("name");
+        String uid = intent.getStringExtra("uid");
+
+        for (int i = 0 ; i < medicines.size() ; i++){
+            if (uid.equalsIgnoreCase(medicines.get(i).getUid())){
+                name = medicines.get(i).getMedicine_name();
+            }
+        }
 
         Log.d(TAG,"Alarm code "+requestCode);
 
@@ -30,7 +50,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
 
         Intent notificationIntent = new Intent(context, DialogAlarm.class);
-        notificationIntent.putExtra("name",name);
+        notificationIntent.putExtra("uid",uid);
         PendingIntent contentIntent = PendingIntent.getActivity(context,0,notificationIntent,PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
