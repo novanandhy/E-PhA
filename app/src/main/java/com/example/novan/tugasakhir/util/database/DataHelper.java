@@ -327,6 +327,7 @@ public class DataHelper extends SQLiteOpenHelper {
         try{
             String sql = "DELETE FROM "+TABLE_SCHEDULE+" WHERE "+COLUMN_UIDMedicine_SCHEDULE+" = '"+uid+"'";
             db.execSQL(sql);
+            Log.d(TAG,"schedule deleted");
         }catch (Exception e){
             Log.d(TAG,"schedule not deleted");
         }

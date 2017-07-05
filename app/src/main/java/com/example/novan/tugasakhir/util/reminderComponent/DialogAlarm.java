@@ -144,6 +144,7 @@ public class DialogAlarm extends Activity {
                     dataHelper.update_medicine(id,name_medicine,amount,dosage,remain,count,img);
                 }else{
                     dataHelper.delete_medicine(id);
+                    dataHelper.delete_schedule(medicines.get(i).getUid());
                     removeSchedule(schedules.size());
                 }
 
