@@ -1,6 +1,6 @@
 package com.example.novan.tugasakhir.util.service;
 
-import android.app.NotificationManager;
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
@@ -10,8 +10,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
+import android.util.Log;
 
 import com.example.novan.tugasakhir.MainActivity;
 import com.example.novan.tugasakhir.R;
@@ -36,6 +35,8 @@ public class SensorService extends Service implements SensorEventListener{
     public int i = 0;
     public int x = 0;
     public double max_dif = 0;
+    public String TAG = "TAGapp";
+    private int ONGOING_NOTIFICATION_ID = 101;
 
     static int BUFF_SIZE = 50;
     static int TEMP_SIZE = 2;
@@ -56,44 +57,36 @@ public class SensorService extends Service implements SensorEventListener{
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // sudah selesai, siapkan notif builder
-        NotificationCompat.Builder notifBuilder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle("My Service")
-                        .setContentText("Service is running");
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
-// explisit intent untuk memulai activity
-        Intent resultIntent = new Intent(this, MainActivity.class);
-// Gunakan taskstack agar saat user menekan tombol back tetap konsisten
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(MainActivity.class);
-        stackBuilder.addNextIntent(resultIntent);
+        Notification notification = new Notification.Builder(this)
+                .setContentTitle("Epha Fall Detector")
+                .setContentText("Deteksi jatuh berjalan")
+                .setSmallIcon(R.drawable.medicine)
+                .setContentIntent(pendingIntent)
+                .setColor(getResources().getColor(R.color.custom_primary_color))
+                .build();
 
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(
-                        0,PendingIntent.FLAG_UPDATE_CURRENT
-                );
-        notifBuilder.setContentIntent(resultPendingIntent);
-        notifBuilder.setAutoCancel(true);//agar setelah ditap tutup otomatis
-
-//notifmanager untuk menampilkan
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-// 999 id untuk jika perlu modif nanti (bagusnya jadi konstanta).
-        mNotificationManager.notify(999, notifBuilder.build());
-
+        startForeground(ONGOING_NOTIFICATION_ID, notification);
 
         //create sensor listener
         sensorManager=(SensorManager) getSystemService(Context.SENSOR_SERVICE);
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_UI);
         initialize();
-        return START_NOT_STICKY;
+
+        Log.d(TAG,"Service is started");
+        return START_STICKY;
     }
 
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     @Override

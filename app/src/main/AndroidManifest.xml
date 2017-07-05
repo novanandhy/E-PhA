@@ -137,7 +137,10 @@
 
         <receiver android:name=".util.reminderComponent.AlarmReceiver" />
 
-        <service android:name=".util.service.SensorService"/>
+        <service
+            android:name=".util.service.SensorService"
+            android:enabled="true" />
+
     </application>
 
 </manifest>

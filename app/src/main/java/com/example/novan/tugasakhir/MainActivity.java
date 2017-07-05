@@ -1,5 +1,6 @@
 package com.example.novan.tugasakhir;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -78,7 +79,9 @@ public class MainActivity extends AppCompatActivity  {
 
         //start service
         Intent myService = new Intent(this, SensorService.class);
-        startService(myService);
+        if (!isMyServiceRunning(SensorService.class)) {
+            startService(myService);
+        }
 
         int count = 0;
         Log.d(TAG,"previllage user = "+users.get(count).getPrevillage());
@@ -238,6 +241,11 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
     public void onBackPressed() {
 
         /**
@@ -257,5 +265,17 @@ public class MainActivity extends AppCompatActivity  {
                 doubleBackToExitPressedOnce = false;
             }
         }, 2000);
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                Log.i ("isMyServiceRunning?", true+"");
+                return true;
+            }
+        }
+        Log.i ("isMyServiceRunning?", false+"");
+        return false;
     }
 }
