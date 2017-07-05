@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -20,9 +21,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.novan.tugasakhir.R;
+import com.example.novan.tugasakhir.models.Medicine;
 import com.example.novan.tugasakhir.models.Schedule;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 import com.google.android.gms.common.ConnectionResult;
@@ -55,6 +58,7 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
     DataHelper dataHelper;
 
     private ArrayList<Schedule> schedules;
+    private ArrayList<Medicine> medicines;
 
     private static final int TWO_MINUTES = 1000 * 60 * 2;
 
@@ -65,6 +69,9 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
         view = inflater.inflate(R.layout.fragment_homescreen, container, false);
         dataHelper = new DataHelper(context);
         schedules = new ArrayList<>();
+        medicines = new ArrayList<>();
+
+        medicines = dataHelper.getAllMedicine();
 
         //create google API
         buildGoogleApiClient();
@@ -113,6 +120,7 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
             int hour = schedules.get(i).getHour();
             int minute = schedules.get(i).getMinute();
             String time;
+            String uid_medicine = schedules.get(i).getUid();
 
             if (hour<10 && minute<10){
                 time = "0"+hour+":0"+minute;
@@ -124,8 +132,21 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
                 time = hour+":"+minute;
             }
 
-            viewHolder.name.setText(schedules.get(i).getUid());
             viewHolder.time.setText(time);
+
+            //get data for print cardview
+            for (int count = 0; count < medicines.size(); count++){
+                if (uid_medicine.equalsIgnoreCase(medicines.get(count).getUid())){
+                    String name = medicines.get(count).getMedicine_name();
+                    int dosage = medicines.get(count).getDosage();
+                    byte[] img = medicines.get(count).getImage();
+
+                    viewHolder.name.setText(name);
+                    viewHolder.dosage.setText(""+dosage);
+                    viewHolder.imageView.setImageBitmap(BitmapFactory.decodeByteArray(img,0,img.length));
+                }
+            }
+
         }
 
         @Override
@@ -137,12 +158,14 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
             TextView name;
             TextView time;
             TextView dosage;
+            ImageView imageView;
 
             public ViewHolder(View view) {
                 super(view);
                 name = (TextView)view.findViewById(R.id.medicine_name_cardview);
                 time = (TextView)view.findViewById(R.id.time_cardview);
                 dosage = (TextView)view.findViewById(R.id.dosage_cardview);
+                imageView =(ImageView) view.findViewById(R.id.image_cardview);
             }
         }
     }

@@ -21,7 +21,7 @@
             android:layout_height="match_parent">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/image_profile"
+                android:id="@+id/image_cardview"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_alignParentLeft="true"
@@ -45,14 +45,14 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_above="@+id/time_cardview"
-                android:layout_toRightOf="@+id/image_profile"
-                android:layout_toEndOf="@+id/image_profile" />
+                android:layout_toRightOf="@+id/image_cardview"
+                android:layout_toEndOf="@+id/image_cardview" />
 
             <TextView
                 android:id="@+id/time_cardview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/image_profile"
+                android:layout_alignBottom="@+id/image_cardview"
                 android:layout_alignLeft="@+id/medicine_name_cardview"
                 android:layout_alignStart="@+id/medicine_name_cardview"
                 android:layout_marginBottom="13dp"
