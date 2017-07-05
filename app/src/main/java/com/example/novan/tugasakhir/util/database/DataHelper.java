@@ -280,8 +280,19 @@ public class DataHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<Schedule> getAllActiveSchedule(){
+        Calendar calendar;
+        calendar = Calendar.getInstance();
+
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+
         ArrayList<Schedule> schedule = new ArrayList<>();
-        String sql = "SELECT * FROM "+ TABLE_SCHEDULE +" WHERE "+COLUMN_STATUS_SCHEDULE+" = '1' ORDER BY "+COLUMN_HOUR_SCHEDULE+" ASC, "+COLUMN_MINUTE_SCHEDULE+" ASC";
+
+        String sql = "SELECT * FROM "+ TABLE_SCHEDULE +" WHERE "
+                +COLUMN_STATUS_SCHEDULE+" = '1' AND "
+                +COLUMN_HOUR_SCHEDULE+" > '"+hour+"' OR " +
+                "("+COLUMN_HOUR_SCHEDULE+" = '"+hour+"' AND "+COLUMN_MINUTE_SCHEDULE+" >= '"+minute+"') " +
+                "ORDER BY "+COLUMN_HOUR_SCHEDULE+" ASC, "+COLUMN_MINUTE_SCHEDULE+" ASC";
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(sql,null);
