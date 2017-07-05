@@ -13,20 +13,27 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.novan.tugasakhir.R;
-import com.example.novan.tugasakhir.emergency_activity.CountDown;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+
+import java.util.ArrayList;
 
 /**
  * Created by Novan on 01/02/2017.
@@ -49,33 +56,109 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
 
     DataHelper dataHelper;
 
+    private ArrayList<String> kota;
+
     private static final int TWO_MINUTES = 1000 * 60 * 2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
 
         context = getActivity().getApplicationContext();
-        view = inflater.inflate(R.layout.activity_temporary_emergency, container, false);
+        view = inflater.inflate(R.layout.fragment_homescreen, container, false);
         dataHelper = new DataHelper(context);
 
         //create google API
         buildGoogleApiClient();
 
-        //create sensor listener
-//        sensorManager=(SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
-//        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_UI);
-//        initialize();
-
-        emergency = (Button) view.findViewById(R.id.emergency);
-        emergency.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, CountDown.class);
-                startActivityForResult(intent,10);
-            }
-        });
+        initView();
 
         return view;
+    }
+
+    private void initView(){
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.card_recycler_view);
+        recyclerView.setHasFixedSize(true);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
+        recyclerView.setLayoutManager(layoutManager);
+
+        kota = new ArrayList<>();
+        kota.add("Semarang");
+        kota.add("Jakarta");
+        kota.add("Surabaya");
+        kota.add("Bandung");
+        kota.add("Srakarta");
+        kota.add("Depok");
+        kota.add("Semarang");
+        kota.add("Kendal");
+        kota.add("Bogor");
+
+        RecyclerView.Adapter adapter = new DataAdapter(kota);
+        recyclerView.setAdapter(adapter);
+
+        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            GestureDetector gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+
+                public boolean onSingleTapUp(MotionEvent e){
+                    return true;
+                }
+            });
+
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                View child = rv.findChildViewUnder(e.getX(), e.getY());
+                if (child != null && gestureDetector.onTouchEvent(e)){
+                    int position = rv.getChildAdapterPosition(child);
+                    Toast.makeText(context, kota.get(position), Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+    }
+
+    private class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
+        private ArrayList<String> kota;
+
+        public DataAdapter(ArrayList<String> kota){
+            this.kota = kota;
+        }
+
+
+        @Override
+        public DataAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.content_cardview_event_list, viewGroup, false);
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(DataAdapter.ViewHolder viewHolder, int i) {
+
+            viewHolder.txtkota.setText(kota.get(i));
+        }
+
+        @Override
+        public int getItemCount() {
+            return kota.size();
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            private TextView txtkota;
+            public ViewHolder(View view) {
+                super(view);
+
+                txtkota = (TextView)view.findViewById(R.id.medicine_name_cardview);
+            }
+        }
     }
 
     @Override

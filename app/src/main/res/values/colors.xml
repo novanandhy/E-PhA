@@ -12,7 +12,7 @@
     <color name="custom_primary_color">#1abc9c</color>
     <color name="custom_text">#ffffff</color>
     <color name="custom_primary_text">#95a5a6</color>
-    <color name="custom_secondary_text">#D2D7D3</color>
+    <color name="custom_secondary_text">#d2d7d3</color>
     <color name="custom_button_first">#e67e22</color>
     <color name="custom_button_second">#17b2d0</color>
     <color name="custom_button_third">#1fbba6</color>
