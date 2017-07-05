@@ -73,7 +73,6 @@ public class SensorService extends Service implements SensorEventListener{
         //create sensor listener
         sensorManager=(SensorManager) getSystemService(Context.SENSOR_SERVICE);
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_UI);
-        initialize();
 
         Log.d(TAG,"Service is started");
         return START_STICKY;
@@ -92,31 +91,20 @@ public class SensorService extends Service implements SensorEventListener{
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType()==Sensor.TYPE_ACCELEROMETER){
+            curr_state="none";
+
             ax=event.values[0];
             ay=event.values[1];
             az=event.values[2];
 
             fall_detection(ax,ay,az);
-            SystemState(curr_state,prev_state);
-            if(!prev_state.equalsIgnoreCase(curr_state)){
-                prev_state=curr_state;
-            }
-
+            SystemState(curr_state);
         }
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
-    }
-
-    private void initialize() {
-        // TODO Auto-generated method stub
-        for(i=0;i<BUFF_SIZE;i++){
-            window[i]=0;
-        }
-        prev_state="none";
-        curr_state="none";
     }
 
     private void fall_detection(double ax, double ay, double az) {
@@ -151,18 +139,18 @@ public class SensorService extends Service implements SensorEventListener{
         }else{
             x++;
         }
+
+        Log.d(TAG,"SENSOR IS WORKING");
     }
 
-    private void SystemState(String curr_state1,String prev_state1) {
+    private void SystemState(String curr_state1) {
         // TODO Auto-generated method stub
 
         //Fall !!
-        if(!prev_state1.equalsIgnoreCase(curr_state1)){
-            if(curr_state1.equalsIgnoreCase("fall")){
-                Intent intent = new Intent(this, CountDown.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
+        if(curr_state1.equalsIgnoreCase("fall")){
+            Intent intent = new Intent(this, CountDown.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
     }
 
