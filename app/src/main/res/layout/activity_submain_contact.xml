@@ -53,34 +53,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
             android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_grey"
-                android:gravity="center_vertical"
-                android:paddingBottom="10dp"
-                android:paddingLeft="20dp"
-                android:paddingTop="10dp"
-                android:text="Nama"
-                android:textColor="@color/custom_text"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/contact_name_preview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:fontFamily="sans-serif"
-                android:paddingLeft="20dp"
-                android:text="Name"
-                android:textColor="@color/custom_primary_text"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:typeface="normal" />
 
             <TextView
                 android:id="@+id/textView2"

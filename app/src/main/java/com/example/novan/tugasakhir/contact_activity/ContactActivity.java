@@ -17,7 +17,7 @@ import com.example.novan.tugasakhir.util.database.DataHelper;
 public class ContactActivity extends AppCompatActivity {
     FragmentManager mFragmentManager;
     private DataHelper dataHelper;
-    private TextView name, number;
+    private TextView number;
     private String TAG="TAGapp";
 
     @Override
@@ -31,11 +31,10 @@ public class ContactActivity extends AppCompatActivity {
 
         // identifying database helper
         dataHelper = new DataHelper(this);
-
-        name = (TextView) findViewById(R.id.contact_name_preview);
-        name.setText(getIntent().getExtras().getString("name"));
         number = (TextView) findViewById(R.id.contact_number_preview);
         number.setText(getIntent().getExtras().getString("number"));
+
+        getSupportActionBar().setTitle(getIntent().getExtras().getString("name"));
 
         mFragmentManager = getSupportFragmentManager();
 
