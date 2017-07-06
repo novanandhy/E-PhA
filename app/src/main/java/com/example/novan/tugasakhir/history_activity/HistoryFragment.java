@@ -92,7 +92,7 @@ public class HistoryFragment extends Fragment {
                 bottomSheetDialog.setContentView(parentView);
                 BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from((View) parentView.getParent());
                 bottomSheetBehavior.setPeekHeight(
-                        (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,300,context.getResources().getDisplayMetrics()));
+                        (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,380,context.getResources().getDisplayMetrics()));
                 bottomSheetDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
                 bottomSheetDialog.show();
 

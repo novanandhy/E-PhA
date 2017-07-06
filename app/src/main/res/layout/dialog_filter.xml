@@ -9,14 +9,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:padding="10dp"
+        android:background="#34495e"
+        android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Pilih Bulan"
             android:gravity="center"
             android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:textColor="@color/custom_text"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/custom_text"
+            android:text="filter berdasarkan bulan"
+            android:gravity="center"/>
     </LinearLayout>
 
     <com.webianks.library.scroll_choice.ScrollChoice
@@ -31,6 +40,8 @@
         app1:scroll_indicator="true"
         app1:scroll_indicator_color="@color/custom_text"
         app1:scroll_item_align="center"
+        app1:scroll_item_space="10dp"
+        app1:scroll_indicator_size="10dp"
         />
 
     <LinearLayout
@@ -46,7 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:background="@drawable/button_round_corner_holo"
+            android:background="@drawable/ripple_button_orange_holo"
             android:text="batal"
             android:textSize="15sp"
             android:textColor="#f39c12"
@@ -57,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:background="@drawable/button_round_corner"
+            android:background="@drawable/ripple_button_orange"
             android:text="pilih"
             android:textSize="15sp"
             android:textColor="@color/custom_text"
