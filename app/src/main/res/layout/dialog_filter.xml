@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app1="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ecf0f1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pilih Bulan"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <com.webianks.library.scroll_choice.ScrollChoice
+        android:id="@+id/scroll_choice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app1:scroll_background_color="#ecf0f1"
+        app1:scroll_selected_item_background="@color/custom_text"
+        app1:scroll_item_text_color="@color/custom_secondary_text"
+        app1:scroll_selected_item_text_color="#f39c12"
+        app1:scroll_atmospheric="true"
+        app1:scroll_indicator="true"
+        app1:scroll_indicator_color="@color/custom_text"
+        app1:scroll_item_align="center"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/cancel_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:background="@drawable/button_round_corner_holo"
+            android:text="batal"
+            android:textSize="15sp"
+            android:textColor="#f39c12"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/confirm_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:background="@drawable/button_round_corner"
+            android:text="pilih"
+            android:textSize="15sp"
+            android:textColor="@color/custom_text"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+</LinearLayout>

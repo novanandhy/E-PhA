@@ -139,8 +139,6 @@ public class SensorService extends Service implements SensorEventListener{
         }else{
             x++;
         }
-
-        Log.d(TAG,"SENSOR IS WORKING");
     }
 
     private void SystemState(String curr_state1) {

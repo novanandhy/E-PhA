@@ -1,13 +1,20 @@
 package com.example.novan.tugasakhir.history_activity;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
 import android.text.SpannableString;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.util.UIcomponent.MyValueFormatter;
@@ -25,8 +32,11 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.webianks.library.scroll_choice.ScrollChoice;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by Novan on 30/03/2017.
@@ -36,20 +46,29 @@ public class HistoryFragment extends Fragment {
     View view;
     private PieChart pieChart;
     private LineChart lineChart;
+    private Button filter, cancel, confirm;
+    private ScrollChoice scrollChoice;
+    Calendar calendar = Calendar.getInstance();
+
+    private List<String> data = new ArrayList<>();
+
     public static final int[] COLORS = {
             ColorTemplate.rgb("#2ecc71"), ColorTemplate.rgb("#e74c3c")
     };
 
     private DataHelper dataHelper;
+    private Context context;
 
     private String TAG = "TAGapp";
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_history, container, false);
+        context = getActivity().getApplicationContext();
 
         pieChart = (PieChart) view.findViewById(R.id.pieChart);
         lineChart = (LineChart) view.findViewById(R.id.lineGraph);
+        filter = (Button) view.findViewById(R.id.filter_button);
 
         dataHelper = new DataHelper(getActivity());
 
@@ -57,15 +76,70 @@ public class HistoryFragment extends Fragment {
         int consumed = dataHelper.getAllHistoryWhere(1).size();
         int not_consumed = dataHelper.getAllHistoryWhere(0).size();
 
-        Log.d(TAG,"consumed = "+consumed+" not consumed ="+not_consumed);
-
         //create Line Chart
         createLineChart();
 
         //create Pie Chart
         createPieChart(consumed, not_consumed);
 
+        loadData();
+
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
+                View parentView = getActivity().getLayoutInflater().inflate(R.layout.dialog_filter,null);
+                bottomSheetDialog.setContentView(parentView);
+                BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from((View) parentView.getParent());
+                bottomSheetBehavior.setPeekHeight(
+                        (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,300,context.getResources().getDisplayMetrics()));
+                bottomSheetDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+                bottomSheetDialog.show();
+
+                scrollChoice = (ScrollChoice) parentView.findViewById(R.id.scroll_choice);
+                scrollChoice.addItems(data,(calendar.get(Calendar.MONTH))-1);
+                scrollChoice.setOnItemSelectedListener(new ScrollChoice.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(ScrollChoice scrollChoice, int position, String name) {
+                        Log.d(TAG,"data = "+ name);
+                    }
+                });
+
+                cancel = (Button) parentView.findViewById(R.id.cancel_sheet);
+                confirm = (Button) parentView.findViewById(R.id.confirm_sheet);
+
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        bottomSheetDialog.dismiss();
+                    }
+                });
+
+                confirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
         return view;
+    }
+
+    private void loadData() {
+        data.add("Januari");
+        data.add("Februari");
+        data.add("Maret");
+        data.add("April");
+        data.add("Mei");
+        data.add("Juni");
+        data.add("Juli");
+        data.add("Agustus");
+        data.add("September");
+        data.add("Oktober");
+        data.add("November");
+        data.add("Desember");
     }
 
     private void createLineChart(){
@@ -97,9 +171,9 @@ public class HistoryFragment extends Fragment {
         lineChart.getAxisRight().setDrawLabels(true);
 
         // add data
-        setData(6, 10);
+        setData(30, 10);
 
-        lineChart.animateY(2500);
+        lineChart.animateY(2000);
 
         // dont forget to refresh the drawing
         lineChart.invalidate();
@@ -137,9 +211,9 @@ public class HistoryFragment extends Fragment {
             set1.setValueFormatter(new MyValueFormatter());
             set1.setValueTextColor(Color.WHITE);
             set1.setValueTextSize(15);
-            set1.setMode(set1.getMode() == LineDataSet.Mode.CUBIC_BEZIER
-                    ? LineDataSet.Mode.LINEAR
-                    : LineDataSet.Mode.CUBIC_BEZIER);
+//            set1.setMode(set1.getMode() == LineDataSet.Mode.CUBIC_BEZIER
+//                    ? LineDataSet.Mode.LINEAR
+//                    : LineDataSet.Mode.CUBIC_BEZIER);
 
             ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
             dataSets.add(set1); // add the datasets
@@ -190,8 +264,8 @@ public class HistoryFragment extends Fragment {
         // the chart.
 
         //set data value of pie chart
-        entries.add(new PieEntry((float) consumed, "consumed"));
-        entries.add(new PieEntry((float) not_consumed, "not consumed"));
+        entries.add(new PieEntry((float) consumed, "diminum"));
+        entries.add(new PieEntry((float) not_consumed, "tidak diminum"));
 
         PieDataSet dataSet = new PieDataSet(entries,"");
 
