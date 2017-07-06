@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity  {
     FragmentTransaction mFragmentTransaction;
     boolean doubleBackToExitPressedOnce = false;
     String TAG = "TAGapp";
+    public String month;
 
     private DataHelper dataHelper;
     private SessionManager session;
@@ -142,12 +143,17 @@ public class MainActivity extends AppCompatActivity  {
          */
         try{
             Intent intent = getIntent();
-            if (intent != null){
-                String tag = (String) intent.getSerializableExtra("TAG");
-
+            String tag = (String) intent.getSerializableExtra("TAG");
+            if (tag != null){
                 if(tag.equalsIgnoreCase("profile")){
                     OpenProfileFragment();
                 }
+            }
+
+            month = (String) intent.getSerializableExtra("month");
+            if (month != null){
+                Log.d(TAG,"month parameter = "+month);
+                OpenHistoryFragment();
             }
         }catch (Exception e){}
 
@@ -216,8 +222,13 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     public void OpenHistoryFragment() {
+        HistoryFragment historyFragment = new HistoryFragment();
+        Bundle arguments = new Bundle();
+        arguments.putString("month",month);
+        historyFragment.setArguments(arguments);
+
         FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-        xfragmentTransaction.replace(R.id.containerView, new HistoryFragment()).commit();
+        xfragmentTransaction.replace(R.id.containerView, historyFragment).commit();
     }
 
     public void OpenFriendFragment() {

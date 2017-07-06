@@ -1,6 +1,7 @@
 package com.example.novan.tugasakhir.history_activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
@@ -14,8 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
 
+import com.example.novan.tugasakhir.MainActivity;
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.util.UIcomponent.MyValueFormatter;
 import com.example.novan.tugasakhir.util.database.DataHelper;
@@ -56,6 +57,8 @@ public class HistoryFragment extends Fragment {
             ColorTemplate.rgb("#2ecc71"), ColorTemplate.rgb("#e74c3c")
     };
 
+    private String month, month_parameter;
+
     private DataHelper dataHelper;
     private Context context;
 
@@ -72,9 +75,18 @@ public class HistoryFragment extends Fragment {
 
         dataHelper = new DataHelper(getActivity());
 
+        Bundle arguments = getArguments();
+        month = arguments.getString("month");
+
+        if (month == null){
+            month = String.valueOf(calendar.get(Calendar.MONTH));
+        }
+
+        Log.d(TAG,"month = "+month);
+
         //get value of history from sqlite
-        int consumed = dataHelper.getAllHistoryWhere(1).size();
-        int not_consumed = dataHelper.getAllHistoryWhere(0).size();
+        int consumed = dataHelper.getAllHistoryWhere(1, month).size();
+        int not_consumed = dataHelper.getAllHistoryWhere(0, month).size();
 
         //create Line Chart
         createLineChart();
@@ -97,11 +109,11 @@ public class HistoryFragment extends Fragment {
                 bottomSheetDialog.show();
 
                 scrollChoice = (ScrollChoice) parentView.findViewById(R.id.scroll_choice);
-                scrollChoice.addItems(data,(calendar.get(Calendar.MONTH))-1);
+                scrollChoice.addItems(data,Integer.valueOf(month)-1);
                 scrollChoice.setOnItemSelectedListener(new ScrollChoice.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(ScrollChoice scrollChoice, int position, String name) {
-                        Log.d(TAG,"data = "+ name);
+                        month_parameter = String.valueOf(position+1);
                     }
                 });
 
@@ -118,7 +130,11 @@ public class HistoryFragment extends Fragment {
                 confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(context, MainActivity.class);
+                        intent.putExtra("month",month_parameter);
+                        startActivity(intent);
+                        getActivity().finish();
+                        bottomSheetDialog.dismiss();
                     }
                 });
             }
@@ -252,7 +268,7 @@ public class HistoryFragment extends Fragment {
 
     private SpannableString generateCenterSpannableText() {
 
-        SpannableString s = new SpannableString("Statistik\nKonsumsi Obat");
+        SpannableString s = new SpannableString("Riwayat\nKonsumsi Obat");
         return s;
     }
 

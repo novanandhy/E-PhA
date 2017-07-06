@@ -492,9 +492,9 @@ public class DataHelper extends SQLiteOpenHelper {
         return histories;
     }
 
-    public ArrayList<History> getAllHistoryWhere(int status){
+    public ArrayList<History> getAllHistoryWhere(int status, String month){
         ArrayList<History> histories = new ArrayList<>();
-        String sql = "SELECT * FROM "+ TABLE_HISTORY +" WHERE "+COLUMN_STATUS_HISTORY+" = '"+status+"' ORDER BY "+COLUMN_ID_HISTORY;
+        String sql = "SELECT * FROM "+ TABLE_HISTORY +" WHERE "+COLUMN_STATUS_HISTORY+" = '"+status+"' AND "+COLUMN_MONTH_HISTORY+" = '"+month+"' ORDER BY "+COLUMN_ID_HISTORY;
         SQLiteDatabase db = this.getReadableDatabase();
 
 
