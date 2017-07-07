@@ -1,10 +1,12 @@
 package com.example.novan.tugasakhir.emergency_activity;
 
 import android.app.Activity;
+import android.app.KeyguardManager;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.PowerManager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -34,12 +36,19 @@ public class CountDown extends Activity implements View.OnClickListener{
 
         sendMessage = new SendMessage(this);
 
-
         //get resource media to play ringtone
         ringtone = MediaPlayer.create(this, R.raw.alarm);
         ringtone.start();
 
         ok.setOnClickListener(this);
+
+        PowerManager pm = (PowerManager) getApplicationContext().getSystemService(this.POWER_SERVICE);
+        PowerManager.WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
+        wakeLock.acquire();
+
+        KeyguardManager keyguardManager = (KeyguardManager) getApplicationContext().getSystemService(this.KEYGUARD_SERVICE);
+        KeyguardManager.KeyguardLock keyguardLock =  keyguardManager.newKeyguardLock("TAG");
+        keyguardLock.disableKeyguard();
 
         countdown.setText("10");
         countDownTimer = new CountDownTimer(10*1000, 1000) {

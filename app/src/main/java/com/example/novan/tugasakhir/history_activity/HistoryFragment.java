@@ -1,5 +1,6 @@
 package com.example.novan.tugasakhir.history_activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,10 +16,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.novan.tugasakhir.MainActivity;
 import com.example.novan.tugasakhir.R;
+import com.example.novan.tugasakhir.models.User;
 import com.example.novan.tugasakhir.util.UIcomponent.MyValueFormatter;
+import com.example.novan.tugasakhir.util.database.AppConfig;
+import com.example.novan.tugasakhir.util.database.AppController;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
@@ -35,9 +44,15 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.webianks.library.scroll_choice.ScrollChoice;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Novan on 30/03/2017.
@@ -51,13 +66,16 @@ public class HistoryFragment extends Fragment {
     private ScrollChoice scrollChoice;
     Calendar calendar = Calendar.getInstance();
 
+    private ProgressDialog progressDialog;
     private List<String> data = new ArrayList<>();
+    private ArrayList<User> user = new ArrayList<>();
 
     public static final int[] COLORS = {
             ColorTemplate.rgb("#2ecc71"), ColorTemplate.rgb("#e74c3c")
     };
 
     private String month, month_parameter;
+    private int count_history;
 
     private DataHelper dataHelper;
     private Context context;
@@ -74,6 +92,11 @@ public class HistoryFragment extends Fragment {
         filter = (Button) view.findViewById(R.id.filter_button);
 
         dataHelper = new DataHelper(getActivity());
+        progressDialog = new ProgressDialog(context);
+
+        user = dataHelper.getUserDetail();
+
+        String uid = user.get(0).getUnique_id();
 
         Bundle arguments = getArguments();
         month = arguments.getString("month");
@@ -83,10 +106,12 @@ public class HistoryFragment extends Fragment {
         }
 
         Log.d(TAG,"month = "+month);
+        Log.d(TAG,"uid = "+uid);
 
         //get value of history from sqlite
-        int consumed = dataHelper.getAllHistoryWhere(1, month).size();
-        int not_consumed = dataHelper.getAllHistoryWhere(0, month).size();
+
+        int consumed = getMedicineHistory(uid,month,"1");
+        int not_consumed = getMedicineHistory(uid,month,"0");
 
         //create Line Chart
         createLineChart();
@@ -309,5 +334,86 @@ public class HistoryFragment extends Fragment {
         pieChart.highlightValues(null);
 
         pieChart.invalidate();
+    }
+
+    private int getMedicineHistory(final String uid_user, final String month, final String status) {
+        // Tag used to cancel the request
+        String tag_string_req = "req_login";
+
+        //netralizer count history
+        count_history = 0;
+
+//        progressDialog.setMessage("Mengambil data");
+//        showDialog();
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                AppConfig.URL_GET_HISTORY_MEDICINE, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+//                Log.d(TAG, "Login Response: " + response.toString());
+//                hideDialog();
+
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean error = jObj.getBoolean("error");
+
+                    // Check for error node in json
+                    if (!error) {
+                        // Now store the user in SQLite
+                        JSONArray medicine = jObj.getJSONArray("medicine");
+                        Log.d(TAG,""+medicine);
+                        count_history = medicine.length();
+                    } else {
+                        // Error in getting data. Get the error message
+                        String errorMsg = jObj.getString("error_msg");
+                        Toast.makeText(context,
+                                errorMsg, Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    // JSON error
+                    e.printStackTrace();
+                    Toast.makeText(context, "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Login Error: " + error.getMessage());
+                Toast.makeText(context,
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+//                hideDialog();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to login url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("uid_user", uid_user);
+                params.put("month", month);
+                params.put("status", status);
+
+                return params;
+            }
+
+        };
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+
+        return count_history;
+    }
+
+    private void showDialog() {
+        if (!progressDialog.isShowing())
+            progressDialog.show();
+    }
+
+    private void hideDialog() {
+        if (progressDialog.isShowing())
+            progressDialog.dismiss();
     }
 }

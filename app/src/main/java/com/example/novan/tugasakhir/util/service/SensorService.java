@@ -97,6 +97,7 @@ public class SensorService extends Service implements SensorEventListener{
             ay=event.values[1];
             az=event.values[2];
 
+//            Log.d(TAG,"SERVICE IS RUNNING");
             fall_detection(ax,ay,az);
             SystemState(curr_state);
         }

@@ -23,4 +23,7 @@ public class AppConfig {
 
     // Server medicine history update url
     public static String URL_STORE_MEDICINE = "http://"+DOMAIN+"/android_api/set_medicine_history.php";
+
+    // Server get medicine history
+    public static String URL_GET_HISTORY_MEDICINE = "http://"+DOMAIN+"/android_api/get_medicine_history.php";
 }
