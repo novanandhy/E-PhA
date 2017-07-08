@@ -474,10 +474,7 @@ public class HistoryFragment extends Fragment {
                         // Error in getting data. Get the error message
                         String errorMsg = jObj.getString("error_msg");
                         Log.d(TAG,errorMsg);
-                        error_counter++;
-                    }
 
-                    if (error_counter > 1){
                         Intent intent = new Intent(context, ErrorDialog.class);
                         intent.putExtra("message","riwayat kambuh tidak tersedia");
                         startActivity(intent);
