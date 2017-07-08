@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class SendMessage implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
-    private String TAG = "TAGapp";
+    private String TAG;
     Context context;
 
     GoogleApiClient mGoogleApiClient;
@@ -45,6 +45,7 @@ public class SendMessage implements GoogleApiClient.ConnectionCallbacks,
 
     public SendMessage(Context context) {
         this.context = context;
+        TAG = "TAGapp "+context.getClass().getSimpleName();
     }
 
     public void sendSMSByManager() {

@@ -43,7 +43,6 @@ import java.util.ArrayList;
 public class HomescreenFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener{
     private View view;
-    private Button emergency;
     String TAG = "TAGapp";
     Context context;
 

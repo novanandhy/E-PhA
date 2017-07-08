@@ -1,5 +1,6 @@
 package com.example.novan.tugasakhir.friend_activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,10 +17,16 @@ public class AddFriendActivity extends AppCompatActivity {
     CircleImageView circleImageView;
     Button button;
 
+    private Context context;
+    private String TAG;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friend);
+        context = this;
+        TAG = "TAGapp "+context.getClass().getSimpleName();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

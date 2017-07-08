@@ -1,5 +1,6 @@
 package com.example.novan.tugasakhir.contact_activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -18,12 +19,19 @@ public class ContactActivity extends AppCompatActivity {
     FragmentManager mFragmentManager;
     private DataHelper dataHelper;
     private TextView number;
-    private String TAG="TAGapp";
+
+    private Context context;
+
+    private String TAG;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submain_contact);
+        context = this;
+
+        TAG = "TAGapp "+context.getClass().getSimpleName();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

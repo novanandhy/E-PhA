@@ -28,9 +28,15 @@ public class FriendFragment extends Fragment {
     private View view;
     private ListView listView;
 
+    private Context context;
+    private String TAG;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_friend, container, false);
+        context = getActivity().getApplicationContext();
+        TAG = "TAGapp "+context.getClass().getSimpleName();
+
         String[] itemname = new String[]{
                 "Safari",
                 "Camera",

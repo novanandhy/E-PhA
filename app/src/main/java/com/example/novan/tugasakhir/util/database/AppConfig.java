@@ -26,4 +26,7 @@ public class AppConfig {
 
     // Server get medicine history
     public static String URL_GET_HISTORY_MEDICINE = "http://"+DOMAIN+"/android_api/get_medicine_history.php";
+
+    // Server get medicine history
+    public static String URL_GET_HISTORY_RELAPSE = "http://"+DOMAIN+"/android_api/get_relapse_history.php";
 }

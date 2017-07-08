@@ -25,10 +25,16 @@ import java.util.ArrayList;
 public class SearchFriendActivity extends AppCompatActivity {
     ListView listView;
 
+    private Context context;
+    private String TAG;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submain_searchfriend);
+        context = this;
+        TAG = "TAGapp "+context.getClass().getSimpleName();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

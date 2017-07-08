@@ -2,6 +2,7 @@ package com.example.novan.tugasakhir.emergency_activity;
 
 import android.app.Activity;
 import android.app.KeyguardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -26,10 +27,18 @@ public class CountDown extends Activity implements View.OnClickListener{
 
     SendMessage sendMessage;
 
+    private Context context;
+
+    private String TAG;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_count_down);
+
+        context = this;
+
+        TAG = "TAGapp "+context.getClass().getSimpleName();
 
         countdown = (TextView) findViewById(R.id.dialog_countdown);
         ok = (Button) findViewById(R.id.ok_countdown);

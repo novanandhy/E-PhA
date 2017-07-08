@@ -2,7 +2,6 @@ package com.example.novan.tugasakhir.emergency_activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -32,7 +31,7 @@ public class RelapseData {
     Context context;
     Calendar calendar;
 
-    String TAG = "TAGapp";
+    String TAG;
     String date, month, year, hour, minute;
 
     DataHelper dataHelper;
@@ -44,7 +43,9 @@ public class RelapseData {
     int count = 0;
 
     public RelapseData(Context context){
+
         this.context = context;
+        TAG = "TAGapp "+context.getClass().getSimpleName();
     }
 
     public void setRelapse(String latitude, String longitude) {

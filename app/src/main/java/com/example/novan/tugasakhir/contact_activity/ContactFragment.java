@@ -41,11 +41,16 @@ public class ContactFragment extends Fragment {
     DataHelper dataHelper;
     ArrayList<Contact> contacts;
 
+    private Context context;
+
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_contact, container, false);
         dataHelper = new DataHelper(getActivity().getApplicationContext());
         contacts = new ArrayList<>();
+
+        context = getActivity().getApplicationContext();
+        TAG = "TAGapp "+context.getClass().getSimpleName();
 
         listView = (ListView) view.findViewById(R.id.list_contact);
 

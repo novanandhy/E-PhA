@@ -51,8 +51,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * Created by Novan on 30/03/2017.
@@ -107,12 +110,12 @@ public class HistoryFragment extends Fragment {
             month = String.valueOf(calendar.get(Calendar.MONTH));
         }
 
-        //get value of history from sqlite
+        //get value of history from server
         getMedicineHistory(uid,month,year,"1");
         getMedicineHistory(uid,month,year,"0");
 
-        //create Line Chart
-        createLineChart();
+        //get value of relapse history from server
+        getRelapsseHistory(uid,month,year);
 
         loadData();
 
@@ -178,7 +181,7 @@ public class HistoryFragment extends Fragment {
         data.add("Desember");
     }
 
-    private void createLineChart(){
+    private void createLineChart(ArrayList<Entry> values){
         // create description text
         lineChart.getDescription().setEnabled(true);
         lineChart.getDescription().setText("Data 7 hari terakhir");
@@ -207,7 +210,7 @@ public class HistoryFragment extends Fragment {
         lineChart.getAxisRight().setDrawLabels(true);
 
         // add data
-        setData(30, 10);
+        setData(values);
 
         lineChart.animateY(2000);
 
@@ -215,16 +218,7 @@ public class HistoryFragment extends Fragment {
         lineChart.invalidate();
     }
 
-    private void setData(int count, float range) {
-
-        ArrayList<Entry> values = new ArrayList<Entry>();
-
-        for (int i = 0; i < count; i++) {
-
-            int val = (int) (Math.random() * range) + 3;
-            values.add(new Entry(i, val));
-        }
-
+    private void setData(ArrayList<Entry> values) {
         LineDataSet set1;
 
         if (lineChart.getData() != null &&
@@ -235,7 +229,7 @@ public class HistoryFragment extends Fragment {
             lineChart.notifyDataSetChanged();
         } else {
             // create a dataset and give it a type
-            set1 = new LineDataSet(values, "tono");
+            set1 = new LineDataSet(values, "relapse history");
 
             // set the line to be drawn like this "- - - - - -"
             set1.setLineWidth(3f);
@@ -398,7 +392,7 @@ public class HistoryFragment extends Fragment {
 
                     if (error_counter > 1){
                         Intent intent = new Intent(context, ErrorDialog.class);
-                        intent.putExtra("message","Data tidak tersedia");
+                        intent.putExtra("message","riwayat obat tidak tersedia");
                         startActivity(intent);
                     }
                 } catch (JSONException e) {
@@ -436,5 +430,124 @@ public class HistoryFragment extends Fragment {
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
 
+    }
+
+    private void getRelapsseHistory(final String uid_user, final String month, final String year) {
+        // Tag used to cancel the request
+        String tag_string_req = "req_data";
+
+        //netralizer count history
+        count_history = 0;
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                AppConfig.URL_GET_HISTORY_RELAPSE, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                ArrayList<Integer> date = new ArrayList<>();
+                ArrayList<Entry> values = new ArrayList<Entry>();
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean error = jObj.getBoolean("error");
+
+                    Log.d(TAG,"error = "+error);
+
+                    // Check for error node in json
+                    if (!error) {
+                        // Now store the user in SQLite
+                        JSONArray relapse = jObj.getJSONArray("relapse");
+                        Log.d(TAG,""+relapse);
+
+                        count_history = relapse.length();
+
+                        for (int i = 0 ; i < count_history ; i++){
+                            JSONObject d = relapse.getJSONObject(i);
+
+                            date.add(i,d.getInt("date"));
+                        }
+
+                        values = generateDateSize(date);
+
+                        //create Line Chart
+                        createLineChart(values);
+                    } else {
+                        // Error in getting data. Get the error message
+                        String errorMsg = jObj.getString("error_msg");
+                        Log.d(TAG,errorMsg);
+                        error_counter++;
+                    }
+
+                    if (error_counter > 1){
+                        Intent intent = new Intent(context, ErrorDialog.class);
+                        intent.putExtra("message","riwayat kambuh tidak tersedia");
+                        startActivity(intent);
+                    }
+                } catch (JSONException e) {
+                    // JSON error
+                    e.printStackTrace();
+                    Toast.makeText(context, "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Log.d(TAG,"JSON error"+e.getMessage());
+                }
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Login Error: " + error.getMessage());
+                Toast.makeText(context,
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to login url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("uid_user", uid_user);
+                params.put("month", month);
+                params.put("year", year);
+
+                return params;
+            }
+
+        };
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+
+    }
+
+    //generate count of each date
+    private ArrayList<Entry> generateDateSize(ArrayList<Integer> date) {
+        int len = date.size();
+        ArrayList<Entry> values = new ArrayList<Entry>();
+
+        //get size of each date
+        Map<Integer, Integer> numDate = new HashMap<Integer, Integer>(Math.min(len,31));
+
+        for (int i = 0 ; i < len ; i++){
+            int dateAt = date.get(i);
+
+            if (!numDate.containsKey(dateAt)){
+                numDate.put(dateAt, 1);
+            }else{
+                numDate.put(dateAt, numDate.get(dateAt)+1);
+            }
+        }
+
+        //sort the key of map
+        SortedSet<Integer> keys = new TreeSet<Integer>(numDate.keySet());
+
+        //get value of each key
+        Iterator myIterator = keys.iterator();
+        while (myIterator.hasNext()){
+            int cal = (int) myIterator.next();
+            int size = (int) numDate.get(cal);
+
+            values.add(new Entry(cal,size));
+        }
+
+        return values;
     }
 }
