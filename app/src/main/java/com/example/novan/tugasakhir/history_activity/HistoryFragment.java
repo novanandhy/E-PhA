@@ -25,6 +25,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.novan.tugasakhir.MainActivity;
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.models.User;
+import com.example.novan.tugasakhir.util.UIcomponent.ErrorDialog;
 import com.example.novan.tugasakhir.util.UIcomponent.MyValueFormatter;
 import com.example.novan.tugasakhir.util.database.AppConfig;
 import com.example.novan.tugasakhir.util.database.AppController;
@@ -74,8 +75,8 @@ public class HistoryFragment extends Fragment {
             ColorTemplate.rgb("#2ecc71"), ColorTemplate.rgb("#e74c3c")
     };
 
-    private String month, month_parameter;
-    private int count_history;
+    private String month, month_parameter, consumed, not_consumed;
+    private int count_history, error_counter = 0;
 
     private DataHelper dataHelper;
     private Context context;
@@ -97,6 +98,8 @@ public class HistoryFragment extends Fragment {
         user = dataHelper.getUserDetail();
 
         String uid = user.get(0).getUnique_id();
+        consumed = null;
+        not_consumed = null;
 
         Bundle arguments = getArguments();
         month = arguments.getString("month");
@@ -105,19 +108,12 @@ public class HistoryFragment extends Fragment {
             month = String.valueOf(calendar.get(Calendar.MONTH));
         }
 
-        Log.d(TAG,"month = "+month);
-        Log.d(TAG,"uid = "+uid);
-
         //get value of history from sqlite
-
-        int consumed = getMedicineHistory(uid,month,"1");
-        int not_consumed = getMedicineHistory(uid,month,"0");
+        getMedicineHistory(uid,month,"1");
+        getMedicineHistory(uid,month,"0");
 
         //create Line Chart
         createLineChart();
-
-        //create Pie Chart
-        createPieChart(consumed, not_consumed);
 
         loadData();
 
@@ -268,6 +264,9 @@ public class HistoryFragment extends Fragment {
     }
 
     private void createPieChart(int consumed, int not_consumed){
+        Log.d(TAG,"consumed = "+consumed);
+        Log.d(TAG,"not consumed = "+not_consumed);
+
         pieChart.setUsePercentValues(true);
         pieChart.setExtraOffsets(5, 10, 5, 5);
         pieChart.setDragDecelerationFrictionCoef(0.95f);
@@ -336,23 +335,18 @@ public class HistoryFragment extends Fragment {
         pieChart.invalidate();
     }
 
-    private int getMedicineHistory(final String uid_user, final String month, final String status) {
+    private void getMedicineHistory(final String uid_user, final String month, final String status) {
         // Tag used to cancel the request
-        String tag_string_req = "req_login";
+        String tag_string_req = "req_data";
 
         //netralizer count history
         count_history = 0;
-
-//        progressDialog.setMessage("Mengambil data");
-//        showDialog();
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 AppConfig.URL_GET_HISTORY_MEDICINE, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
-//                Log.d(TAG, "Login Response: " + response.toString());
-//                hideDialog();
 
                 try {
                     JSONObject jObj = new JSONObject(response);
@@ -363,12 +357,36 @@ public class HistoryFragment extends Fragment {
                         // Now store the user in SQLite
                         JSONArray medicine = jObj.getJSONArray("medicine");
                         Log.d(TAG,""+medicine);
+
                         count_history = medicine.length();
+
+                        if (status.equalsIgnoreCase("1")){
+                            consumed = String.valueOf(count_history);
+                        }else{
+                            not_consumed = String.valueOf(count_history);
+                        }
+
+                        if (consumed != null){
+                            if (not_consumed != null){
+                                //create Pie Chart
+                                createPieChart(Integer.valueOf(consumed), Integer.valueOf(not_consumed));
+                            }else {
+                                return;
+                            }
+                        }else {
+                            return;
+                        }
                     } else {
                         // Error in getting data. Get the error message
                         String errorMsg = jObj.getString("error_msg");
-                        Toast.makeText(context,
-                                errorMsg, Toast.LENGTH_LONG).show();
+                        Log.d(TAG,errorMsg);
+                        error_counter++;
+                    }
+
+                    if (error_counter > 1){
+                        Intent intent = new Intent(context, ErrorDialog.class);
+                        intent.putExtra("message","Data tidak tersedia");
+                        startActivity(intent);
                     }
                 } catch (JSONException e) {
                     // JSON error
@@ -384,7 +402,6 @@ public class HistoryFragment extends Fragment {
                 Log.e(TAG, "Login Error: " + error.getMessage());
                 Toast.makeText(context,
                         error.getMessage(), Toast.LENGTH_LONG).show();
-//                hideDialog();
             }
         }) {
 
@@ -404,16 +421,5 @@ public class HistoryFragment extends Fragment {
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
 
-        return count_history;
-    }
-
-    private void showDialog() {
-        if (!progressDialog.isShowing())
-            progressDialog.show();
-    }
-
-    private void hideDialog() {
-        if (progressDialog.isShowing())
-            progressDialog.dismiss();
     }
 }

@@ -180,7 +180,6 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
     @Override
     public void onStop() {
         super.onStop();
-        Log.d(TAG,"on stop");
         if(mGoogleApiClient.isConnected() && gps_enabled && network_enabled ){
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,mLocationListener);
         }

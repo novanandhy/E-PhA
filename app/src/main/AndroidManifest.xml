@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
@@ -40,11 +40,8 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".MainActivity" />
-
         <activity android:name=".login_activity.LoginActivity" />
-
         <activity android:name=".login_activity.RegisterActivity" />
-
         <activity
             android:name=".home_activity.InputMedicineActivity"
             android:label="@string/title_activity_input_medicine"
@@ -54,7 +51,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.novan.tugasakhir.MainActivity" />
         </activity>
-
         <activity
             android:name=".home_activity.MedicineActivity"
             android:label="@string/title_activity_medicine"
@@ -64,7 +60,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.novan.tugasakhir.MainActivity" />
         </activity>
-
         <activity
             android:name=".home_activity.EditMedineActivity"
             android:label="@string/title_activity_edit_medine"
@@ -74,7 +69,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.novan.tugasakhir.home_activity.MedicineActivity" />
         </activity>
-
         <activity
             android:name=".contact_activity.ContactActivity"
             android:label="@string/title_activity_contact"
@@ -84,7 +78,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.novan.tugasakhir.MainActivity" />
         </activity>
-
         <activity
             android:name=".friend_activity.SearchFriendActivity"
             android:label="@string/title_activity_search_friend"
@@ -94,7 +87,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.novan.tugasakhir.MainActivity" />
         </activity>
-
         <activity
             android:name=".friend_activity.AddFriendActivity"
             android:label="@string/title_activity_add_friend"
@@ -104,7 +96,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.novan.tugasakhir.friend_activity.SearchFriendActivity" />
         </activity>
-
         <activity
             android:name=".profile_activity.EditProfileActivity"
             android:label="@string/title_activity_edit_profile"
@@ -114,7 +105,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.novan.tugasakhir.MainActivity" />
         </activity>
-
         <activity
             android:name=".history_activity.HistoryActivity"
             android:label="@string/title_activity_history"
@@ -124,19 +114,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.novan.tugasakhir.MainActivity" />
         </activity>
-
         <activity
             android:name=".util.reminderComponent.DialogAlarm"
             android:theme="@style/Round.Dialog" />
         <activity android:name=".emergency_activity.SendMessage" />
-
         <activity
             android:name=".emergency_activity.CountDown"
             android:theme="@style/Round.Dialog" />
         <activity
             android:name=".tutorial_activity.TutorialActivity"
             android:label="@string/title_activity_tutorial"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
 
         <receiver android:name=".util.reminderComponent.AlarmReceiver" />
 
@@ -144,6 +132,9 @@
             android:name=".util.service.SensorService"
             android:enabled="true" />
 
+        <activity
+            android:name=".util.UIcomponent.ErrorDialog"
+            android:theme="@style/Round.Dialog"></activity>
     </application>
 
 </manifest>
