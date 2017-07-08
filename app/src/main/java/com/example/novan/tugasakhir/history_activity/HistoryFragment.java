@@ -1,6 +1,5 @@
 package com.example.novan.tugasakhir.history_activity;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -67,7 +66,6 @@ public class HistoryFragment extends Fragment {
     private ScrollChoice scrollChoice;
     Calendar calendar = Calendar.getInstance();
 
-    private ProgressDialog progressDialog;
     private List<String> data = new ArrayList<>();
     private ArrayList<User> user = new ArrayList<>();
 
@@ -75,25 +73,25 @@ public class HistoryFragment extends Fragment {
             ColorTemplate.rgb("#2ecc71"), ColorTemplate.rgb("#e74c3c")
     };
 
-    private String month, month_parameter, consumed, not_consumed;
+    private String month, year, month_parameter, consumed, not_consumed;
     private int count_history, error_counter = 0;
 
     private DataHelper dataHelper;
     private Context context;
 
-    private String TAG = "TAGapp";
+    private String TAG ;
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_history, container, false);
         context = getActivity().getApplicationContext();
+        TAG = "TAGapp "+context.getClass().getSimpleName();
 
         pieChart = (PieChart) view.findViewById(R.id.pieChart);
         lineChart = (LineChart) view.findViewById(R.id.lineGraph);
         filter = (Button) view.findViewById(R.id.filter_button);
 
         dataHelper = new DataHelper(getActivity());
-        progressDialog = new ProgressDialog(context);
 
         user = dataHelper.getUserDetail();
 
@@ -103,14 +101,15 @@ public class HistoryFragment extends Fragment {
 
         Bundle arguments = getArguments();
         month = arguments.getString("month");
+        year = String.valueOf(calendar.get(Calendar.YEAR));
 
         if (month == null){
             month = String.valueOf(calendar.get(Calendar.MONTH));
         }
 
         //get value of history from sqlite
-        getMedicineHistory(uid,month,"1");
-        getMedicineHistory(uid,month,"0");
+        getMedicineHistory(uid,month,year,"1");
+        getMedicineHistory(uid,month,year,"0");
 
         //create Line Chart
         createLineChart();
@@ -335,7 +334,7 @@ public class HistoryFragment extends Fragment {
         pieChart.invalidate();
     }
 
-    private void getMedicineHistory(final String uid_user, final String month, final String status) {
+    private void getMedicineHistory(final String uid_user, final String month, final String year, final String status) {
         // Tag used to cancel the request
         String tag_string_req = "req_data";
 
@@ -351,21 +350,35 @@ public class HistoryFragment extends Fragment {
                 try {
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
+                    boolean null_value = jObj.getBoolean("null");
+
+                    Log.d(TAG,"error = "+error);
+                    Log.d(TAG,"null = "+null_value);
 
                     // Check for error node in json
                     if (!error) {
-                        // Now store the user in SQLite
-                        JSONArray medicine = jObj.getJSONArray("medicine");
-                        Log.d(TAG,""+medicine);
+                        if (!null_value){
+                            // Now store the user in SQLite
+                            JSONArray medicine = jObj.getJSONArray("medicine");
+                            Log.d(TAG,""+medicine);
 
-                        count_history = medicine.length();
+                            count_history = medicine.length();
 
-                        if (status.equalsIgnoreCase("1")){
-                            consumed = String.valueOf(count_history);
-                        }else{
-                            not_consumed = String.valueOf(count_history);
+                            if (status.equalsIgnoreCase("1")){
+                                consumed = String.valueOf(count_history);
+                            }else{
+                                not_consumed = String.valueOf(count_history);
+                            }
+                        }else {
+                            count_history = 0;
+
+                            if (status.equalsIgnoreCase("1")){
+                                consumed = String.valueOf(count_history);
+                            }else{
+                                not_consumed = String.valueOf(count_history);
+                            }
                         }
-
+                        //check if variable already filled
                         if (consumed != null){
                             if (not_consumed != null){
                                 //create Pie Chart
@@ -392,6 +405,7 @@ public class HistoryFragment extends Fragment {
                     // JSON error
                     e.printStackTrace();
                     Toast.makeText(context, "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Log.d(TAG,"JSON erro"+e.getMessage());
                 }
 
             }
@@ -411,6 +425,7 @@ public class HistoryFragment extends Fragment {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("uid_user", uid_user);
                 params.put("month", month);
+                params.put("year", year);
                 params.put("status", status);
 
                 return params;
