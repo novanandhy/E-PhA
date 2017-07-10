@@ -25,7 +25,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.novan.tugasakhir.MainActivity;
 import com.example.novan.tugasakhir.R;
-import com.example.novan.tugasakhir.home_activity.EditMedineActivity;
 import com.example.novan.tugasakhir.models.User;
 import com.example.novan.tugasakhir.util.database.AppConfig;
 import com.example.novan.tugasakhir.util.database.AppController;
@@ -155,7 +154,7 @@ public class EditProfileActivity extends AppCompatActivity {
                         image = MediaStore.Images.Media.getBitmap(getContentResolver(),selectedImageUri);
                         photo.setImageBitmap(image);
                         //scale down image
-                        image = scaleDownBitmap(image,100,EditProfileActivity.this);
+                        image = scaleDownBitmap(image,50,EditProfileActivity.this);
                     }
                 }
             }else {

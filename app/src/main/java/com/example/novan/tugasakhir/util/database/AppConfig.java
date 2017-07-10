@@ -27,6 +27,12 @@ public class AppConfig {
     // Server get medicine history
     public static String URL_GET_HISTORY_MEDICINE = "http://"+DOMAIN+"/android_api/get_medicine_history.php";
 
-    // Server get medicine history
+    // Server get relapse history
     public static String URL_GET_HISTORY_RELAPSE = "http://"+DOMAIN+"/android_api/get_relapse_history.php";
+
+    // Server get user detail
+    public static String URL_GET_USER_DETAIL = "http://"+DOMAIN+"/android_api/get_user_details.php";
+
+    // Server get all user
+    public static String URL_GET_USER_ALL = "http://"+DOMAIN+"/android_api/get_user_all.php";
 }

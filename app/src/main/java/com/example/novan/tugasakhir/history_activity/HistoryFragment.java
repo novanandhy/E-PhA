@@ -1,5 +1,6 @@
 package com.example.novan.tugasakhir.history_activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -68,6 +69,7 @@ public class HistoryFragment extends Fragment {
     private Button filter, cancel, confirm;
     private ScrollChoice scrollChoice;
     Calendar calendar = Calendar.getInstance();
+    ProgressDialog progressDialog;
 
     private List<String> data = new ArrayList<>();
     private ArrayList<User> user = new ArrayList<>();
@@ -93,6 +95,10 @@ public class HistoryFragment extends Fragment {
         pieChart = (PieChart) view.findViewById(R.id.pieChart);
         lineChart = (LineChart) view.findViewById(R.id.lineGraph);
         filter = (Button) view.findViewById(R.id.filter_button);
+
+        //progress dialog show
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setCancelable(false);
 
         dataHelper = new DataHelper(getActivity());
 
@@ -332,6 +338,9 @@ public class HistoryFragment extends Fragment {
         // Tag used to cancel the request
         String tag_string_req = "req_data";
 
+        progressDialog.setMessage("mohon tunggu sebentar...");
+        showDialog();
+
         //netralizer count history
         count_history = 0;
 
@@ -340,7 +349,7 @@ public class HistoryFragment extends Fragment {
 
             @Override
             public void onResponse(String response) {
-
+                hideDialog();
                 try {
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
@@ -410,6 +419,7 @@ public class HistoryFragment extends Fragment {
                 Log.e(TAG, "Login Error: " + error.getMessage());
                 Toast.makeText(context,
                         error.getMessage(), Toast.LENGTH_LONG).show();
+                hideDialog();
             }
         }) {
 
@@ -546,5 +556,15 @@ public class HistoryFragment extends Fragment {
         }
 
         return values;
+    }
+
+    private void showDialog() {
+        if (!progressDialog.isShowing())
+            progressDialog.show();
+    }
+
+    private void hideDialog() {
+        if (progressDialog.isShowing())
+            progressDialog.dismiss();
     }
 }

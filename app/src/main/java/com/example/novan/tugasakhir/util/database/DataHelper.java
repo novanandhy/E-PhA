@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.example.novan.tugasakhir.models.Contact;
+import com.example.novan.tugasakhir.models.Friends;
 import com.example.novan.tugasakhir.models.History;
 import com.example.novan.tugasakhir.models.Locations;
 import com.example.novan.tugasakhir.models.Medicine;
@@ -40,7 +41,7 @@ public class DataHelper extends SQLiteOpenHelper {
     private static  final String TABLE_HISTORY = "db_history";
     private static  final String TABLE_RELAPSE = "db_relapse";
     private static  final String TABLE_LOCATION = "db_location";
-    private static  final String TABLE_EPILEPTICS = "db_epileptic";
+    private static  final String TABLE_FRIEND = "db_friend";
     private static  final String TABLE_CONTACTS = "db_contact";
 
     //Table User Data
@@ -100,9 +101,8 @@ public class DataHelper extends SQLiteOpenHelper {
     public static final String COLUMN_MINUTE_RELAPSE = "minute_relapse";
 
     //Table Epileptics Data
-    private static final String COLUMN_ID_EPILEPTICS = "id_epileptic";
-    private static final String COLUMN_IDuser_EPILEPTICS = "id_user";
-    private static final String COLUMN_NAME_EPILEPTICS = "name_epileptic";
+    public static final String COLUMN_ID_FRIEND = "id_epileptic";
+    public static final String COLUMN_IDuser_FRIEND = "id_user";
 
     //Create Table
     private static final String DB_MEDICINE = "create table db_medic (id_medicine integer primary key" +
@@ -124,11 +124,15 @@ public class DataHelper extends SQLiteOpenHelper {
     private static final String DB_RELAPSE = "create table db_relapse(id_relapse integer primary key " +
             "AUTOINCREMENT, uid_user text, latitude_relapse text, longitude_relapse text, date_relapse " +
             "text, month_relapse text, year_relapse text, hour_relapse text, minute_relapse text);";
+    private static final String DB_FRIEND = "create table "+TABLE_FRIEND+"("+COLUMN_ID_FRIEND+" integer primary key AUTOINCREMENT, "+COLUMN_IDuser_FRIEND+" text);";
 
 
 
     private static final String createNullLocation = "insert into 'db_location' ('id_location', " +
             "'latitude_location', longitude_location) values (1,null,null);";
+
+    private static final String createTempFrient = "insert into 'db_friend' ('id_user') values ('59634161676015.36045696');";
+    private static final String createTempFrient2 = "insert into 'db_friend' ('id_user') values ('59634153ad58b9.20700506');";
     @Override
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
@@ -139,9 +143,12 @@ public class DataHelper extends SQLiteOpenHelper {
         db.execSQL(DB_HISTORY);
         db.execSQL(DB_LOCATION);
         db.execSQL(DB_RELAPSE);
+        db.execSQL(DB_FRIEND);
 
         try {
             db.execSQL(createNullLocation);
+            db.execSQL(createTempFrient);
+            db.execSQL(createTempFrient2);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -630,4 +637,42 @@ public class DataHelper extends SQLiteOpenHelper {
         Log.d(TAG, "Deleted all contacts info from sqlite");
     }
 
+    //add friend uid
+    public void addFriend(String uid_user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_IDuser_FRIEND, uid_user); // uid_user
+
+        Log.d(TAG, "Fetching friend from Sqlite: " + values.toString());
+
+        // Inserting Row
+        try{
+            db.insert(TABLE_FRIEND, null, values);
+            db.close(); // Closing database connection
+        }catch (Exception e){
+            Log.d(TAG,"Failed add relapse history");
+        }
+    }
+
+    //get frined
+    public ArrayList<Friends> getFriend(){
+        ArrayList<Friends> friends = new ArrayList<>();
+        String sql = "SELECT * FROM "+ TABLE_FRIEND +" ORDER BY "+COLUMN_ID_FRIEND;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+
+        Cursor cursor = db.rawQuery(sql,null);
+        cursor.moveToFirst();
+        Log.d(TAG,"size cursor friend: "+cursor.getCount());
+        if(cursor.getCount() > 0 ) {
+            do {
+                friends.add(new Friends(cursor));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        db.close();
+        return friends;
+    }
 }

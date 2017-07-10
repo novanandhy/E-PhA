@@ -1,42 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.novan.tugasakhir.history_activity.HistoryActivity"
     android:orientation="vertical"
-    android:weightSum="6">
+    android:weightSum="100">
 
-    <android.support.v7.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/custom_primary_color"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        android:id="@+id/toolbar"
-        app:titleTextColor="@color/custom_text"
-        />
-    <LinearLayout
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/lineGraph"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@color/custom_primary_color"
+        android:layout_weight="30"/>
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/lineGraph"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:background="@color/custom_primary_color"
-            android:layout_below="@+id/text_statistik"
-            />
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/pieChart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/lineGraph"
+        android:layout_weight="23"/>
 
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/pieChart"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/lineGraph"
-            android:layout_weight="3"/>
-    </LinearLayout>
+    <Button
+        android:id="@+id/filter_button"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="0dp"
+        android:layout_weight="47"
+        android:background="#34495e"
+        android:elevation="0dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Filter"
+        android:textColor="@color/custom_text"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="serif"></Button>
+
 
 </LinearLayout>

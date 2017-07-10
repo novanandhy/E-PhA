@@ -94,7 +94,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         PendingIntent pendingintent = PendingIntent.getBroadcast(context, requestCode, intent,0);
 
         AlarmManager alarmManager  = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, time, AlarmManager.INTERVAL_DAY, pendingintent);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, time, AlarmManager.INTERVAL_DAY, pendingintent);
         Toast.makeText(context, "Alarm set for "+hoursString+" hours and "+minuteString+" minutes from now", Toast.LENGTH_SHORT).show();
     }
 
