@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.util.Log;
 import android.util.TypedValue;
@@ -104,7 +103,7 @@ public class HistoryActivity extends AppCompatActivity {
         consumed = null;
         not_consumed = null;
 
-        Intent intent = new Intent();
+        Intent intent = getIntent();
         month = intent.getExtras().getString("month");
         String uid = intent.getExtras().getString("uid");
         year = String.valueOf(calendar.get(Calendar.YEAR));

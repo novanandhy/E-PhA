@@ -186,6 +186,8 @@ public class FriendFragment extends Fragment {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Intent intent = new Intent(getActivity().getApplicationContext(), HistoryActivity.class);
+                                Log.d(TAG,"uid = "+userJSONs.get(position).getUid_user());
+                                intent.putExtra("uid",userJSONs.get(position).getUid_user());
                                 startActivity(intent);
                             }
                         });
