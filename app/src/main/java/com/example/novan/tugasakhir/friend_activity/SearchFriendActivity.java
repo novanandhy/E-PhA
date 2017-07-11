@@ -32,6 +32,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.novan.tugasakhir.R;
+import com.example.novan.tugasakhir.models.Friends;
 import com.example.novan.tugasakhir.models.User;
 import com.example.novan.tugasakhir.models.UserJSON;
 import com.example.novan.tugasakhir.util.database.AppConfig;
@@ -49,9 +50,12 @@ import java.util.Map;
 public class SearchFriendActivity extends AppCompatActivity {
     private ListView listView;
     private DataHelper dataHelper;
-    private ArrayList<User> users;
-    private ArrayList<UserJSON> userJSONs;
     private MyListAdapter adapater;
+
+    private ArrayList<User> users;
+    private ArrayList<Friends> friends;
+    private ArrayList<UserJSON> userJSONs;
+    private ArrayList<UserJSON> param;
 
     ProgressDialog progressDialog;
 
@@ -74,11 +78,18 @@ public class SearchFriendActivity extends AppCompatActivity {
 
         dataHelper = new DataHelper(this);
         userJSONs = new ArrayList<>();
+        param = new ArrayList<>();
         users = new ArrayList<>();
+
         users = dataHelper.getUserDetail();
+        friends = dataHelper.getFriend();
 
         //get own unique id
         stringUid = users.get(0).getUnique_id();
+
+        for (int i = 0 ; i < friends.size() ; i++){
+            stringUid = stringUid + " " +friends.get(i).getUid_user();
+        }
 
         //progress dialog show
         progressDialog = new ProgressDialog(this);
@@ -123,12 +134,16 @@ public class SearchFriendActivity extends AppCompatActivity {
 
                             userJSONs.add(data);
                         }
+                        param = userJSONs;
                         adapater = new MyListAdapter(context,R.layout.content_friend_list,userJSONs);
                         listView.setAdapter(adapater);
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Intent intent = new Intent(SearchFriendActivity.this, AddFriendActivity.class);
+                                intent.putExtra("uid", userJSONs.get(position).getUid_user());
+                                intent.putExtra("name", userJSONs.get(position).getName());
+                                intent.putExtra("image", userJSONs.get(position).getImage());
                                 startActivity(intent);
                             }
                         });
@@ -161,6 +176,8 @@ public class SearchFriendActivity extends AppCompatActivity {
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("uid_user", uid_user);
+
+                Log.d(TAG,"uid user = "+uid_user);
 
                 return params;
             }
@@ -219,7 +236,6 @@ public class SearchFriendActivity extends AppCompatActivity {
 
         public Context context;
         public ArrayList<UserJSON> objects;
-        public ArrayList<UserJSON> orig;
 
         public MyListAdapter(Context context, int resource, ArrayList<UserJSON> objects) {
             super(context, resource, objects);
@@ -235,11 +251,10 @@ public class SearchFriendActivity extends AppCompatActivity {
                     Log.d(TAG,"Enter filterresult");
                     final FilterResults oReturn = new FilterResults();
                     final ArrayList<UserJSON> result = new ArrayList<UserJSON>();
-                    orig = userJSONs;
-                    Log.d(TAG,"orig size "+orig.size());
+                    Log.d(TAG,"orig size "+param.size());
                     if (constraint != null){
-                        if (orig != null && orig.size() > 0){
-                            for (final UserJSON u : orig){
+                        if (param != null && param.size() > 0){
+                            for (final UserJSON u : param){
                                 if (u.getUsername().toLowerCase().contains(constraint.toString())
                                         || u.getName().toLowerCase().contains(constraint.toString())){
                                     result.add(u);
@@ -249,7 +264,7 @@ public class SearchFriendActivity extends AppCompatActivity {
                         oReturn.values = result;
                         Log.d(TAG,"constraint = "+constraint.toString()+" size = "+result.size());
                     }else{
-                        oReturn.values = orig;
+                        oReturn.values = param;
                     }
                     return oReturn;
                 }
@@ -257,9 +272,10 @@ public class SearchFriendActivity extends AppCompatActivity {
                 @Override
                 protected void publishResults(CharSequence constraint, FilterResults results) {
                     Log.d(TAG,"Enter publishresult");
-                    ArrayList<UserJSON> value = (ArrayList<UserJSON>) results.values;
+                    ArrayList<UserJSON> obj ;
+                    obj = (ArrayList<UserJSON>) results.values;
                     objects.clear();
-                    objects.addAll(value);
+                    objects.addAll(obj);
                     adapater.notifyDataSetChanged();
                 }
             };
