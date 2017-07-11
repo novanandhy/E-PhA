@@ -3,8 +3,11 @@ package com.example.novan.tugasakhir.friend_activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +26,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.history_activity.HistoryActivity;
 import com.example.novan.tugasakhir.models.Friends;
+import com.example.novan.tugasakhir.models.UserJSON;
 import com.example.novan.tugasakhir.util.database.AppConfig;
 import com.example.novan.tugasakhir.util.database.AppController;
 import com.example.novan.tugasakhir.util.database.DataHelper;
@@ -46,6 +50,7 @@ public class FriendFragment extends Fragment {
     private ListView listView;
     private DataHelper dataHelper;
     private ArrayList<Friends> friends;
+    private ArrayList<UserJSON> userJSONs;
 
     ProgressDialog progressDialog;
 
@@ -59,10 +64,13 @@ public class FriendFragment extends Fragment {
         context = getActivity().getApplicationContext();
         TAG = "TAGapp "+context.getClass().getSimpleName();
         dataHelper = new DataHelper(context);
+
         friends = new ArrayList<>();
+        userJSONs = new ArrayList<>();
 
         friends = dataHelper.getFriend();
 
+        //create string uid user parameter
         for (int i = 0; i < friends.size() ; i ++){
             if (i == 0){
                 stringUid = friends.get(i).getUid_user();
@@ -75,17 +83,9 @@ public class FriendFragment extends Fragment {
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setCancelable(false);
 
-        getUserDetails(stringUid);
-
         listView = (ListView) view.findViewById(R.id.list_friend);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity().getApplicationContext(), HistoryActivity.class);
-                startActivity(intent);
-            }
-        });
-        listView.setAdapter(new MyListAdapter(getActivity().getApplicationContext(),R.layout.content_friend_list,friends));
+
+        getUserDetails(stringUid);
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab_friend);
         fab.attachToListView(listView, new ScrollDirectionListener() {
@@ -110,9 +110,9 @@ public class FriendFragment extends Fragment {
         return view;
     }
 
-    private class MyListAdapter extends ArrayAdapter<Friends> {
+    private class MyListAdapter extends ArrayAdapter<UserJSON> {
         private int layout;
-        public MyListAdapter(Context context, int resource, ArrayList<Friends> objects) {
+        public MyListAdapter(Context context, int resource, ArrayList<UserJSON> objects) {
             super(context, resource, objects);
             layout = resource;
         }
@@ -125,12 +125,17 @@ public class FriendFragment extends Fragment {
                 convertView = inflater.inflate(layout,parent,false);
                 ViewHolder viewHolder = new ViewHolder();
                 viewHolder.friendName = (TextView) convertView.findViewById(R.id.friend_name);
-                viewHolder.friendName.setText(friends.get(position).getUid_user());
+                viewHolder.friendName.setText(userJSONs.get(position).getName());
+                viewHolder.username = (TextView) convertView.findViewById(R.id.friend_username);
+                viewHolder.username.setText(userJSONs.get(position).getUsername());
                 viewHolder.friendImage = (ImageView) convertView.findViewById(R.id.image_friend);
+                byte[] decodedString = Base64.decode(userJSONs.get(position).getImage(), Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                viewHolder.friendImage.setImageBitmap(decodedByte);
                 convertView.setTag(viewHolder);
             }else {
                 mainViewHolder = (ViewHolder) convertView.getTag();
-                mainViewHolder.friendName.setText(friends.get(position).getUid_user());
+                mainViewHolder.friendName.setText(userJSONs.get(position).getName());
             }
 
             return convertView;
@@ -138,7 +143,7 @@ public class FriendFragment extends Fragment {
     }
 
     public class ViewHolder{
-        TextView friendName;
+        TextView friendName,username;
         ImageView friendImage;
     }
 
@@ -162,8 +167,29 @@ public class FriendFragment extends Fragment {
                     // Check for error node in json
                     if (!error) {
                         // Now store the user in SQLite
-                        JSONArray medicine = jObj.getJSONArray("user");
-                        Log.d(TAG,""+medicine);
+                        JSONArray user = jObj.getJSONArray("user");
+
+                        for (int i = 0 ; i < user.length() ; i++){
+                            JSONObject details = user.getJSONObject(i);
+
+                            UserJSON data = new UserJSON();
+
+                            data.setUid_user(details.getString("unique_id"));
+                            data.setUsername(details.getString("username"));
+                            data.setName(details.getString("name"));
+                            data.setImage(details.getString("image"));
+
+                            userJSONs.add(data);
+                        }
+
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Intent intent = new Intent(getActivity().getApplicationContext(), HistoryActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                        listView.setAdapter(new MyListAdapter(getActivity().getApplicationContext(),R.layout.content_friend_list,userJSONs));
                     } else {
                         // Error in getting data. Get the error message
                         String errorMsg = jObj.getString("error_msg");

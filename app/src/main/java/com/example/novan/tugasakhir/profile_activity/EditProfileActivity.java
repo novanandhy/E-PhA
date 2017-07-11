@@ -154,7 +154,7 @@ public class EditProfileActivity extends AppCompatActivity {
                         image = MediaStore.Images.Media.getBitmap(getContentResolver(),selectedImageUri);
                         photo.setImageBitmap(image);
                         //scale down image
-                        image = scaleDownBitmap(image,50,EditProfileActivity.this);
+                        image = scaleDownBitmap(image,70,EditProfileActivity.this);
                     }
                 }
             }else {
