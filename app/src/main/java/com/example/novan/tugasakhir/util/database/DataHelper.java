@@ -130,9 +130,6 @@ public class DataHelper extends SQLiteOpenHelper {
 
     private static final String createNullLocation = "insert into 'db_location' ('id_location', " +
             "'latitude_location', longitude_location) values (1,null,null);";
-
-    private static final String createTempFrient = "insert into 'db_friend' ('id_user') values ('59634161676015.36045696');";
-    private static final String createTempFrient2 = "insert into 'db_friend' ('id_user') values ('59634153ad58b9.20700506');";
     @Override
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
@@ -147,8 +144,6 @@ public class DataHelper extends SQLiteOpenHelper {
 
         try {
             db.execSQL(createNullLocation);
-            db.execSQL(createTempFrient);
-            db.execSQL(createTempFrient2);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -164,6 +159,7 @@ public class DataHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_HISTORY);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOCATION);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_RELAPSE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FRIEND);
     }
 
 
@@ -658,7 +654,7 @@ public class DataHelper extends SQLiteOpenHelper {
     //get frined
     public ArrayList<Friends> getFriend(){
         ArrayList<Friends> friends = new ArrayList<>();
-        String sql = "SELECT * FROM "+ TABLE_FRIEND +" ORDER BY "+COLUMN_ID_FRIEND;
+        String sql = "SELECT * FROM "+ TABLE_FRIEND +" ORDER BY "+COLUMN_IDuser_FRIEND;
         SQLiteDatabase db = this.getReadableDatabase();
 
 
@@ -674,5 +670,13 @@ public class DataHelper extends SQLiteOpenHelper {
 
         db.close();
         return friends;
+    }
+
+    //delete friend
+    public void delete_friend(String uid){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_FRIEND,COLUMN_IDuser_FRIEND+"='"+uid+"'", null);
+        db.close();
+        Log.d(TAG, "friend by id= "+uid+" has been deleted");
     }
 }

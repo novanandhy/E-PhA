@@ -9,6 +9,7 @@
     tools:context="com.example.novan.tugasakhir.util.UIcomponent.ErrorDialog">
 
     <ImageView
+        android:id="@+id/image_alert"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:src="@drawable/sad_mood"/>

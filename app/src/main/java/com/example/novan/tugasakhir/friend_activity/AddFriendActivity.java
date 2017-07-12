@@ -58,6 +58,7 @@ public class AddFriendActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dataHelper.addFriend(uid);
+                setResult(RESULT_OK);
                 finish();
             }
         });

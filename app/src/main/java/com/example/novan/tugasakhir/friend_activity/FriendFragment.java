@@ -1,7 +1,9 @@
 package com.example.novan.tugasakhir.friend_activity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,7 +19,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -53,6 +54,7 @@ public class FriendFragment extends Fragment {
     private ArrayList<UserJSON> userJSONs;
 
     ProgressDialog progressDialog;
+    MyListAdapter adapter;
 
     private Context context;
     private String TAG;
@@ -68,24 +70,13 @@ public class FriendFragment extends Fragment {
         friends = new ArrayList<>();
         userJSONs = new ArrayList<>();
 
-        friends = dataHelper.getFriend();
-
-        //create string uid user parameter
-        for (int i = 0; i < friends.size() ; i ++){
-            if (i == 0){
-                stringUid = friends.get(i).getUid_user();
-            }else {
-                stringUid = stringUid + " " + friends.get(i).getUid_user();
-            }
-        }
-
         //progress dialog show
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setCancelable(false);
 
         listView = (ListView) view.findViewById(R.id.list_friend);
 
-        getUserDetails(stringUid);
+        PopulateAdapter();
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab_friend);
         fab.attachToListView(listView, new ScrollDirectionListener() {
@@ -103,11 +94,39 @@ public class FriendFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity().getApplicationContext(),SearchFriendActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 10);
             }
         });
 
         return view;
+    }
+
+    private void PopulateAdapter() {
+        stringUid = null;
+        friends.clear();
+
+        friends = dataHelper.getFriend();
+
+        //create string uid user parameter
+        for (int i = 0; i < friends.size() ; i ++){
+            Log.d(TAG, "friends uid user = "+friends.get(i).getUid_user());
+            if (i == 0){
+                stringUid = friends.get(i).getUid_user();
+            }else {
+                stringUid = stringUid + " " + friends.get(i).getUid_user();
+            }
+        }
+
+        getUserDetails(stringUid);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == getActivity().RESULT_OK){
+            PopulateAdapter();
+        }
     }
 
     private class MyListAdapter extends ArrayAdapter<UserJSON> {
@@ -168,6 +187,7 @@ public class FriendFragment extends Fragment {
                     if (!error) {
                         // Now store the user in SQLite
                         JSONArray user = jObj.getJSONArray("user");
+                        userJSONs.clear();
 
                         for (int i = 0 ; i < user.length() ; i++){
                             JSONObject details = user.getJSONObject(i);
@@ -191,7 +211,37 @@ public class FriendFragment extends Fragment {
                                 startActivity(intent);
                             }
                         });
-                        listView.setAdapter(new MyListAdapter(getActivity().getApplicationContext(),R.layout.content_friend_list,userJSONs));
+                        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                            @Override
+                            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                                final String unique = friends.get(position).getUid_user();
+                                String name = userJSONs.get(position).getName();
+
+                                Log.d(TAG,"uid user = "+unique);
+                                Log.d(TAG,"name = "+name);
+
+                                AlertDialog.Builder builder;
+                                builder = new AlertDialog.Builder(getActivity());
+                                builder.setMessage("Apakah anda yakin ingin menghapus "+name+" ?")
+                                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dataHelper.delete_friend(unique);
+                                                PopulateAdapter();
+                                            }
+                                        })
+                                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                // do nothing
+                                            }
+                                        })
+                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                        .show();
+                                return true;
+                            }
+                        });
+
+                        adapter = new MyListAdapter(context,R.layout.content_friend_list,userJSONs);
+                        listView.setAdapter(adapter);
                     } else {
                         // Error in getting data. Get the error message
                         String errorMsg = jObj.getString("error_msg");
@@ -200,7 +250,6 @@ public class FriendFragment extends Fragment {
                 } catch (JSONException e) {
                     // JSON error
                     e.printStackTrace();
-                    Toast.makeText(context, "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     Log.d(TAG,"JSON error"+e.getMessage());
                 }
 
@@ -211,8 +260,6 @@ public class FriendFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 hideDialog();
                 Log.e(TAG, "Login Error: " + error.getMessage());
-                Toast.makeText(context,
-                        error.getMessage(), Toast.LENGTH_LONG).show();
             }
         }) {
 

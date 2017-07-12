@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.novan.tugasakhir.R;
@@ -13,6 +14,7 @@ import com.example.novan.tugasakhir.R;
 public class ErrorDialog extends Activity {
     Button btn;
     TextView msg;
+    ImageView img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +26,7 @@ public class ErrorDialog extends Activity {
 
         btn = (Button) findViewById(R.id.button_close_dialog);
         msg = (TextView) findViewById(R.id.dialog_text_alert);
+        img = (ImageView) findViewById(R.id.image_alert);
 
         setMessage(text);
 
@@ -36,6 +39,7 @@ public class ErrorDialog extends Activity {
     }
 
     public void setMessage(String message){
+
         msg.setText(message);
     }
 

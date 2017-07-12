@@ -81,6 +81,16 @@ public class SearchFriendActivity extends AppCompatActivity {
         param = new ArrayList<>();
         users = new ArrayList<>();
 
+        //progress dialog show
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+
+        listView = (ListView) findViewById(R.id.list_friend_search);
+
+        PopulateAdapter();
+    }
+
+    private void PopulateAdapter() {
         users = dataHelper.getUserDetail();
         friends = dataHelper.getFriend();
 
@@ -90,12 +100,6 @@ public class SearchFriendActivity extends AppCompatActivity {
         for (int i = 0 ; i < friends.size() ; i++){
             stringUid = stringUid + " " +friends.get(i).getUid_user();
         }
-
-        //progress dialog show
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(false);
-
-        listView = (ListView) findViewById(R.id.list_friend_search);
 
         getUserDetails(stringUid);
     }
@@ -121,6 +125,7 @@ public class SearchFriendActivity extends AppCompatActivity {
                     if (!error) {
                         // Now store the user in SQLite
                         JSONArray user = jObj.getJSONArray("user");
+                        userJSONs.clear();
 
                         for (int i = 0 ; i < user.length() ; i++){
                             JSONObject details = user.getJSONObject(i);
@@ -144,7 +149,7 @@ public class SearchFriendActivity extends AppCompatActivity {
                                 intent.putExtra("uid", userJSONs.get(position).getUid_user());
                                 intent.putExtra("name", userJSONs.get(position).getName());
                                 intent.putExtra("image", userJSONs.get(position).getImage());
-                                startActivity(intent);
+                                startActivityForResult(intent,10);
                             }
                         });
                     } else {
@@ -189,6 +194,15 @@ public class SearchFriendActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 10 && resultCode == RESULT_OK){
+            PopulateAdapter();
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_search, menu);
@@ -216,6 +230,7 @@ public class SearchFriendActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        setResult(RESULT_OK);
         finish();
     }
 
