@@ -2,6 +2,7 @@ package com.example.novan.tugasakhir.login_activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -210,6 +211,8 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
 
     @Override
     public void onBackPressed() {
+        Intent intent = new Intent(RegisterActivity.this, LoginregisterActivity.class);
+        startActivity(intent);
         finish();
     }
 }

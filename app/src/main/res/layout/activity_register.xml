@@ -2,16 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/custom_primary_color"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:fontFamily="cursive"
+        android:shadowColor="@color/box_layout_shadow"
+        android:text="Epilepsy Assistance"
+        android:textColor="@color/custom_background_layout"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:typeface="normal"
+        tools:typeface="sans" />
 
     <EditText
         android:id="@+id/name"
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/bg_white_very_rounded"
         android:gravity="center"
         android:hint="Name"
