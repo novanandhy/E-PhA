@@ -212,18 +212,16 @@ public class EditProfileActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Pengguna telah diperbarui.", Toast.LENGTH_LONG).show();
 
                         // Launch login activity
-                        ma.finish();
-                        Intent intent = new Intent(EditProfileActivity.this, MainActivity.class);
-                        intent.putExtra("TAG","profile");
-                        startActivityForResult(intent,10);
+                        setResult(RESULT_OK);
                         finish();
                     } else {
 
                         // Error occurred in registration. Get the error
                         // message
                         String errorMsg = jObj.getString("error_msg");
+                        Log.e(TAG, "upload Error: " + errorMsg);
                         Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();
+                                "terjadi kesalahan, coba ulangi", Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -234,9 +232,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Registration Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
+                Log.e(TAG, "upload Error: " + error.getMessage());
+                Toast.makeText(getApplicationContext(),"gagal koneksi", Toast.LENGTH_LONG).show();
                 hideDialog();
             }
         }) {

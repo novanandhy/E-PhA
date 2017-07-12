@@ -1,13 +1,10 @@
 package com.example.novan.tugasakhir.profile_activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +16,7 @@ import com.example.novan.tugasakhir.models.Contact;
 import com.example.novan.tugasakhir.models.User;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by Novan on 13/03/2017.
@@ -53,22 +48,12 @@ public class ProfileFragment extends Fragment {
         contactCount.setText(""+contactSize);
 
         users = new ArrayList<>();
-        users = dataHelper.getUserDetail();
-        int count = 0;
-
-        String name = users.get(count).getName();
-        String username = users.get(count).getUsername();
-        byte[] image_data = users.get(count).getImage();
-        Log.d(TAG,"image byte to string = "+image_data.toString());
 
         namePreview = (TextView) view.findViewById(R.id.name_profile);
-        namePreview.setText(name);
-
         usernamePreview = (TextView) view.findViewById(R.id.username_profile);
-        usernamePreview.setText(username);
-
         imageView = (ImageView) view.findViewById(R.id.image_profile);
-        imageView.setImageBitmap(BitmapFactory.decodeByteArray(image_data,0,image_data.length));
+
+        PopulateAdapter();
 
 
         FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab_profile);
@@ -76,10 +61,31 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity().getApplicationContext(),EditProfileActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 10);
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == getActivity().RESULT_OK){
+            PopulateAdapter();
+        }
+    }
+
+    private void PopulateAdapter() {
+        users = dataHelper.getUserDetail();
+
+        String name = users.get(0).getName();
+        String username = users.get(0).getUsername();
+        byte[] image_data = users.get(0).getImage();
+
+        namePreview.setText(name);
+        usernamePreview.setText(username);
+        imageView.setImageBitmap(BitmapFactory.decodeByteArray(image_data,0,image_data.length));
     }
 }
