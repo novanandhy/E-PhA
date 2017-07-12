@@ -538,6 +538,13 @@ public class HistoryActivity extends AppCompatActivity {
 
     }
 
+    private void ErrorMessage(String s, int img) {
+        Intent intent = new Intent(context, ErrorDialog.class);
+        intent.putExtra("message",s);
+        intent.putExtra("image",img);
+        startActivity(intent);
+    }
+
     //generate count of each date
     private ArrayList<Entry> generateDateSize(ArrayList<Integer> date) {
         int len = date.size();

@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -400,14 +399,12 @@ public class HistoryFragment extends Fragment {
                     }
 
                     if (error_counter > 1){
-                        Intent intent = new Intent(context, ErrorDialog.class);
-                        intent.putExtra("message","riwayat obat tidak tersedia");
-                        startActivity(intent);
+                        ErrorMessage("riwayat obat tidak tersedia", R.drawable.sad_mood);
                     }
                 } catch (JSONException e) {
                     // JSON error
                     e.printStackTrace();
-                    Toast.makeText(context, "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    ErrorMessage("gagal mendapatkan data", R.drawable.sad_mood);
                     Log.d(TAG,"JSON erro"+e.getMessage());
                 }
 
@@ -417,8 +414,7 @@ public class HistoryFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Login Error: " + error.getMessage());
-                Toast.makeText(context,
-                        error.getMessage(), Toast.LENGTH_LONG).show();
+                ErrorMessage("cek kembali koneksi anda", R.drawable.no_connection);
                 hideDialog();
             }
         }) {
@@ -485,14 +481,12 @@ public class HistoryFragment extends Fragment {
                         String errorMsg = jObj.getString("error_msg");
                         Log.d(TAG,errorMsg);
 
-                        Intent intent = new Intent(context, ErrorDialog.class);
-                        intent.putExtra("message","riwayat kambuh tidak tersedia");
-                        startActivity(intent);
+                        ErrorMessage("riwayat kambuh tidak tersedia", R.drawable.sad_mood);
                     }
                 } catch (JSONException e) {
                     // JSON error
                     e.printStackTrace();
-                    Toast.makeText(context, "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    ErrorMessage("gagal mendapatkan data", R.drawable.sad_mood);
                     Log.d(TAG,"JSON error"+e.getMessage());
                 }
 
@@ -502,8 +496,6 @@ public class HistoryFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Login Error: " + error.getMessage());
-                Toast.makeText(context,
-                        error.getMessage(), Toast.LENGTH_LONG).show();
             }
         }) {
 
@@ -523,6 +515,13 @@ public class HistoryFragment extends Fragment {
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
 
+    }
+
+    private void ErrorMessage(String s, int img) {
+        Intent intent = new Intent(context, ErrorDialog.class);
+        intent.putExtra("message",s);
+        intent.putExtra("image",img);
+        startActivity(intent);
     }
 
     //generate count of each date

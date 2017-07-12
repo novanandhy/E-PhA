@@ -23,12 +23,13 @@ public class ErrorDialog extends Activity {
 
         Intent intent = getIntent();
         String text = intent.getExtras().getString("message");
+        int image = intent.getIntExtra("image",0);
 
         btn = (Button) findViewById(R.id.button_close_dialog);
         msg = (TextView) findViewById(R.id.dialog_text_alert);
         img = (ImageView) findViewById(R.id.image_alert);
 
-        setMessage(text);
+        setMessage(text, image);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,9 +39,10 @@ public class ErrorDialog extends Activity {
         });
     }
 
-    public void setMessage(String message){
+    public void setMessage(String message, int image){
 
         msg.setText(message);
+        img.setImageResource(image);
     }
 
     @Override

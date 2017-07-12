@@ -28,6 +28,7 @@ import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.history_activity.HistoryActivity;
 import com.example.novan.tugasakhir.models.Friends;
 import com.example.novan.tugasakhir.models.UserJSON;
+import com.example.novan.tugasakhir.util.UIcomponent.ErrorDialog;
 import com.example.novan.tugasakhir.util.database.AppConfig;
 import com.example.novan.tugasakhir.util.database.AppController;
 import com.example.novan.tugasakhir.util.database.DataHelper;
@@ -250,6 +251,7 @@ public class FriendFragment extends Fragment {
                 } catch (JSONException e) {
                     // JSON error
                     e.printStackTrace();
+                    ErrorMessage("gagal mendapatkan data", R.drawable.sad_mood);
                     Log.d(TAG,"JSON error"+e.getMessage());
                 }
 
@@ -259,6 +261,7 @@ public class FriendFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 hideDialog();
+                ErrorMessage("cek kembali koneksi anda", R.drawable.no_connection);
                 Log.e(TAG, "Login Error: " + error.getMessage());
             }
         }) {
@@ -277,6 +280,13 @@ public class FriendFragment extends Fragment {
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
 
+    }
+
+    private void ErrorMessage(String s, int img) {
+        Intent intent = new Intent(context, ErrorDialog.class);
+        intent.putExtra("message",s);
+        intent.putExtra("image",img);
+        startActivity(intent);
     }
 
     private void showDialog() {

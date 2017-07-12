@@ -25,7 +25,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -35,6 +34,7 @@ import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.models.Friends;
 import com.example.novan.tugasakhir.models.User;
 import com.example.novan.tugasakhir.models.UserJSON;
+import com.example.novan.tugasakhir.util.UIcomponent.ErrorDialog;
 import com.example.novan.tugasakhir.util.database.AppConfig;
 import com.example.novan.tugasakhir.util.database.AppController;
 import com.example.novan.tugasakhir.util.database.DataHelper;
@@ -160,7 +160,7 @@ public class SearchFriendActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     // JSON error
                     e.printStackTrace();
-                    Toast.makeText(context, "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    ErrorMessage("gagal mendapatkan data", R.drawable.sad_mood);
                     Log.d(TAG,"JSON error"+e.getMessage());
                 }
 
@@ -171,8 +171,7 @@ public class SearchFriendActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 hideDialog();
                 Log.e(TAG, "Login Error: " + error.getMessage());
-                Toast.makeText(context,
-                        error.getMessage(), Toast.LENGTH_LONG).show();
+                ErrorMessage("cek kembali konseksi anda", R.drawable.no_connection);
             }
         }) {
 
@@ -329,6 +328,13 @@ public class SearchFriendActivity extends AppCompatActivity {
     public class ViewHolder{
         TextView friendName,username;
         ImageView friendImage;
+    }
+
+    private void ErrorMessage(String s, int img) {
+        Intent intent = new Intent(context, ErrorDialog.class);
+        intent.putExtra("message",s);
+        intent.putExtra("image",img);
+        startActivity(intent);
     }
 
     private void showDialog() {
