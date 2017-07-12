@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -71,7 +70,7 @@ public class HistoryActivity extends AppCompatActivity {
             ColorTemplate.rgb("#2ecc71"), ColorTemplate.rgb("#e74c3c")
     };
 
-    private String month, year, month_parameter, consumed, not_consumed;
+    private String month,uid, year, month_parameter, consumed, not_consumed;
     private int count_history, error_counter = 0;
 
     private DataHelper dataHelper;
@@ -83,7 +82,6 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submain_history);
-
 
         context = this;
         TAG = "TAGapp "+context.getClass().getSimpleName();
@@ -100,24 +98,18 @@ public class HistoryActivity extends AppCompatActivity {
 
         user = dataHelper.getUserDetail();
 
+        Intent intent = getIntent();
+        uid = intent.getExtras().getString("uid");
+
         consumed = null;
         not_consumed = null;
-
-        Intent intent = getIntent();
-        month = intent.getExtras().getString("month");
-        String uid = intent.getExtras().getString("uid");
-        year = String.valueOf(calendar.get(Calendar.YEAR));
 
         if (month == null){
             month = String.valueOf(calendar.get(Calendar.MONTH));
         }
 
-        //get value of history from server
-        getMedicineHistory(uid,month,year,"1");
-        getMedicineHistory(uid,month,year,"0");
-
-        //get value of relapse history from server
-        getRelapsseHistory(uid,month,year);
+        //generate data from json
+        PopulateAdapter(uid, month);
 
         loadData();
 
@@ -155,15 +147,25 @@ public class HistoryActivity extends AppCompatActivity {
                 confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(context, HistoryActivity.class);
-                        intent.putExtra("month",month_parameter);
-                        startActivity(intent);
-                        finish();
+                        PopulateAdapter(uid, month_parameter);
                         bottomSheetDialog.dismiss();
                     }
                 });
             }
         });
+    }
+
+    private void PopulateAdapter(String uid, String month) {
+        error_counter =0;
+
+        year = String.valueOf(calendar.get(Calendar.YEAR));
+
+        //get value of history from server
+        getMedicineHistory(uid,month,year,"1");
+        getMedicineHistory(uid,month,year,"0");
+
+        //get value of relapse history from server
+        getRelapsseHistory(uid,month,year);
     }
 
     @Override
@@ -413,14 +415,12 @@ public class HistoryActivity extends AppCompatActivity {
                     }
 
                     if (error_counter > 1){
-                        Intent intent = new Intent(context, ErrorDialog.class);
-                        intent.putExtra("message","riwayat obat tidak tersedia");
-                        startActivity(intent);
+                        ErrorMessage("riwayat obat tidak tersedia", R.drawable.sad_mood);
                     }
                 } catch (JSONException e) {
                     // JSON error
                     e.printStackTrace();
-                    Toast.makeText(context, "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    ErrorMessage("gagal mendapatkan data", R.drawable.sad_mood);
                     Log.d(TAG,"JSON erro"+e.getMessage());
                 }
 
@@ -430,9 +430,6 @@ public class HistoryActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Login Error: " + error.getMessage());
-                Toast.makeText(context,
-                        error.getMessage(), Toast.LENGTH_LONG).show();
-                hideDialog();
             }
         }) {
 
@@ -498,14 +495,12 @@ public class HistoryActivity extends AppCompatActivity {
                         String errorMsg = jObj.getString("error_msg");
                         Log.d(TAG,errorMsg);
 
-                        Intent intent = new Intent(context, ErrorDialog.class);
-                        intent.putExtra("message","riwayat kambuh tidak tersedia");
-                        startActivity(intent);
+                        ErrorMessage("riwayat kambuh tidak tersedia", R.drawable.sad_mood);
                     }
                 } catch (JSONException e) {
                     // JSON error
                     e.printStackTrace();
-                    Toast.makeText(context, "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    ErrorMessage("gagal mendapatkan data", R.drawable.sad_mood);
                     Log.d(TAG,"JSON error"+e.getMessage());
                 }
 
@@ -515,8 +510,7 @@ public class HistoryActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Login Error: " + error.getMessage());
-                Toast.makeText(context,
-                        error.getMessage(), Toast.LENGTH_LONG).show();
+                ErrorMessage("cek kembali koneksi anda", R.drawable.no_connection);
             }
         }) {
 

@@ -21,7 +21,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.novan.tugasakhir.MainActivity;
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.models.User;
 import com.example.novan.tugasakhir.util.UIcomponent.ErrorDialog;
@@ -77,8 +76,8 @@ public class HistoryFragment extends Fragment {
             ColorTemplate.rgb("#2ecc71"), ColorTemplate.rgb("#e74c3c")
     };
 
-    private String month, year, month_parameter, consumed, not_consumed;
-    private int count_history, error_counter = 0;
+    private String month, year, month_parameter, consumed, not_consumed, uid;
+    private int count_history, error_counter = 0, no_connection = 0;
 
     private DataHelper dataHelper;
     private Context context;
@@ -103,24 +102,16 @@ public class HistoryFragment extends Fragment {
 
         user = dataHelper.getUserDetail();
 
-        String uid = user.get(0).getUnique_id();
+        uid = user.get(0).getUnique_id();
         consumed = null;
         not_consumed = null;
-
-        Bundle arguments = getArguments();
-        month = arguments.getString("month");
-        year = String.valueOf(calendar.get(Calendar.YEAR));
 
         if (month == null){
             month = String.valueOf(calendar.get(Calendar.MONTH));
         }
 
-        //get value of history from server
-        getMedicineHistory(uid,month,year,"1");
-        getMedicineHistory(uid,month,year,"0");
-
-        //get value of relapse history from server
-        getRelapsseHistory(uid,month,year);
+        //generate data from json
+        PopulateAdapter(uid, month);
 
         loadData();
 
@@ -158,10 +149,7 @@ public class HistoryFragment extends Fragment {
                 confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(context, MainActivity.class);
-                        intent.putExtra("month",month_parameter);
-                        startActivity(intent);
-                        getActivity().finish();
+                        PopulateAdapter(uid, month_parameter);
                         bottomSheetDialog.dismiss();
                     }
                 });
@@ -169,6 +157,19 @@ public class HistoryFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void PopulateAdapter(String uid, String month) {
+        error_counter =0;
+
+        year = String.valueOf(calendar.get(Calendar.YEAR));
+
+        //get value of history from server
+        getMedicineHistory(uid,month,year,"1");
+        getMedicineHistory(uid,month,year,"0");
+
+        //get value of relapse history from server
+        getRelapsseHistory(uid,month,year);
     }
 
     private void loadData() {
@@ -414,7 +415,7 @@ public class HistoryFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Login Error: " + error.getMessage());
-                ErrorMessage("cek kembali koneksi anda", R.drawable.no_connection);
+                no_connection++;
                 hideDialog();
             }
         }) {
@@ -495,6 +496,7 @@ public class HistoryFragment extends Fragment {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                ErrorMessage("cek kembali koneksi anda", R.drawable.no_connection);
                 Log.e(TAG, "Login Error: " + error.getMessage());
             }
         }) {
