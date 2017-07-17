@@ -101,8 +101,8 @@ public class DataHelper extends SQLiteOpenHelper {
     public static final String COLUMN_MINUTE_RELAPSE = "minute_relapse";
 
     //Table Epileptics Data
-    public static final String COLUMN_ID_FRIEND = "id_epileptic";
-    public static final String COLUMN_IDuser_FRIEND = "id_user";
+    public static final String COLUMN_ID_FRIEND = "id_friend";
+    public static final String COLUMN_IDuser_FRIEND = "uid_user";
 
     //Create Table
     private static final String DB_MEDICINE = "create table db_medic (id_medicine integer primary key" +
@@ -117,8 +117,8 @@ public class DataHelper extends SQLiteOpenHelper {
             + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_PREVILLAGE + " TEXT,"
             + KEY_USERNAME + " TEXT UNIQUE," + KEY_UID + " TEXT," + KEY_CREATED_AT + " TEXT," + KEY_PHOTO + " BLOB)";
     private static final String DB_HISTORY = "create table db_history (id_history integer primary key " +
-            "AUTOINCREMENT, uid_user text, id_medicine integer, status_history text, date_history text, month_history, " +
-            "year_history)";
+            "AUTOINCREMENT, uid_user text, id_medicine integer, status_history text, date_history text, month_history text, " +
+            "year_history text)";
     private static final String DB_LOCATION = "create table db_location (id_location integer primary " +
             "key AUTOINCREMENT, latitude_location text, longitude_location text);";
     private static final String DB_RELAPSE = "create table db_relapse(id_relapse integer primary key " +
@@ -678,5 +678,13 @@ public class DataHelper extends SQLiteOpenHelper {
         db.delete(TABLE_FRIEND,COLUMN_IDuser_FRIEND+"='"+uid+"'", null);
         db.close();
         Log.d(TAG, "friend by id= "+uid+" has been deleted");
+    }
+
+    //clear friend
+    public void clear_friend(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_FRIEND,null, null);
+        db.close();
+        Log.d(TAG, "friend has been deleted");
     }
 }
