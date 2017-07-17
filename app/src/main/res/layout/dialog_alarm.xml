@@ -19,6 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:text="tes"
         android:textSize="20sp"
         android:padding="5dp"/>
@@ -45,7 +47,7 @@
             android:layout_weight="1"
             android:background="@color/custom_button_first"
             android:paddingRight="1dp"
-            android:text="Batal"
+            android:text="Tidak"
             android:textColor="@color/custom_text" />
 
         <Button

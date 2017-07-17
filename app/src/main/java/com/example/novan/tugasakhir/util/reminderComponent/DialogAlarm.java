@@ -77,7 +77,7 @@ public class DialogAlarm extends Activity {
                 name = medicines.get(i).getMedicine_name();
 
                 //print message to dialog
-                message.setText("saatnya meminum obat "+name);
+                message.setText("saatnya minum obat "+name);
 
                 dosage_message = (TextView) findViewById(R.id.dialog_text_dosis);
                 dosage_message.setText("dosis: "+dosage);
