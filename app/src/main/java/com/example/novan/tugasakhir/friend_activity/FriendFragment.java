@@ -209,6 +209,7 @@ public class FriendFragment extends Fragment {
                                 Intent intent = new Intent(getActivity().getApplicationContext(), HistoryActivity.class);
                                 Log.d(TAG,"uid = "+userJSONs.get(position).getUid_user());
                                 intent.putExtra("uid",userJSONs.get(position).getUid_user());
+                                intent.putExtra("name", userJSONs.get(position).getName());
                                 startActivity(intent);
                             }
                         });

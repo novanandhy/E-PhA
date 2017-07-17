@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.util.Log;
 import android.util.TypedValue;
@@ -21,12 +22,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.novan.tugasakhir.R;
-import com.example.novan.tugasakhir.models.User;
 import com.example.novan.tugasakhir.util.UIcomponent.ErrorDialog;
 import com.example.novan.tugasakhir.util.UIcomponent.MyValueFormatter;
 import com.example.novan.tugasakhir.util.database.AppConfig;
 import com.example.novan.tugasakhir.util.database.AppController;
-import com.example.novan.tugasakhir.util.database.DataHelper;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -64,16 +63,13 @@ public class HistoryActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
 
     private List<String> data = new ArrayList<>();
-    private ArrayList<User> user = new ArrayList<>();
 
     public static final int[] COLORS = {
             ColorTemplate.rgb("#2ecc71"), ColorTemplate.rgb("#e74c3c")
     };
 
-    private String month,uid, year, month_parameter, consumed, not_consumed;
+    private String uid,name,month, year, month_parameter, consumed, not_consumed;
     private int count_history, error_counter = 0;
-
-    private DataHelper dataHelper;
     private Context context;
 
     private String TAG ;
@@ -82,6 +78,11 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submain_history);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         context = this;
         TAG = "TAGapp "+context.getClass().getSimpleName();
@@ -94,12 +95,12 @@ public class HistoryActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
 
-        dataHelper = new DataHelper(this);
-
-        user = dataHelper.getUserDetail();
-
         Intent intent = getIntent();
         uid = intent.getExtras().getString("uid");
+        name = intent.getExtras().getString("name");
+
+        //set toolbar title
+        getSupportActionBar().setTitle("Riwayat "+name);
 
         consumed = null;
         not_consumed = null;
