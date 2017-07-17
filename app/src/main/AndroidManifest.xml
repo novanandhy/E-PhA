@@ -128,7 +128,15 @@
             android:label="@string/title_activity_tutorial"
             android:theme="@style/AppTheme" />
 
-        <receiver android:name=".util.reminderComponent.AlarmReceiver" />
+        <receiver
+            android:enabled="true"
+            android:name=".util.reminderComponent.AlarmReceiver"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
 
         <service
             android:name=".util.service.SensorService"
