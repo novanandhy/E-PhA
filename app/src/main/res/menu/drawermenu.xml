@@ -8,24 +8,24 @@
         android:title="Halaman Utama" />
 
     <item
-        android:id="@+id/nav_item_contact"
-        android:icon="@drawable/contact"
-        android:title="Kontak" />
-
-    <item
         android:id="@+id/nav_item_history"
         android:icon="@drawable/history"
         android:title="Riwayat" />
 
     <item
-        android:id="@+id/nav_item_friend"
-        android:icon="@drawable/friendlist"
-        android:title="Teman" />
-
-    <item
         android:id="@+id/nav_item_profile"
         android:icon="@drawable/profile"
         android:title="Profil" />
+
+    <item
+        android:id="@+id/nav_item_contact"
+        android:icon="@drawable/contact"
+        android:title="Kontak" />
+
+    <item
+        android:id="@+id/nav_item_friend"
+        android:icon="@drawable/friendlist"
+        android:title="Teman" />
 
     <item android:title="Logout"
         android:id="@+id/nav_item_logout"
