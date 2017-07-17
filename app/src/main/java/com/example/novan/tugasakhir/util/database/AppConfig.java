@@ -35,4 +35,7 @@ public class AppConfig {
 
     // Server get all user
     public static String URL_GET_USER_ALL = "http://"+DOMAIN+"/android_api/get_user_all.php";
+
+    // Server get information
+    public static String URL_GET_INFORMATION = "http://"+DOMAIN+"/android_api/get_information.php";
 }

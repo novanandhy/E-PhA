@@ -12,24 +12,22 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:layout_gravity="center"
-        android:layout_marginTop="2dp"
         android:layout_marginBottom="2dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="2dp"
         card_view:cardCornerRadius="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:weightSum="12">
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/image_cardview_information"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/medicine"
-                android:layout_weight="4"/>
+                android:layout_height="170dp"
+                android:src="@drawable/medicine" />
 
             <TextView
                 android:id="@+id/title_information"
@@ -47,7 +45,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
-                android:layout_weight="8"
                 android:text="@string/large_text"
                 android:textColor="@color/custom_primary_text" />
         </LinearLayout>
