@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
@@ -25,6 +26,8 @@ public class AlarmReceiver extends BroadcastReceiver {
     String TAG = "APPname";
     String name;
 
+    byte[] img;
+
     private ArrayList<Medicine> medicines;
     private DataHelper dataHelper;
 
@@ -41,6 +44,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         for (int i = 0 ; i < medicines.size() ; i++){
             if (uid.equalsIgnoreCase(medicines.get(i).getUid())){
                 name = medicines.get(i).getMedicine_name();
+                img = medicines.get(i).getImage();
             }
         }
 
@@ -51,10 +55,11 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         Intent notificationIntent = new Intent(context, DialogAlarm.class);
         notificationIntent.putExtra("uid",uid);
-        PendingIntent contentIntent = PendingIntent.getActivity(context,0,notificationIntent,PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent contentIntent = PendingIntent.getActivity(context,requestCode,notificationIntent,PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
         builder.setAutoCancel(true)
+                .setLargeIcon(BitmapFactory.decodeByteArray(img,0,img.length))
                 .setSmallIcon(R.drawable.medicine)
                 .setContentIntent(contentIntent)
                 .setOngoing(true)
