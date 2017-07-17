@@ -27,6 +27,11 @@
         android:icon="@drawable/friendlist"
         android:title="Teman" />
 
+    <item
+        android:title="Tentang Epilepsi"
+        android:id="@+id/nav_information"
+        android:icon="@drawable/information"/>
+
     <item android:title="Logout"
         android:id="@+id/nav_item_logout"
         android:icon="@drawable/logout"/>

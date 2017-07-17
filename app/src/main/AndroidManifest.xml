@@ -129,11 +129,12 @@
             android:theme="@style/AppTheme" />
 
         <receiver
-            android:enabled="true"
             android:name=".util.reminderComponent.AlarmReceiver"
+            android:enabled="true"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
@@ -144,7 +145,11 @@
 
         <activity
             android:name=".util.UIcomponent.ErrorDialog"
-            android:theme="@style/Round.Dialog"></activity>
+            android:theme="@style/Round.Dialog" />
+        <activity
+            android:name=".information_activity.InformationActivity"
+            android:label="@string/title_activity_information"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

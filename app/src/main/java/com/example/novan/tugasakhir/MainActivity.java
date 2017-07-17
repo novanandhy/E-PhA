@@ -23,6 +23,7 @@ import com.example.novan.tugasakhir.friend_activity.FriendFragment;
 import com.example.novan.tugasakhir.history_activity.HistoryFragment;
 import com.example.novan.tugasakhir.home_activity.MedicineActivity;
 import com.example.novan.tugasakhir.home_activity.TabFragment;
+import com.example.novan.tugasakhir.information_activity.InformationFragment;
 import com.example.novan.tugasakhir.login_activity.LoginregisterActivity;
 import com.example.novan.tugasakhir.models.Medicine;
 import com.example.novan.tugasakhir.models.Schedule;
@@ -142,6 +143,11 @@ public class MainActivity extends AppCompatActivity  {
                 if (menuItem.getItemId() == R.id.nav_item_profile) {
                     OpenProfileFragment();
                 }
+
+                if (menuItem.getItemId() == R.id.nav_information) {
+                    OpenInformationFragment();
+                }
+
                 if (menuItem.getItemId() == R.id.nav_item_logout) {
                     ShowLogoutConfirmation();
                 }
@@ -254,6 +260,11 @@ public class MainActivity extends AppCompatActivity  {
     public void OpenProfileFragment() {
         FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
         xfragmentTransaction.replace(R.id.containerView, new ProfileFragment()).commit();
+    }
+
+    public void OpenInformationFragment() {
+        FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+        xfragmentTransaction.replace(R.id.containerView, new InformationFragment()).commit();
     }
 
     @Override

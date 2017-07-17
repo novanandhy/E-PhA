@@ -41,57 +41,21 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="com.example.novan.tugasakhir.contact_activity.ContactActivity"
         tools:showIn="@layout/activity_submain_contact">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/text_information_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/bg_grey"
-                android:gravity="center_vertical"
-                android:paddingBottom="10dp"
-                android:paddingLeft="20dp"
-                android:paddingTop="10dp"
-                android:text="Nomor"
-                android:textColor="@color/custom_text"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/contact_number_preview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="25dp"
-                android:fontFamily="sans-serif"
-                android:paddingLeft="20dp"
-                android:text="085xxxxxxxxxxx"
-                android:textColor="@color/custom_primary_text"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:typeface="normal" />
-
-            <Button
-                android:id="@+id/button_delete"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|bottom"
-                android:background="@android:color/holo_red_light"
-                android:text="Hapus"
-                android:textColor="@color/custom_text" />
-        </LinearLayout>
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="8"
+            android:text="@string/large_text"
+            android:textColor="@color/custom_secondary_text" />
     </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>
