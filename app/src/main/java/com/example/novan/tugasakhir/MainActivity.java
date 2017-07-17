@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity  {
 
     MedicineActivity medicineActivity;
     Context context;
+    Intent myService;
+    AlertDialog alertDialog;
 
     ArrayList<User> users;
     ArrayList<Medicine> medicines;
@@ -79,9 +81,21 @@ public class MainActivity extends AppCompatActivity  {
         medicines = dataHelper.getAllMedicine();
 
         //start service
-        Intent myService = new Intent(this, SensorService.class);
+        myService = new Intent(this, SensorService.class);
         if (!isMyServiceRunning(SensorService.class)) {
-            startService(myService);
+            //cretae alert dialog
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+            alertDialogBuilder.setMessage("mohon tempatkan smartphone anda di tempat datar");
+            alertDialogBuilder.setCancelable(false);
+            alertDialogBuilder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    startService(myService);
+                }
+            });
+            alertDialog = alertDialogBuilder.create();
+            alertDialog.setCanceledOnTouchOutside(false);
+            alertDialog.show();
         }
 
         int count = 0;
@@ -174,7 +188,7 @@ public class MainActivity extends AppCompatActivity  {
          * create alert dialog
          */
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-        alertDialogBuilder.setMessage("Logging Out causes loosing of all data. Are you sure to log out ?");
+        alertDialogBuilder.setMessage("Setelah log out semua data akan terhapus ?");
         alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -196,6 +210,7 @@ public class MainActivity extends AppCompatActivity  {
                 dataHelper.clear_contact();
                 dataHelper.clear_schedule();
                 dataHelper.clear_relapse();
+                dataHelper.clear_friend();
 
                 Intent intent = new Intent(MainActivity.this, LoginregisterActivity.class);
                 startActivity(intent);
