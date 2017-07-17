@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.example.novan.tugasakhir.models.Contact;
 import com.example.novan.tugasakhir.models.Locations;
+import com.example.novan.tugasakhir.models.User;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -34,12 +35,13 @@ public class SendMessage implements GoogleApiClient.ConnectionCallbacks,
     LocationRequest mLocationRequest;
     LocationManager locationManager;
 
-    private String latitude, longitude;
+    private String latitude, longitude, name;
     int count = 0;
 
     DataHelper dataHelper;
     ArrayList<Locations> locations;
     ArrayList<Contact> contacts;
+    ArrayList<User> users;
 
     RelapseData relapseData;
 
@@ -53,6 +55,11 @@ public class SendMessage implements GoogleApiClient.ConnectionCallbacks,
         relapseData = new RelapseData(context);
         locations = new ArrayList<>();
         contacts = new ArrayList<>();
+        users = new ArrayList<>();
+
+        users = dataHelper.getUserDetail();
+
+        name = users.get(0).getName();
 
         //create google api connection
         buildGoogleApiClient();
@@ -126,7 +133,7 @@ public class SendMessage implements GoogleApiClient.ConnectionCallbacks,
 
     private void delivSMS(String latitude, String longitude, String number_phone) {
         String link = "http://google.com/maps/place/"+latitude+","+longitude;
-        String message = "Halo, saya novan. Saya sedang ada masalah sekarang\nTolong bantu saya di lokasi:\n"+
+        String message = "Halo, saya "+name+". Saya sedang ada masalah sekarang\nTolong bantu saya di lokasi:\n"+
                 link+"\n\n\nvia E-Pha Apps";
         SmsManager smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage(number_phone,null,message,null,null);
