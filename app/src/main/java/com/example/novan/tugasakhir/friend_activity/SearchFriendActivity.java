@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,8 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -55,7 +52,6 @@ public class SearchFriendActivity extends AppCompatActivity {
     private ArrayList<User> users;
     private ArrayList<Friends> friends;
     private ArrayList<UserJSON> userJSONs;
-    private ArrayList<UserJSON> param;
 
     ProgressDialog progressDialog;
 
@@ -78,7 +74,6 @@ public class SearchFriendActivity extends AppCompatActivity {
 
         dataHelper = new DataHelper(this);
         userJSONs = new ArrayList<>();
-        param = new ArrayList<>();
         users = new ArrayList<>();
 
         //progress dialog show
@@ -139,7 +134,6 @@ public class SearchFriendActivity extends AppCompatActivity {
 
                             userJSONs.add(data);
                         }
-                        param = userJSONs;
                         adapater = new MyListAdapter(context,R.layout.content_friend_list,userJSONs);
                         listView.setAdapter(adapater);
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -216,10 +210,18 @@ public class SearchFriendActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (TextUtils.isEmpty(newText)){
-                    listView.clearTextFilter();
+                if(newText != null && !newText.isEmpty()){
+                    ArrayList<UserJSON> found = new ArrayList<UserJSON>();
+                    for (UserJSON param : userJSONs ){
+                        if (param.getName().contains(newText) || param.getUsername().contains(newText)){
+                            found.add(param);
+                        }
+                    }
+                    adapater = new MyListAdapter(context,R.layout.content_friend_list,found);
+                    listView.setAdapter(adapater);
                 }else{
-                    adapater.getFilter().filter(newText);
+                    adapater = new MyListAdapter(context,R.layout.content_friend_list,userJSONs);
+                    listView.setAdapter(adapater);
                 }
                 return true;
             }
@@ -244,81 +246,37 @@ public class SearchFriendActivity extends AppCompatActivity {
         }
     }
 
-    private class MyListAdapter extends ArrayAdapter<UserJSON> implements Filterable {
+    private class MyListAdapter extends ArrayAdapter<UserJSON> {
 
         private int layout;
 
         public Context context;
-        public ArrayList<UserJSON> objects;
+        public ArrayList<UserJSON> original;
 
         public MyListAdapter(Context context, int resource, ArrayList<UserJSON> objects) {
             super(context, resource, objects);
             layout = resource;
-            this.objects = objects;
-        }
-
-        @Override
-        public Filter getFilter(){
-            return new Filter() {
-                @Override
-                protected FilterResults performFiltering(CharSequence constraint) {
-                    Log.d(TAG,"Enter filterresult");
-                    final FilterResults oReturn = new FilterResults();
-                    final ArrayList<UserJSON> result = new ArrayList<UserJSON>();
-                    Log.d(TAG,"orig size "+param.size());
-                    if (constraint != null){
-                        if (param != null && param.size() > 0){
-                            for (final UserJSON u : param){
-                                if (u.getUsername().toLowerCase().contains(constraint.toString())
-                                        || u.getName().toLowerCase().contains(constraint.toString())){
-                                    result.add(u);
-                                }
-                            }
-                        }
-                        oReturn.values = result;
-                        Log.d(TAG,"constraint = "+constraint.toString()+" size = "+result.size());
-                    }else{
-                        oReturn.values = param;
-                    }
-                    return oReturn;
-                }
-
-                @Override
-                protected void publishResults(CharSequence constraint, FilterResults results) {
-                    Log.d(TAG,"Enter publishresult");
-                    ArrayList<UserJSON> obj ;
-                    obj = (ArrayList<UserJSON>) results.values;
-                    objects.clear();
-                    objects.addAll(obj);
-                    adapater.notifyDataSetChanged();
-                }
-            };
-        }
-
-        public void notifyDataSetChanged() {
-            super.notifyDataSetChanged();
+            this.original = objects;
         }
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             ViewHolder mainViewHolder = null;
+
             if(convertView == null){
                 Log.d(TAG,"enter getView");
                 LayoutInflater inflater = LayoutInflater.from(getContext());
                 convertView = inflater.inflate(layout,parent,false);
                 ViewHolder viewHolder = new ViewHolder();
                 viewHolder.friendName = (TextView) convertView.findViewById(R.id.friend_name);
-                viewHolder.friendName.setText(objects.get(position).getName());
+                viewHolder.friendName.setText(original.get(position).getName());
                 viewHolder.username = (TextView) convertView.findViewById(R.id.friend_username);
-                viewHolder.username.setText(objects.get(position).getUsername());
+                viewHolder.username.setText(original.get(position).getUsername());
                 viewHolder.friendImage = (ImageView) convertView.findViewById(R.id.image_friend);
-                byte[] decodedString = Base64.decode(objects.get(position).getImage(), Base64.DEFAULT);
+                byte[] decodedString = Base64.decode(original.get(position).getImage(), Base64.DEFAULT);
                 Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                 viewHolder.friendImage.setImageBitmap(decodedByte);
                 convertView.setTag(viewHolder);
-            }else {
-                mainViewHolder = (ViewHolder) convertView.getTag();
-                mainViewHolder.friendName.setText(objects.get(position).getName());
             }
 
             return convertView;
