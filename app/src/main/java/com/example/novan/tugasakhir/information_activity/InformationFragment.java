@@ -1,6 +1,7 @@
 package com.example.novan.tugasakhir.information_activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -68,6 +69,14 @@ public class InformationFragment extends Fragment {
         @Override
         public void onBindViewHolder(DataAdapter.ViewHolder viewHolder, int i) {
             viewHolder.name.setText(data.get(i));
+
+            viewHolder.name.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, InformationActivity.class);
+                    startActivityForResult(intent,10);
+                }
+            });
         }
 
         @Override
@@ -75,7 +84,7 @@ public class InformationFragment extends Fragment {
             return data.size();
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder {
+        public class ViewHolder extends RecyclerView.ViewHolder{
             TextView name;
 
             public ViewHolder(View view) {
