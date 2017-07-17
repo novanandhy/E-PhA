@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.models.Contact;
+import com.example.novan.tugasakhir.models.Friends;
 import com.example.novan.tugasakhir.models.User;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 
@@ -24,12 +25,13 @@ import java.util.ArrayList;
 
 public class ProfileFragment extends Fragment {
     private View view;
-    TextView contactCount, namePreview, usernamePreview;
+    TextView contactCount, friendCount, namePreview, usernamePreview;
     ImageView imageView;
 
-    int contactSize;
+    int contactSize, friedSize;
     DataHelper dataHelper;
     ArrayList<Contact> contacts;
+    ArrayList<Friends> friends;
     String TAG ="TAGapp";
     ArrayList<User> users;
 
@@ -44,8 +46,15 @@ public class ProfileFragment extends Fragment {
         contacts = dataHelper.getAllContacts();
         contactSize = contacts.size();
 
+        friends = new ArrayList<>();
+        friends = dataHelper.getFriend();
+        friedSize = friends.size();
+
         contactCount = (TextView) view.findViewById(R.id.id_contacts);
         contactCount.setText(""+contactSize);
+
+        friendCount = (TextView) view.findViewById(R.id.id_friendlist);
+        friendCount.setText(""+friedSize);
 
         users = new ArrayList<>();
 
