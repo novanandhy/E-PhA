@@ -20,6 +20,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
+            android:layout_marginTop="-5dp"
             android:text="@string/large_text"
             android:textColor="@color/custom_primary_text" />
     </android.support.v4.widget.NestedScrollView>
@@ -42,7 +43,7 @@
             <ImageView
                 android:id="@+id/image_information"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="280dp"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/user"
