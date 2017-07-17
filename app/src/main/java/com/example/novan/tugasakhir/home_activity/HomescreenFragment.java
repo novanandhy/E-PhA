@@ -20,7 +20,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -82,8 +81,15 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
 
     @Override
     public void onResume() {
+        Log.d(TAG,"onResume()");
         initView();
         super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        Log.d(TAG,"onPause()");
+        super.onPause();
     }
 
     private void initView() {
@@ -98,6 +104,14 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
 
         RecyclerView.Adapter adapter = new DataAdapter(schedules);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == getActivity().RESULT_OK){
+            initView();
+        }
     }
 
     private class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
