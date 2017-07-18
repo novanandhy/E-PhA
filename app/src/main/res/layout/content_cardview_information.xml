@@ -27,7 +27,10 @@
                 android:id="@+id/image_cardview_information"
                 android:layout_width="match_parent"
                 android:layout_height="170dp"
-                android:src="@drawable/medicine" />
+                android:src="@drawable/medicine"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                />
 
             <TextView
                 android:id="@+id/title_information"
@@ -43,7 +46,7 @@
             <TextView
                 android:id="@+id/text_information"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="35dp"
                 android:layout_margin="5dp"
                 android:text="@string/large_text"
                 android:textColor="@color/custom_primary_text" />
