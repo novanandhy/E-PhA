@@ -19,7 +19,7 @@ import com.example.novan.tugasakhir.tutorial_activity.TutorialActivity;
 public class CountDown extends Activity implements View.OnClickListener{
 
     private TextView countdown;
-    private Button ok;
+    private Button ok, no;
 
     private CountDownTimer countDownTimer;
 
@@ -42,6 +42,7 @@ public class CountDown extends Activity implements View.OnClickListener{
 
         countdown = (TextView) findViewById(R.id.dialog_countdown);
         ok = (Button) findViewById(R.id.ok_countdown);
+        no = (Button) findViewById(R.id.no_countdown);
 
         sendMessage = new SendMessage(this);
 
@@ -50,6 +51,7 @@ public class CountDown extends Activity implements View.OnClickListener{
         ringtone.start();
 
         ok.setOnClickListener(this);
+        no.setOnClickListener(this);
 
         PowerManager pm = (PowerManager) getApplicationContext().getSystemService(this.POWER_SERVICE);
         PowerManager.WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
@@ -85,6 +87,13 @@ public class CountDown extends Activity implements View.OnClickListener{
         if(v == ok) {
             ringtone.stop();
             countDownTimer.cancel();
+            finish();
+        }if(v == no) {
+            ringtone.stop();
+            countDownTimer.cancel();
+            sendMessage.sendSMSByManager();
+            Intent intent = new Intent(CountDown.this, TutorialActivity.class);
+            startActivity(intent);
             finish();
         }
     }
