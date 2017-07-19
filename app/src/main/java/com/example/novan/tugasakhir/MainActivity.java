@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -195,6 +196,12 @@ public class MainActivity extends AppCompatActivity  {
         byte[] image_data = users.get(0).getImage();
         text_toolbar.setText("Hai, "+users.get(0).getName());
         image_toolbar.setImageBitmap(BitmapFactory.decodeByteArray(image_data,0,image_data.length));
+        image_toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OpenProfileFragment();
+            }
+        });
 
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.app_name,
                 R.string.app_name);
