@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -16,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.novan.tugasakhir.contact_activity.ContactFragment;
@@ -35,11 +37,15 @@ import com.example.novan.tugasakhir.util.service.SensorService;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainActivity extends AppCompatActivity  {
     DrawerLayout mDrawerLayout;
     NavigationView mNavigationView;
     FragmentManager mFragmentManager;
     FragmentTransaction mFragmentTransaction;
+    CircleImageView image_toolbar;
+    TextView text_toolbar;
     boolean doubleBackToExitPressedOnce = false;
     String TAG = "TAGapp";
     public String month;
@@ -60,6 +66,9 @@ public class MainActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        image_toolbar = (CircleImageView) findViewById(R.id.image_toolbar);
+        text_toolbar  = (TextView) findViewById(R.id.text_toolbar);
 
         context = this;
 
@@ -181,11 +190,16 @@ public class MainActivity extends AppCompatActivity  {
          * Setup Drawer Toggle of the Toolbar
          */
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        //set identitiy component toolbar
+        byte[] image_data = users.get(0).getImage();
+        text_toolbar.setText("Hai, "+users.get(0).getName());
+        image_toolbar.setImageBitmap(BitmapFactory.decodeByteArray(image_data,0,image_data.length));
+
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.app_name,
                 R.string.app_name);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
-
     }
 
     private void ShowLogoutConfirmation() {

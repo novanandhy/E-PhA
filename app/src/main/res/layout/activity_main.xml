@@ -13,9 +13,36 @@
         android:background="@color/custom_primary_color"
         android:theme="@style/AppTheme.AppBarOverlay"
         android:id="@+id/toolbar"
-        app:title="Epilepsy Assistance"
+        android:title="Epilepsi Assistant"
         app:titleTextColor="@color/custom_text"
-        />
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/text_toolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="80dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="Hai tes tes tes tes"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image_toolbar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="30dp"
+                android:src="@drawable/user"
+                android:scaleType="centerCrop"
+                android:fitsSystemWindows="true"/>
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawerLayout"
