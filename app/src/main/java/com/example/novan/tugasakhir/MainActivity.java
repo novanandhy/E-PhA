@@ -34,6 +34,7 @@ import com.example.novan.tugasakhir.models.User;
 import com.example.novan.tugasakhir.profile_activity.ProfileFragment;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 import com.example.novan.tugasakhir.util.database.SessionManager;
+import com.example.novan.tugasakhir.util.service.Constants;
 import com.example.novan.tugasakhir.util.service.SensorService;
 
 import java.util.ArrayList;
@@ -101,6 +102,7 @@ public class MainActivity extends AppCompatActivity  {
             alertDialogBuilder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
+                    myService.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
                     startService(myService);
                 }
             });

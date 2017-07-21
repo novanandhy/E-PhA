@@ -40,7 +40,6 @@ public class SensorService extends Service implements SensorEventListener{
 
     static int BUFF_SIZE = 50;
     static int TEMP_SIZE = 2;
-    static public double[] window = new double[BUFF_SIZE];
     static public double[] temp = new double[TEMP_SIZE];
 
     public double GRAVITY = 9.8;
@@ -48,7 +47,7 @@ public class SensorService extends Service implements SensorEventListener{
 
     private SensorManager sensorManager;
 
-    public static String curr_state,prev_state;
+    public static String curr_state;
 
     @Override
     public void onCreate() {
@@ -57,6 +56,25 @@ public class SensorService extends Service implements SensorEventListener{
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent.getAction().equals(Constants.ACTION.STARTFOREGROUND_ACTION)) {
+            Log.i(TAG, "Received Start Foreground Intent ");
+            showNotification();
+        }else if (intent.getAction().equals(Constants.ACTION.STOPFOREGROUND_ACTION)) {
+            Log.i(TAG, "Received Stop Foreground Intent");
+            stopForeground(true);
+            stopSelf();
+        }
+
+
+        return START_STICKY;
+    }
+
+    private void showNotification(){
+        Intent nextIntent = new Intent(this, SensorService.class);
+        nextIntent.setAction(Constants.ACTION.STOPFOREGROUND_ACTION);
+        PendingIntent pnextIntent = PendingIntent.getService(this, 0,
+                nextIntent, 0);
+
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
@@ -65,6 +83,7 @@ public class SensorService extends Service implements SensorEventListener{
                 .setContentText("Deteksi jatuh berjalan")
                 .setSmallIcon(R.drawable.medicine)
                 .setContentIntent(pendingIntent)
+                .addAction(R.drawable.stop, "Stop",pnextIntent)
                 .setColor(getResources().getColor(R.color.custom_primary_color))
                 .build();
 
@@ -75,7 +94,6 @@ public class SensorService extends Service implements SensorEventListener{
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_UI);
 
         Log.d(TAG,"Service is started");
-        return START_STICKY;
     }
 
     @Override
