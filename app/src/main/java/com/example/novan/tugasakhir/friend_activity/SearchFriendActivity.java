@@ -211,7 +211,7 @@ public class SearchFriendActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if(newText != null && !newText.isEmpty()){
-                    ArrayList<UserJSON> found = new ArrayList<UserJSON>();
+                    final ArrayList<UserJSON> found = new ArrayList<UserJSON>();
                     for (UserJSON param : userJSONs ){
                         if (param.getName().contains(newText) || param.getUsername().contains(newText)){
                             found.add(param);
@@ -219,6 +219,16 @@ public class SearchFriendActivity extends AppCompatActivity {
                     }
                     adapater = new MyListAdapter(context,R.layout.content_friend_list,found);
                     listView.setAdapter(adapater);
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent intent = new Intent(SearchFriendActivity.this, AddFriendActivity.class);
+                            intent.putExtra("uid", found.get(position).getUid_user());
+                            intent.putExtra("name", found.get(position).getName());
+                            intent.putExtra("image", found.get(position).getImage());
+                            startActivityForResult(intent,10);
+                        }
+                    });
                 }else{
                     adapater = new MyListAdapter(context,R.layout.content_friend_list,userJSONs);
                     listView.setAdapter(adapater);

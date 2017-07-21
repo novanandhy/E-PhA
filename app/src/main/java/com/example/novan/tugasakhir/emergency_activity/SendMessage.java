@@ -27,6 +27,9 @@ import java.util.ArrayList;
 
 public class SendMessage implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
+
+    public SendMessage(){}
+
     private String TAG;
     Context context;
 
