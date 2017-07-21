@@ -21,6 +21,18 @@
         <item>User</item>
     </string-array>
     <string name="title_activity_information">InformationActivity</string>
+    <string name="tutorial_homescreen_information">
+        Halaman awal berisi daftar jadwal konsumsi obat. Jadwal akan secara otomatis muncul setelah melakukan pengaturan jadwal di detail obat.
+    </string>
+    <string name="tutorial_overview_information">
+        Halaman daftar obat berisikan daftar obat dengan menampilkan persentase persediaan obat yang tersisa
+    </string>
+    <string name="tutorial_contact_information">
+        Halaman kontak berisi daftar kontak yang akan digunakan sebagai penerima SMS darurat jika terjadi kambuh
+    </string>
+    <string name="tutorial_teman_information">
+        Halaman teman berisikan daftar penderita yang akan dipantau riwayat kesehatannya
+    </string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

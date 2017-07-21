@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
 
-    <uses-features android:name="android.hardware.location.gps" />
+    <uses-feature android:name="android.hardware.location.gps" />
 
     <application
         android:name=".util.database.AppController"
@@ -146,10 +146,15 @@
         <activity
             android:name=".util.UIcomponent.ErrorDialog"
             android:theme="@style/Round.Dialog" />
+
         <activity
             android:name=".information_activity.InformationActivity"
             android:label="@string/title_activity_information"
             android:theme="@style/AppTheme"></activity>
+
+        <activity
+            android:name=".util.UIcomponent.TutorialDialog"
+            android:theme="@style/Round.Dialog" />
     </application>
 
 </manifest>

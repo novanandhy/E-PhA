@@ -29,6 +29,7 @@ import com.example.novan.tugasakhir.history_activity.HistoryActivity;
 import com.example.novan.tugasakhir.models.Friends;
 import com.example.novan.tugasakhir.models.UserJSON;
 import com.example.novan.tugasakhir.util.UIcomponent.ErrorDialog;
+import com.example.novan.tugasakhir.util.UIcomponent.TutorialDialog;
 import com.example.novan.tugasakhir.util.database.AppConfig;
 import com.example.novan.tugasakhir.util.database.AppController;
 import com.example.novan.tugasakhir.util.database.DataHelper;
@@ -107,6 +108,15 @@ public class FriendFragment extends Fragment {
         friends.clear();
 
         friends = dataHelper.getFriend();
+
+        //show tutorial dialog if size 0
+        if (friends.size() == 0){
+            Intent intent = new Intent(context, TutorialDialog.class);
+            intent.putExtra("title", "Panduan Halaman Teman");
+            intent.putExtra("description", getResources().getString(R.string.tutorial_teman_information));
+            intent.putExtra("image", R.drawable.gif_tambah_teman);
+            startActivity(intent);
+        }
 
         //create string uid user parameter
         for (int i = 0; i < friends.size() ; i ++){
@@ -262,7 +272,7 @@ public class FriendFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 hideDialog();
-                ErrorMessage("cek kembali koneksi anda", R.drawable.no_connection);
+//                ErrorMessage("cek kembali koneksi anda", R.drawable.no_connection);
                 Log.e(TAG, "Login Error: " + error.getMessage());
             }
         }) {

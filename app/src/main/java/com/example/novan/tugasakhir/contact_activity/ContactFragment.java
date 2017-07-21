@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.models.Contact;
+import com.example.novan.tugasakhir.util.UIcomponent.TutorialDialog;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 import com.melnykov.fab.FloatingActionButton;
 import com.melnykov.fab.ScrollDirectionListener;
@@ -95,6 +96,16 @@ public class ContactFragment extends Fragment {
     private void PopulateAdapter() {
         contacts.clear();
         contacts = dataHelper.getAllContacts();
+
+        //show tutorial dialog if size 0
+        if (contacts.size() == 0){
+            Intent intent = new Intent(context, TutorialDialog.class);
+            intent.putExtra("title", "Panduan Halaman Kontak");
+            intent.putExtra("description", getResources().getString(R.string.tutorial_contact_information));
+            intent.putExtra("image", R.drawable.gif_tambah_kontak);
+            startActivity(intent);
+        }
+
         listView.setAdapter(new MyListAdapter(getActivity().getApplicationContext(),R.layout.content_contact_list,contacts));
     }
 

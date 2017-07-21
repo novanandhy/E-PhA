@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.eralp.circleprogressview.CircleProgressView;
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.models.Medicine;
+import com.example.novan.tugasakhir.util.UIcomponent.TutorialDialog;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 import com.melnykov.fab.FloatingActionButton;
 import com.melnykov.fab.ScrollDirectionListener;
@@ -80,6 +81,16 @@ public class OverviewFragment extends Fragment {
     private void PopulateAdapter() {
         medicines.clear();
         medicines = dataHelper.getAllMedicine();
+
+        //show tutorial dialog if size 0
+        if (medicines.size() == 0){
+            Intent intent = new Intent(context, TutorialDialog.class);
+            intent.putExtra("title", "Panduan Halaman Daftar Obat");
+            intent.putExtra("description", getResources().getString(R.string.tutorial_overview_information));
+            intent.putExtra("image", R.drawable.gif_daftar_obat);
+            startActivity(intent);
+        }
+
         adapter = new CustomAdapter(context,medicines);
         recyclerView.setAdapter(adapter);
     }

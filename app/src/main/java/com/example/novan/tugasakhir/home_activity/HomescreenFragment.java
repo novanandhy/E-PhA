@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.example.novan.tugasakhir.R;
 import com.example.novan.tugasakhir.models.Medicine;
 import com.example.novan.tugasakhir.models.Schedule;
+import com.example.novan.tugasakhir.util.UIcomponent.TutorialDialog;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -82,7 +83,6 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
     @Override
     public void onResume() {
         Log.d(TAG,"onResume()");
-        initView();
         super.onResume();
     }
 
@@ -101,6 +101,15 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
 
         schedules.clear();
         schedules = dataHelper.getAllActiveSchedule();
+
+        //show tutorial dialog if size 0
+        if (schedules.size() == 0){
+            Intent intent = new Intent(context, TutorialDialog.class);
+            intent.putExtra("title", "Panduan Halaman Utama");
+            intent.putExtra("description", getResources().getString(R.string.tutorial_homescreen_information));
+            intent.putExtra("image", R.drawable.gif_halaman_utama);
+            startActivity(intent);
+        }
 
         RecyclerView.Adapter adapter = new DataAdapter(schedules);
         recyclerView.setAdapter(adapter);
