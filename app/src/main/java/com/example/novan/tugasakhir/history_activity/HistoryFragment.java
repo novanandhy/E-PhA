@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -66,8 +67,9 @@ public class HistoryFragment extends Fragment {
     private LineChart lineChart;
     private Button filter, cancel, confirm;
     private ScrollChoice scrollChoice;
-    Calendar calendar = Calendar.getInstance();
-    ProgressDialog progressDialog;
+    private Calendar calendar = Calendar.getInstance();
+    private ProgressDialog progressDialog;
+    private TextView title;
 
     private List<String> data = new ArrayList<>();
     private ArrayList<User> user = new ArrayList<>();
@@ -75,9 +77,12 @@ public class HistoryFragment extends Fragment {
     public static final int[] COLORS = {
             ColorTemplate.rgb("#2ecc71"), ColorTemplate.rgb("#e74c3c")
     };
+    public static String[] months = {
+            "Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"
+    };
 
     private String month, year, month_parameter, consumed, not_consumed, uid;
-    private int count_history, error_counter = 0, no_connection = 0;
+    private int count_history, error_counter = 0;
 
     private DataHelper dataHelper;
     private Context context;
@@ -93,13 +98,13 @@ public class HistoryFragment extends Fragment {
         pieChart = (PieChart) view.findViewById(R.id.pieChart);
         lineChart = (LineChart) view.findViewById(R.id.lineGraph);
         filter = (Button) view.findViewById(R.id.filter_button);
+        title = (TextView) view.findViewById(R.id.history_title);
 
         //progress dialog show
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setCancelable(false);
 
         dataHelper = new DataHelper(getActivity());
-
         user = dataHelper.getUserDetail();
 
         uid = user.get(0).getUnique_id();
@@ -128,11 +133,11 @@ public class HistoryFragment extends Fragment {
                 bottomSheetDialog.show();
 
                 scrollChoice = (ScrollChoice) parentView.findViewById(R.id.scroll_choice);
-                scrollChoice.addItems(data,Integer.valueOf(month)-1);
+                scrollChoice.addItems(data,Integer.valueOf(month));
                 scrollChoice.setOnItemSelectedListener(new ScrollChoice.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(ScrollChoice scrollChoice, int position, String name) {
-                        month_parameter = String.valueOf(position+1);
+                        month_parameter = String.valueOf(position);
                     }
                 });
 
@@ -160,7 +165,9 @@ public class HistoryFragment extends Fragment {
     }
 
     private void PopulateAdapter(String uid, String month) {
+        Log.d(TAG,"Month = "+month);
         error_counter =0;
+        title.setText("Riwayat bulan "+months[Integer.parseInt(month)]);
 
         year = String.valueOf(calendar.get(Calendar.YEAR));
 
@@ -190,7 +197,8 @@ public class HistoryFragment extends Fragment {
     private void createLineChart(ArrayList<Entry> values){
         // create description text
         lineChart.getDescription().setEnabled(true);
-        lineChart.getDescription().setText("Data 7 hari terakhir");
+        lineChart.getDescription().setText("Riwayat Jatuh");
+        lineChart.getDescription().setTextSize(13);
 
         // enable touch gestures
         lineChart.setTouchEnabled(true);
@@ -212,6 +220,7 @@ public class HistoryFragment extends Fragment {
         lineChart.getAxisLeft().setSpaceTop(50f);
         lineChart.getAxisLeft().setSpaceBottom(50f);
         lineChart.getXAxis().setDrawGridLines(false);
+        lineChart.getXAxis().setGranularity(1f);
         lineChart.getAxisLeft().setDrawLabels(false);
         lineChart.getAxisRight().setDrawLabels(true);
 
@@ -265,6 +274,9 @@ public class HistoryFragment extends Fragment {
     private void createPieChart(int consumed, int not_consumed){
         Log.d(TAG,"consumed = "+consumed);
         Log.d(TAG,"not consumed = "+not_consumed);
+
+        pieChart.getDescription().setText("Riwayat Konsumsi Obat");
+        pieChart.getDescription().setTextSize(13);
 
         pieChart.setUsePercentValues(true);
         pieChart.setExtraOffsets(5, 10, 5, 5);
@@ -415,7 +427,6 @@ public class HistoryFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Login Error: " + error.getMessage());
-                no_connection++;
                 hideDialog();
             }
         }) {

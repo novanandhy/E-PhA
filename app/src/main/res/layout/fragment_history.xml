@@ -4,14 +4,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="100">
+    android:weightSum="99">
+
+    <TextView
+        android:id="@+id/history_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/custom_primary_color"
+        android:text="tes"
+        android:textStyle="bold"
+        android:textColor="@color/custom_text"
+        android:gravity="center"
+        android:textSize="20sp"/>
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/lineGraph"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/custom_primary_color"
-        android:layout_weight="30"/>
+        android:layout_weight="30" />
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/pieChart"
@@ -26,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="0dp"
-        android:layout_weight="47"
+        android:layout_weight="46"
         android:background="#34495e"
         android:elevation="0dp"
         android:fontFamily="sans-serif-condensed"

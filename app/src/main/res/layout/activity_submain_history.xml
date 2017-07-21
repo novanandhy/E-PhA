@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app1="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:weightSum="100">
+    android:weightSum="99">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -14,6 +14,17 @@
         android:theme="@style/AppTheme.AppBarOverlay"
         app1:titleTextColor="@color/custom_text"
         />
+
+    <TextView
+        android:id="@+id/history_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/custom_primary_color"
+        android:text="tes"
+        android:textStyle="bold"
+        android:textColor="@color/custom_text"
+        android:gravity="center"
+        android:textSize="20sp"/>
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/lineGraph"
@@ -35,7 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="0dp"
-        android:layout_weight="45"
+        android:layout_weight="44"
         android:background="#34495e"
         android:elevation="0dp"
         android:fontFamily="sans-serif-condensed"
