@@ -86,12 +86,6 @@ public class MainActivity extends AppCompatActivity  {
         // session manager
         session = new SessionManager(getApplicationContext());
 
-        // Fetching user details from sqlite
-        users = dataHelper.getUserDetail();
-
-        //fetching all medicine
-        medicines = dataHelper.getAllMedicine();
-
         //start service
         myService = new Intent(this, SensorService.class);
         if (!isMyServiceRunning(SensorService.class)) {
@@ -111,8 +105,8 @@ public class MainActivity extends AppCompatActivity  {
             alertDialog.show();
         }
 
-        int count = 0;
-        Log.d(TAG,"previllage user = "+users.get(count).getPrevillage());
+        //create custom toolbar
+        createCustomToolbar();
 
         /**
          *Setup the DrawerLayout and NavigationView
@@ -194,6 +188,17 @@ public class MainActivity extends AppCompatActivity  {
          */
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
+        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.app_name,
+                R.string.app_name);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
+    }
+
+    private void createCustomToolbar() {
+        // get data user from datahelper
+        users.clear();
+        users = dataHelper.getUserDetail();
+
         //set identitiy component toolbar
         byte[] image_data = users.get(0).getImage();
         text_toolbar.setText("Hai, "+users.get(0).getName());
@@ -204,11 +209,6 @@ public class MainActivity extends AppCompatActivity  {
                 OpenProfileFragment();
             }
         });
-
-        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.app_name,
-                R.string.app_name);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        mDrawerToggle.syncState();
     }
 
     private void ShowLogoutConfirmation() {
@@ -221,6 +221,8 @@ public class MainActivity extends AppCompatActivity  {
         alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                //fetching all medicine
+                medicines = dataHelper.getAllMedicine();
 
                 //get all medicine list
                 for (int j = 0; j < medicines.size(); j++){
@@ -292,17 +294,27 @@ public class MainActivity extends AppCompatActivity  {
 
     @Override
     public void onStart() {
+        Log.d(TAG,"onStart()");
         super.onStart();
     }
 
     @Override
     public void onStop() {
+        Log.d(TAG,"onStop()");
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
+        Log.d(TAG,"onDestroy()");
         super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        Log.d(TAG,"onResume()");
+        createCustomToolbar();
+        super.onResume();
     }
 
     @Override
