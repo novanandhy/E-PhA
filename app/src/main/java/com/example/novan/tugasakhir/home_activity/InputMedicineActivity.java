@@ -1,6 +1,5 @@
 package com.example.novan.tugasakhir.home_activity;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.SQLException;
@@ -102,7 +101,6 @@ public class InputMedicineActivity extends AppCompatActivity {
                     try{
                         if(isNameExist(name)==false){
                             //scale down image
-                            image = scaleDownBitmap(image,100,InputMedicineActivity.this);
 
                             //convert bitmap to byteArray
                             ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -156,18 +154,6 @@ public class InputMedicineActivity extends AppCompatActivity {
         } catch (Exception e){
             Toast.makeText(this, "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public static Bitmap scaleDownBitmap(Bitmap photo, int newHeight, Context context) {
-
-        final float densityMultiplier = context.getResources().getDisplayMetrics().density;
-
-        int h= (int) (newHeight*densityMultiplier);
-        int w= (int) (h * photo.getWidth()/((double) photo.getHeight()));
-
-        photo=Bitmap.createScaledBitmap(photo, w, h, true);
-
-        return photo;
     }
 
     private boolean isNameExist(String name) {
