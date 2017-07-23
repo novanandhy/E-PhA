@@ -83,6 +83,9 @@ public class HomescreenFragment extends Fragment implements GoogleApiClient.Conn
     @Override
     public void onResume() {
         Log.d(TAG,"onResume()");
+        if (schedules.size() != 0){
+            initView();
+        }
         super.onResume();
     }
 

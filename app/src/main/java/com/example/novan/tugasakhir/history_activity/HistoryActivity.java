@@ -292,8 +292,7 @@ public class HistoryActivity extends AppCompatActivity {
         Log.d(TAG,"consumed = "+consumed);
         Log.d(TAG,"not consumed = "+not_consumed);
 
-        pieChart.getDescription().setText("Riwayat Konsumsi Obat");
-        pieChart.getDescription().setTextSize(13);
+        pieChart.getDescription().setEnabled(false);
 
         pieChart.setUsePercentValues(true);
         pieChart.setExtraOffsets(5, 10, 5, 5);
