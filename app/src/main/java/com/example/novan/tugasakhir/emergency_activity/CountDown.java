@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -46,8 +47,13 @@ public class CountDown extends Activity implements View.OnClickListener{
 
         sendMessage = new SendMessage(this);
 
+        //create max volume of media player
+        AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),0);
+
         //get resource media to play ringtone
         ringtone = MediaPlayer.create(this, R.raw.alarm);
+        ringtone.setAudioStreamType(AudioManager.STREAM_MUSIC);
         ringtone.start();
 
         ok.setOnClickListener(this);

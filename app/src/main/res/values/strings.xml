@@ -17,8 +17,8 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_history">Riwayat</string>
     <string-array name="previllage">
-        <item>Epileptic</item>
-        <item>User</item>
+        <item>Penderita</item>
+        <item>Non - Penderita</item>
     </string-array>
     <string name="title_activity_information">InformationActivity</string>
     <string name="tutorial_homescreen_information">

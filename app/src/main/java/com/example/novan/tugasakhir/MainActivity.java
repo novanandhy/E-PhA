@@ -120,7 +120,17 @@ public class MainActivity extends AppCompatActivity  {
          */
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
-        mFragmentTransaction.add(R.id.containerView, new TabFragment()).commit();
+
+        if (users.get(0).getPrevillage().contains("Penderita")){
+            mNavigationView.getMenu().clear();
+            mNavigationView.inflateMenu(R.menu.drawermenu);
+            mFragmentTransaction.add(R.id.containerView, new TabFragment()).commit();
+        }else{
+            mNavigationView.getMenu().clear();
+            mNavigationView.inflateMenu(R.menu.drawermenu_2);
+            mFragmentTransaction.add(R.id.containerView, new ProfileFragment()).commit();
+        }
+
 
         /**
          * Setup click events on the Navigation View Items.
