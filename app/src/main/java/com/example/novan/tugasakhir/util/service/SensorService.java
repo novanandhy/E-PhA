@@ -40,7 +40,7 @@ public class SensorService extends Service implements SensorEventListener{
     static public double[] temp = new double[TEMP_SIZE];
 
     public double GRAVITY = 9.8;
-    double threshold = (0.6*GRAVITY);
+    public double threshold = (0.4*GRAVITY);
 
     public int LIMIT_RECOVER = 30;
     public int LIMIT_NONE = 50;
@@ -178,6 +178,10 @@ public class SensorService extends Service implements SensorEventListener{
             recover++;
         }else if (curr_state2.contains("none")){
             none++;
+        }else {
+            curr_state = "fall";
+            recover = 0;
+            none = 0;
         }
 
         if (recover == LIMIT_RECOVER){
