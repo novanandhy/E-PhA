@@ -29,29 +29,33 @@ public class SensorService extends Service implements SensorEventListener{
 
     //variable for sensor
     public double ax,ay,az;
-    public double a_norm;
     public double a_n;
 
     public int i = 0;
     public int x = 0;
-    public double max_dif = 0;
-    public String TAG = "TAGapp";
+    public String TAG = "TAGapp SensorService";
     private int ONGOING_NOTIFICATION_ID = 101;
 
-    static int BUFF_SIZE = 50;
     static int TEMP_SIZE = 2;
     static public double[] temp = new double[TEMP_SIZE];
 
     public double GRAVITY = 9.8;
-    double th3 = (1.2*GRAVITY);
+    double threshold = (0.6*GRAVITY);
+
+    public int LIMIT_RECOVER = 30;
+    public int LIMIT_NONE = 50;
 
     private SensorManager sensorManager;
 
-    public static String curr_state;
+    public static String curr_state = "none";
+    public static String curr_state2;
+    public int none = 0;
+    public int recover = 0;
 
     @Override
     public void onCreate() {
         super.onCreate();
+
     }
 
     @Override
@@ -64,7 +68,6 @@ public class SensorService extends Service implements SensorEventListener{
             stopForeground(true);
             stopSelf();
         }
-
 
         return START_STICKY;
     }
@@ -109,15 +112,16 @@ public class SensorService extends Service implements SensorEventListener{
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType()==Sensor.TYPE_ACCELEROMETER){
-            curr_state="none";
 
             ax=event.values[0];
             ay=event.values[1];
             az=event.values[2];
 
-//            Log.d(TAG,"SERVICE IS RUNNING");
-            fall_detection(ax,ay,az);
-            SystemState(curr_state);
+            if (curr_state.contains("none") || curr_state.contains("recover")){
+                curr_state = fall_detection(ax,ay,az);
+            }else{
+                FallDetected(ax, ay, az);
+            }
         }
     }
 
@@ -126,7 +130,9 @@ public class SensorService extends Service implements SensorEventListener{
 
     }
 
-    private void fall_detection(double ax, double ay, double az) {
+    private String fall_detection(double ax, double ay, double az) {
+        String state = "none";
+
         double maximum = GRAVITY;
         double minimum = GRAVITY;
 
@@ -135,40 +141,64 @@ public class SensorService extends Service implements SensorEventListener{
         if (maximum < a_n){
             maximum = a_n;
         }else if(minimum > a_n){
-            minimum = a_n;
-        }
+        minimum = a_n;
+    }
 
         if (x == 0){
-            temp[0] = minimum;
+        temp[0] = minimum;
+    }else{
+        temp[1] = maximum;
+        double dif = temp[1] - temp[0];
+
+        if (dif > threshold){
+            state = "fall";
+        }else if (dif > 0.1 && dif < threshold){
+            state =  "recover";
         }else{
-            temp[1] = maximum;
-            double dif = temp[1] - temp[0];
-
-            if(max_dif < dif){
-                max_dif = dif;
-            }
-
-            if (temp[1]-temp[0] > th3){
-                curr_state="fall";
-            }
+            state = "none";
         }
+    }
 
         if (x == 1){
-            x = 0;
-        }else{
-            x++;
-        }
+        x = 0;
+    }else{
+        x++;
     }
+        return state;
+}
 
-    private void SystemState(String curr_state1) {
+    private void FallDetected(double ax, double ay, double az) {
         // TODO Auto-generated method stub
+        Log.d(TAG, "FallDetected: ");
 
-        //Fall !!
-        if(curr_state1.equalsIgnoreCase("fall")){
-            Intent intent = new Intent(this, CountDown.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+        //check for filter fall detection
+        curr_state2 = fall_detection(ax,ay,az);
+
+        if (curr_state2.contains("recover")){
+            recover++;
+        }else if (curr_state2.contains("none")){
+            none++;
         }
+
+        if (recover == LIMIT_RECOVER){
+            Log.d(TAG, "User Already Recovered");
+            curr_state = "none";
+            recover = 0;
+            none = 0;
+        }else if(none == LIMIT_NONE){
+            ShowDialog();
+            curr_state = "none";
+            recover = 0;
+            none = 0;
+        }
+
     }
+
+    private void ShowDialog() {
+        Intent intent = new Intent(this, CountDown.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
 
 }
