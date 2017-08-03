@@ -24,21 +24,27 @@ import com.example.novan.tugasakhir.models.Medicine;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 
 public class EditMedineActivity extends AppCompatActivity {
-    EditText input1,input2,input3,input4;
+    private EditText input1,input2,input3,input4;
     private Medicine medicine;
-    FloatingActionButton button_photo;
-    ImageView photo;
+    private FloatingActionButton button_photo;
+    private ImageView photo;
 
-    String name;
-    int amount, dosage, time, id, remain;
+    private ArrayList<Medicine> medicines;
+
+    private String name;
+    private int amount, dosage, time, id, remain;
     private static final int SELECT_PICTURE = 100;
-    byte[] img;
-    Bitmap image;
+    private byte[] img;
+    private Bitmap image;
+    private String name_medicine, uid_name_medicine;
+    private int dosage_medicine, time_medicine;
+    private int amount_medicine, remain_medicine;
 
-    DataHelper dataHelper;
-    String TAG = "TAGapp";
+    private DataHelper dataHelper;
+    private String TAG = "TAGapp";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +54,26 @@ public class EditMedineActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        medicine = getIntent().getParcelableExtra("medicine");
-        id = getIntent().getIntExtra("id",0);
         dataHelper = new DataHelper(this);
+        medicines = new ArrayList<>();
+        medicines = dataHelper.getAllMedicine();
+
+        uid_name_medicine = getIntent().getExtras().getString("uid_medicine");
+
+        //get value of form
+        for (int i = 0 ; i < medicines.size() ; i++){
+            if (medicines.get(i).getUid().contains(uid_name_medicine)){
+                name_medicine = medicines.get(i).getMedicine_name();
+                dosage_medicine = medicines.get(i).getDosage();
+                time_medicine = medicines.get(i).getCount();
+                id = medicines.get(i).getId();
+                amount_medicine = medicines.get(i).getAmount();
+                remain_medicine = medicines.get(i).getRemain();
+                img = medicines.get(i).getImage();
+            }
+        }
+
+
 
         input1 = (EditText) findViewById(R.id.edit_medicine);
         input2 = (EditText) findViewById(R.id.edit_number_medicine);
@@ -58,14 +81,13 @@ public class EditMedineActivity extends AppCompatActivity {
         input4 = (EditText) findViewById(R.id.edit_time_medicine);
         photo = (ImageView) findViewById(R.id.medicine_image_edit);
 
-        img = medicine.getImage();
         image = BitmapFactory.decodeByteArray(img,0,img.length);
 
-//        SetText to form
-        input1.setText(""+medicine.getMedicine_name());
-        input2.setText(""+medicine.getAmount());
-        input3.setText(""+medicine.getDosage());
-        input4.setText(""+medicine.getCount());
+        //SetText to form
+        input1.setText(""+name_medicine);
+        input2.setText(""+amount_medicine);
+        input3.setText(""+dosage_medicine);
+        input4.setText(""+time_medicine);
         photo.setImageBitmap(image);
 
         button_photo = (FloatingActionButton) findViewById(R.id.image_edit_medicine_button);
@@ -87,7 +109,7 @@ public class EditMedineActivity extends AppCompatActivity {
                     amount = Integer.parseInt(input2.getText().toString());
                     dosage = Integer.parseInt(input3.getText().toString());
                     time = Integer.parseInt(input4.getText().toString());
-                    remain = medicine.getRemain();
+                    remain = remain_medicine;
 
                     //insert into database
                     try{
@@ -96,8 +118,8 @@ public class EditMedineActivity extends AppCompatActivity {
                         image.compress(Bitmap.CompressFormat.PNG,40,stream);
                         byte[] byteArray = stream.toByteArray();
 
-                        //try Log
-                        Medicine newMedicine = dataHelper.update_medicine(id,name,amount,dosage,remain,time, byteArray); //update data medicine
+                        //update data medicine
+                        Medicine newMedicine = dataHelper.update_medicine(id,name,amount,dosage,remain,time, byteArray);
                         Intent intent = new Intent();
                         intent.putExtra("medicine",newMedicine);
                         setResult(RESULT_OK,intent);
@@ -148,7 +170,7 @@ public class EditMedineActivity extends AppCompatActivity {
                         image = MediaStore.Images.Media.getBitmap(getContentResolver(),selectedImageUri);
                         photo.setImageBitmap(image);
                         //scale down image
-                        image = scaleDownBitmap(image,100,EditMedineActivity.this);
+                        image = scaleDownBitmap(image,70,EditMedineActivity.this);
                     }
                 }
             }else {

@@ -34,18 +34,20 @@ public class MedicineActivity extends AppCompatActivity implements TimePickerInt
     private ListView lvHomePage;
     private CircleProgressView circleProgressView;
     private Medicine medicine;
-    private int id;
     private TextView name, dosage, time;
+    private DataHelper dataHelper;
+
+    private int id;
     private String name_medicine, uid_name_medicine;
     private int dosage_medicine, time_medicine;
-    int amount, remain;
-    float percentage;
-    private DataHelper dataHelper;
-    String TAG = "TAGapp";
+    private int amount, remain;
+    private float percentage;
+    private String TAG = "TAGapp";
 
-    ArrayList<Schedule> schedules;
-    MyListAdapter myListAdapter;
-    TimePickerFragment newFragment = new TimePickerFragment();
+    private ArrayList<Schedule> schedules;
+    private ArrayList<Medicine> medicines;
+    private MyListAdapter myListAdapter;
+    private TimePickerFragment newFragment = new TimePickerFragment();
 
     Context context;
 
@@ -62,15 +64,25 @@ public class MedicineActivity extends AppCompatActivity implements TimePickerInt
 
         dataHelper = new DataHelper(this);
         schedules = new ArrayList<>();
+        medicines = new ArrayList<>();
+        medicines = dataHelper.getAllMedicine();
 
         //get value from intent
-        medicine = getIntent().getParcelableExtra("medicine");
-        id = getIntent().getIntExtra("id", 0);
-        uid_name_medicine = getIntent().getStringExtra("uid");
+        uid_name_medicine = getIntent().getExtras().getString("uid_name_medicine");
+
+        //get value of form
+        for (int i = 0 ; i < medicines.size() ; i++){
+            if (medicines.get(i).getUid().contains(uid_name_medicine)){
+                name_medicine = medicines.get(i).getMedicine_name();
+                dosage_medicine = medicines.get(i).getDosage();
+                time_medicine = medicines.get(i).getCount();
+                id = medicines.get(i).getId();
+                amount = medicines.get(i).getAmount();
+                remain = medicines.get(i).getRemain();
+            }
+        }
 
         //create percentage of stock
-        amount = medicine.getAmount();
-        remain = medicine.getRemain();
         percentage = (remain*100)/amount;
 
         circleProgressView = (CircleProgressView) findViewById(R.id.circle_progress_view_medicine);
@@ -83,15 +95,11 @@ public class MedicineActivity extends AppCompatActivity implements TimePickerInt
             circleProgressView.setCircleColor(getResources().getColor(R.color.custom_progress_green_progress));
         }
 
-        //get value of form
-        name_medicine = medicine.getMedicine_name();
-        dosage_medicine = medicine.getDosage();
-        time_medicine = medicine.getCount();
-
         //set text of form
         name = (TextView) findViewById(R.id.medicine_name);
         dosage = (TextView) findViewById(R.id.medicine_dosage);
         time = (TextView) findViewById(R.id.medicine_time);
+
         SetText(name_medicine,dosage_medicine,time_medicine);
 
 
@@ -146,8 +154,8 @@ public class MedicineActivity extends AppCompatActivity implements TimePickerInt
                 alertDialogBuilder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        dataHelper.delete_medicine(medicine.getId());
-                        dataHelper.delete_schedule(medicine.getUid());
+                        dataHelper.delete_medicine(id);
+                        dataHelper.delete_schedule(uid_name_medicine);
                         removeSchedule(context,schedules);
 
                         setResult(RESULT_OK);
@@ -164,8 +172,7 @@ public class MedicineActivity extends AppCompatActivity implements TimePickerInt
                 return true;
             case R.id.action_edit:
                 Intent intent = new Intent(this, EditMedineActivity.class);
-                intent.putExtra("medicine", medicine);
-                intent.putExtra("id", id);
+                intent.putExtra("uid_medicine", uid_name_medicine);
                 startActivityForResult(intent,30);
                 return true;
             case android.R.id.home:
@@ -220,7 +227,7 @@ public class MedicineActivity extends AppCompatActivity implements TimePickerInt
             String time = null;
 
             final int id = schedules.get(position).getId();
-            final String name = medicine.getMedicine_name();
+            final String name = name_medicine;
             final int minute = schedules.get(position).getMinute();
             final int hour = schedules.get(position).getHour();
             int status = schedules.get(position).getStatus();

@@ -44,137 +44,120 @@
 
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".login_activity.LoginActivity"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".login_activity.RegisterActivity"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".home_activity.InputMedicineActivity"
             android:label="@string/title_activity_input_medicine"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.novan.tugasakhir.MainActivity" />
         </activity>
-
         <activity
             android:name=".home_activity.MedicineActivity"
             android:label="@string/title_activity_medicine"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.novan.tugasakhir.MainActivity" />
         </activity>
-
         <activity
             android:name=".home_activity.EditMedineActivity"
             android:label="@string/title_activity_edit_medine"
             android:parentActivityName=".home_activity.MedicineActivity"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.novan.tugasakhir.home_activity.MedicineActivity" />
         </activity>
-
         <activity
             android:name=".contact_activity.ContactActivity"
             android:label="@string/title_activity_contact"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.novan.tugasakhir.MainActivity" />
         </activity>
-
         <activity
             android:name=".friend_activity.SearchFriendActivity"
             android:label="@string/title_activity_search_friend"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.novan.tugasakhir.MainActivity" />
         </activity>
-
         <activity
             android:name=".friend_activity.AddFriendActivity"
             android:label="@string/title_activity_add_friend"
             android:parentActivityName=".friend_activity.SearchFriendActivity"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.novan.tugasakhir.friend_activity.SearchFriendActivity" />
         </activity>
-
         <activity
             android:name=".profile_activity.EditProfileActivity"
             android:label="@string/title_activity_edit_profile"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.novan.tugasakhir.MainActivity" />
         </activity>
-
         <activity
             android:name=".history_activity.HistoryActivity"
             android:label="@string/title_activity_history"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.novan.tugasakhir.MainActivity" />
         </activity>
-
         <activity
             android:name=".util.reminderComponent.DialogAlarm"
-            android:theme="@style/Round.Dialog"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait"
+            android:theme="@style/Round.Dialog" />
         <activity android:name=".emergency_activity.SendMessage" />
-
         <activity
             android:name=".emergency_activity.CountDown"
-            android:theme="@style/Round.Dialog"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait"
+            android:theme="@style/Round.Dialog" />
         <activity
             android:name=".tutorial_activity.TutorialActivity"
             android:label="@string/title_activity_tutorial"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".util.UIcomponent.ErrorDialog"
-            android:theme="@style/Round.Dialog"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait"
+            android:theme="@style/Round.Dialog" />
         <activity
             android:name=".information_activity.InformationActivity"
             android:label="@string/title_activity_information"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".util.UIcomponent.TutorialDialog"
-            android:theme="@style/Round.Dialog"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Round.Dialog" />
 
         <receiver
             android:name=".util.reminderComponent.AlarmReceiver"
