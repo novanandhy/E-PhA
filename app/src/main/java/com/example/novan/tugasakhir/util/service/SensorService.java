@@ -40,21 +40,24 @@ public class SensorService extends Service implements SensorEventListener{
     static public double[] temp = new double[TEMP_SIZE];
 
     public double GRAVITY = 9.8;
-    public double threshold = (0.4*GRAVITY);
+    public double threshold = (0.5*GRAVITY);
 
     public int LIMIT_RECOVER = 30;
     public int LIMIT_NONE = 50;
 
     private SensorManager sensorManager;
+    private Context context;
 
     public static String curr_state = "none";
     public static String curr_state2;
     public int none = 0;
     public int recover = 0;
 
+
     @Override
     public void onCreate() {
         super.onCreate();
+        context = this;
 
     }
 
@@ -87,7 +90,7 @@ public class SensorService extends Service implements SensorEventListener{
                 .setSmallIcon(R.drawable.medicine)
                 .setContentIntent(pendingIntent)
                 .addAction(R.drawable.stop, "Stop",pnextIntent)
-                .setColor(getResources().getColor(R.color.custom_primary_color))
+//                .setColor(ContextCompat.getColor(context,R.color.custom_primary_color))
                 .build();
 
         startForeground(ONGOING_NOTIFICATION_ID, notification);

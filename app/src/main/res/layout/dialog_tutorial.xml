@@ -51,7 +51,7 @@
             android:id="@+id/button_close_dialog"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:background="@drawable/ripple_button_close" />
+            android:background="@drawable/button_close" />
     </LinearLayout>
 
 

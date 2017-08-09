@@ -16,17 +16,6 @@
         app:titleTextColor="@color/custom_text"
         />
 
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/image_edit_profile_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/camera"
-        app:backgroundTint="@color/custom_button_first"
-        app:fab_type="mini"
-       />
-
     <LinearLayout
         android:layout_width="300dp"
         android:layout_height="wrap_content"
@@ -72,9 +61,17 @@
                 android:textSize="22sp"/>
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
-
-
     </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/image_edit_profile_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/camera"
+        app:backgroundTint="@color/custom_button_first"
+        app:fab_type="mini"
+        />
 
     <Button
         android:id="@+id/submit_profile"

@@ -12,7 +12,6 @@
         android:gravity="center"
         android:scrollbars="vertical"
         android:numColumns="2"
-        android:verticalScrollbarPosition="right"
         android:verticalSpacing="5dp"
         android:horizontalSpacing="5dp">
     </GridView>

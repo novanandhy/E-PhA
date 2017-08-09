@@ -56,6 +56,7 @@ public class SendMessage implements GoogleApiClient.ConnectionCallbacks,
     public void sendSMSByManager() {
         dataHelper = new DataHelper(context);
         relapseData = new RelapseData(context);
+
         locations = new ArrayList<>();
         contacts = new ArrayList<>();
         users = new ArrayList<>();
@@ -139,8 +140,13 @@ public class SendMessage implements GoogleApiClient.ConnectionCallbacks,
         String message = "Halo, saya "+name+". Saya sedang ada masalah sekarang\nTolong bantu saya di lokasi:\n"+
                 link+"\n\n\nvia E-Pha Apps";
         SmsManager smsManager = SmsManager.getDefault();
-        smsManager.sendTextMessage(number_phone,null,message,null,null);
-        Log.d(TAG,message);
+        try{
+            smsManager.sendTextMessage(number_phone,null,message,null,null);
+            Log.d(TAG,message);
+        }catch (Exception e){
+            Log.d(TAG, "cannot send sms");
+        }
+
 
         relapseData.setRelapse(latitude,longitude);
     }
