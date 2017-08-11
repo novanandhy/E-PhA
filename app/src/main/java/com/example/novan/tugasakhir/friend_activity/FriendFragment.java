@@ -5,11 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +32,7 @@ import com.example.novan.tugasakhir.util.database.AppController;
 import com.example.novan.tugasakhir.util.database.DataHelper;
 import com.melnykov.fab.FloatingActionButton;
 import com.melnykov.fab.ScrollDirectionListener;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -142,9 +140,14 @@ public class FriendFragment extends Fragment {
 
     private class MyListAdapter extends ArrayAdapter<UserJSON> {
         private int layout;
+        private Context context;
+        private ArrayList<UserJSON> obj;
+
         public MyListAdapter(Context context, int resource, ArrayList<UserJSON> objects) {
             super(context, resource, objects);
             layout = resource;
+            this.context = context;
+            obj = objects;
         }
 
         @Override
@@ -155,13 +158,13 @@ public class FriendFragment extends Fragment {
                 convertView = inflater.inflate(layout,parent,false);
                 ViewHolder viewHolder = new ViewHolder();
                 viewHolder.friendName = (TextView) convertView.findViewById(R.id.friend_name);
-                viewHolder.friendName.setText(userJSONs.get(position).getName());
+                viewHolder.friendName.setText(obj.get(position).getName());
                 viewHolder.username = (TextView) convertView.findViewById(R.id.friend_username);
-                viewHolder.username.setText(userJSONs.get(position).getUsername());
+                viewHolder.username.setText(obj.get(position).getUsername());
                 viewHolder.friendImage = (ImageView) convertView.findViewById(R.id.image_friend);
-                byte[] decodedString = Base64.decode(userJSONs.get(position).getImage(), Base64.DEFAULT);
-                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                viewHolder.friendImage.setImageBitmap(decodedByte);
+
+                Picasso.with(context).invalidate("http://"+AppConfig.DOMAIN+"/android_api/upload/"+obj.get(position).getImage());
+                Picasso.with(context).load("http://"+AppConfig.DOMAIN+"/android_api/upload/"+obj.get(position).getImage()).into(viewHolder.friendImage);
                 convertView.setTag(viewHolder);
             }else {
                 mainViewHolder = (ViewHolder) convertView.getTag();

@@ -3,12 +3,9 @@ package com.example.novan.tugasakhir.friend_activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -35,6 +32,7 @@ import com.example.novan.tugasakhir.util.UIcomponent.ErrorDialog;
 import com.example.novan.tugasakhir.util.database.AppConfig;
 import com.example.novan.tugasakhir.util.database.AppController;
 import com.example.novan.tugasakhir.util.database.DataHelper;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -267,6 +265,7 @@ public class SearchFriendActivity extends AppCompatActivity {
             super(context, resource, objects);
             layout = resource;
             this.original = objects;
+            this.context = context;
         }
 
         @Override
@@ -283,9 +282,8 @@ public class SearchFriendActivity extends AppCompatActivity {
                 viewHolder.username = (TextView) convertView.findViewById(R.id.friend_username);
                 viewHolder.username.setText(original.get(position).getUsername());
                 viewHolder.friendImage = (ImageView) convertView.findViewById(R.id.image_friend);
-                byte[] decodedString = Base64.decode(original.get(position).getImage(), Base64.DEFAULT);
-                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                viewHolder.friendImage.setImageBitmap(decodedByte);
+                Picasso.with(context).invalidate("http://"+AppConfig.DOMAIN+"/android_api/upload/"+userJSONs.get(position).getImage());
+                Picasso.with(context).load("http://"+AppConfig.DOMAIN+"/android_api/upload/"+userJSONs.get(position).getImage()).into(viewHolder.friendImage);
                 convertView.setTag(viewHolder);
             }
 

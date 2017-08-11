@@ -5,7 +5,7 @@ package com.example.novan.tugasakhir.util.database;
  */
 
 public class AppConfig {
-    static String DOMAIN = "websitegratis.esy.es";
+    public static String DOMAIN = "websitegratis.esy.es";
     static String IP_HOME = "192.168.1.10";
     static String IP_PRIVATE = "192.168.43.166";
 

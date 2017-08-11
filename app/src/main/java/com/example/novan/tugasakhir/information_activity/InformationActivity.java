@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.novan.tugasakhir.R;
+import com.example.novan.tugasakhir.util.database.AppConfig;
+import com.squareup.picasso.Picasso;
 
 public class InformationActivity extends AppCompatActivity {
     private TextView subtitle;
@@ -31,13 +33,13 @@ public class InformationActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String title = intent.getStringExtra("title");
         String sub = intent.getStringExtra("subtitle");
-        byte[] img = intent.getByteArrayExtra("image");
+        String image = intent.getStringExtra("image");
 
         getSupportActionBar().setTitle(title);
         subtitle.setText(sub);
 
-        Bitmap decodedByte = BitmapFactory.decodeByteArray(img, 0, img.length);
-        image_information.setImageBitmap(decodedByte);
+        Picasso.with(this).invalidate("http://"+ AppConfig.DOMAIN+"/android_api/upload/"+image);
+        Picasso.with(this).load("http://"+AppConfig.DOMAIN+"/android_api/upload/"+image).into(image_information);
     }
 
     @Override

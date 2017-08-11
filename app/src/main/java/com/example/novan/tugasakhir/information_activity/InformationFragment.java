@@ -3,13 +3,10 @@ package com.example.novan.tugasakhir.information_activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +23,7 @@ import com.example.novan.tugasakhir.models.Information;
 import com.example.novan.tugasakhir.util.UIcomponent.ErrorDialog;
 import com.example.novan.tugasakhir.util.database.AppConfig;
 import com.example.novan.tugasakhir.util.database.AppController;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -165,9 +163,8 @@ public class InformationFragment extends Fragment {
             viewHolder.title.setText(data.get(i).getTitle());
             viewHolder.subtitle.setText(data.get(i).getSubtitle());
 
-            final byte[] decodedString = Base64.decode(data.get(i).getImage(), Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            viewHolder.image.setImageBitmap(decodedByte);
+            Picasso.with(context).invalidate("http://"+ AppConfig.DOMAIN+"/android_api/upload/"+data.get(i).getImage());
+            Picasso.with(context).load("http://"+AppConfig.DOMAIN+"/android_api/upload/"+data.get(i).getImage()).into(viewHolder.image);
 
             viewHolder.image.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -175,7 +172,7 @@ public class InformationFragment extends Fragment {
                     Intent intent = new Intent(context, InformationActivity.class);
                     intent.putExtra("title",data.get(i).getTitle());
                     intent.putExtra("subtitle",data.get(i).getSubtitle());
-                    intent.putExtra("image",decodedString);
+                    intent.putExtra("image",data.get(i).getImage());
                     startActivityForResult(intent,10);
                 }
             });

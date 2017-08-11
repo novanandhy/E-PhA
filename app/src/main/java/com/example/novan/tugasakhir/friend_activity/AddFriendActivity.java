@@ -2,18 +2,17 @@ package com.example.novan.tugasakhir.friend_activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.novan.tugasakhir.R;
+import com.example.novan.tugasakhir.util.database.AppConfig;
 import com.example.novan.tugasakhir.util.database.DataHelper;
+import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -46,9 +45,8 @@ public class AddFriendActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         circleImageView = (CircleImageView) findViewById(R.id.image_add_firend);
-        byte[] decodedString = Base64.decode(image, Base64.DEFAULT);
-        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-        circleImageView.setImageBitmap(decodedByte);
+        Picasso.with(context).invalidate("http://"+ AppConfig.DOMAIN+"/android_api/upload/"+image);
+        Picasso.with(context).load("http://"+AppConfig.DOMAIN+"/android_api/upload/"+image).into(circleImageView);
 
         text = (TextView) findViewById(R.id.id_name);
         text.setText(name);
