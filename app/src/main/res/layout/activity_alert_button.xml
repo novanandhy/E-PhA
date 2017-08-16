@@ -1,21 +1,37 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/button"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:layout_margin="4dp">
+    android:layout_width="146dp"
+    android:layout_height="146dp"
+    android:gravity="top"
+    android:background="@drawable/bg_circle">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:src="@drawable/logo"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="20dp"/>
 
     <TextView
-        android:id="@+id/widget1label"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@android:color/background_light" />
-    <Button
-        android:id="@+id/button"
-        android:text="Click Me!"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:text="Tombol Darurat"
+        android:gravity="center"
+        android:textColor="@color/custom_text"
+        android:textStyle="bold"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Epilepsy Assistance"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:textSize="8sp"
+        android:textColor="@color/custom_text"/>
+
 
 </LinearLayout>

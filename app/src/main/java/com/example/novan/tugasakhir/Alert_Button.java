@@ -13,7 +13,6 @@ import com.example.novan.tugasakhir.emergency_activity.CountDown;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 
 /**
  * Implementation of App Widget functionality.
@@ -33,16 +32,13 @@ public class Alert_Button extends AppWidgetProvider {
             int appWidgetId = appWidgetIds[i];
 
             // Create an Intent to launch ExampleActivity
-            Intent intent = new Intent(context, MainActivity.class);
+            Intent intent = new Intent(context, CountDown.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
             // Get the layout for the App Widget and attach an on-click listener
             // to the button
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.activity_alert_button);
             views.setOnClickPendingIntent(R.id.button, pendingIntent);
-
-            // To update a label
-            views.setTextViewText(R.id.widget1label, df.format(new Date()));
 
             // Tell the AppWidgetManager to perform an update on the current app
             // widget
