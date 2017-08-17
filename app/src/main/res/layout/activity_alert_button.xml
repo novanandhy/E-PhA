@@ -1,37 +1,42 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/button"
-    android:orientation="vertical"
     android:layout_width="146dp"
     android:layout_height="146dp"
+    android:background="@drawable/bg_circle"
+    android:clickable="true"
+    android:elevation="@dimen/fab_elevation_lollipop"
     android:gravity="top"
-    android:background="@drawable/bg_circle">
+    android:orientation="vertical"
+    app:layout_collapseMode="pin">
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:src="@drawable/logo"
+        android:layout_height="45dp"
         android:layout_marginBottom="5dp"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:src="@drawable/logo" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="Tombol Darurat"
-        android:gravity="center"
         android:textColor="@color/custom_text"
-        android:textStyle="bold"
-        android:textSize="16sp"/>
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Epilepsy Assistance"
-        android:gravity="center"
         android:layout_marginTop="5dp"
-        android:textSize="8sp"
-        android:textColor="@color/custom_text"/>
+        android:fontFamily="monospace"
+        android:gravity="center"
+        android:lineSpacingExtra="14sp"
+        android:text="Epilepsy Assistance"
+        android:textColor="@color/custom_text"
+        android:textSize="10sp"
+        android:typeface="monospace" />
 
 
 </LinearLayout>
