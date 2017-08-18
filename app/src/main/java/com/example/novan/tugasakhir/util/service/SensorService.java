@@ -44,6 +44,7 @@ public class SensorService extends Service implements SensorEventListener{
 
     public int LIMIT_RECOVER = 30;
     public int LIMIT_NONE = 50;
+    public int LIMIT_JUMP = 50;
 
     private SensorManager sensorManager;
     private Context context;
@@ -52,6 +53,7 @@ public class SensorService extends Service implements SensorEventListener{
     public static String curr_state2;
     public int none = 0;
     public int recover = 0;
+    public  int jump = 0;
 
 
     @Override
@@ -122,6 +124,8 @@ public class SensorService extends Service implements SensorEventListener{
 
             if (curr_state.contains("none") || curr_state.contains("recover")){
                 curr_state = fall_detection(ax,ay,az);
+            }else if (curr_state.contains("jump")){
+                JumpActivity();
             }else{
                 FallDetected(ax, ay, az);
             }
@@ -135,40 +139,48 @@ public class SensorService extends Service implements SensorEventListener{
 
     private String fall_detection(double ax, double ay, double az) {
         String state = "none";
+        Double maximum = GRAVITY;
+        Double minimum = GRAVITY;
 
-        double maximum = GRAVITY;
-        double minimum = GRAVITY;
-
+        //input value to accelerometer formula
         a_n=Math.sqrt((ax*ax)+(ay*ay)+(az*az));
 
-        if (maximum < a_n){
+        //check if it has value minimum or maximum
+        if (minimum > a_n){
+            minimum = a_n;
+        }else if (maximum < a_n){
             maximum = a_n;
-        }else if(minimum > a_n){
-        minimum = a_n;
-    }
-
-        if (x == 0){
-        temp[0] = minimum;
-    }else{
-        temp[1] = maximum;
-        double dif = temp[1] - temp[0];
-
-        if (dif > threshold){
-            state = "fall";
-        }else if (dif > 0.1 && dif < threshold){
-            state =  "recover";
-        }else{
-            state = "none";
         }
-    }
 
+        //placed the value, if index 0 then put it minimum. if index 1 then put it maximum
+        if (x == 0){
+            temp[0] = minimum;
+        }else{
+            temp[1] = maximum;
+
+            //find difference between valley(minimum) and peak(maximum)
+            double dif = temp[1] - temp[0];
+
+            //check if differences has value more than threshold
+            if (dif > threshold && (Math.abs(az) < 4)){
+                state = "jump";
+            }else if (dif > threshold){
+                state = "fall";
+            }else if (dif > 0.15 && dif < threshold){
+                state =  "recover";
+            }else{
+                state = "none";
+            }
+        }
+
+        //if counter already 1, set it back to 0
         if (x == 1){
-        x = 0;
-    }else{
-        x++;
-    }
+            x = 0;
+        }else{
+            x++;
+        }
         return state;
-}
+    }
 
     private void FallDetected(double ax, double ay, double az) {
         // TODO Auto-generated method stub
@@ -198,7 +210,16 @@ public class SensorService extends Service implements SensorEventListener{
             recover = 0;
             none = 0;
         }
+    }
 
+    private void JumpActivity() {
+        jump++;
+        Log.d(TAG, "User Jump");
+
+        if (jump == LIMIT_JUMP){
+            jump = 0;
+            curr_state = "none";
+        }
     }
 
     private void ShowDialog() {
